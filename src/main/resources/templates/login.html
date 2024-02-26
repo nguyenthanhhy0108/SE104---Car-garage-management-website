@@ -1,10 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-message {
+            font-size: 9px;
+            color: red;
+            margin-top: -10px;
+        }
+
+        .logout-message {
+            font-size: 9px;
+            color: blue;
+            margin-top: -10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-$END$
+
+<div class="login-container">
+    <h2>Login</h2>
+
+    <div th:if="${session.username_not_exist}" class="error-message">
+        Username doesn't exist.
+    </div>
+
+    <div id="password-error" th:if="${session.password_wrong}" class="error-message">
+        Wrong password.
+    </div>
+
+    <div id="log-out" th:if="${param.logout}" class="logout-message">
+        You have been logged out.
+    </div>
+
+    <form method="POST" th:action="@{/authenticateTheUser}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" th:value="${session.username}" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <br>
+        <label for="rememberMe" style="display: inline-block;">Remember Me:</label>
+        <input type="checkbox" id="rememberMe" name="remember-me" style="display: inline-block;">
+        <br>
+
+        <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
+        <button type="submit">Login</button>
+    </form>
+</div>
+
 </body>
 </html>
