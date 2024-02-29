@@ -214,12 +214,6 @@ body{
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
 }
-[class*=" ri-"], [class^=ri-] {
-    font-family: 'Material Symbols Outlined' !important;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
 .form-pos label{
     position: absolute;
     top: -11px;
