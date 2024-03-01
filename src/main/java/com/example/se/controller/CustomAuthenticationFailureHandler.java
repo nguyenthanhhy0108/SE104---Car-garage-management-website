@@ -1,5 +1,5 @@
 package com.example.se.controller;
-
+import org.springframework.ui.Model;
 import com.example.se.model.account;
 import com.example.se.repository.accountRepository;
 import com.example.se.service.accountDetails;
@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.ModelMap;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,15 +24,18 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     private accountDetails AccountDetails;
     @Autowired
     private accountRepository AccountRepository;
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         super.onAuthenticationFailure(request, response, exception);
+
         String username = request.getParameter("username");
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
 
         session.setAttribute("username_not_exist", false);
         session.setAttribute("password_wrong", false);
+
         List<account> accounts = AccountRepository.findByUsername(username);
         if(accounts.isEmpty()){
             session.setAttribute("username_not_exist", true);
@@ -46,6 +50,5 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
                 session.removeAttribute("username_not_exist");
             }
         }
-
     }
 }

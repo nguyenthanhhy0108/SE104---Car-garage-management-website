@@ -29,8 +29,17 @@ public class SecurityConfig {
                         .failureHandler(customAuthenticationFailureHandler)
                         .loginPage("/login").permitAll());
 
+        String[] staticResources = {
+                "/css/**",
+                "/images/**",
+                "/fonts/**",
+                "/js/**",};
+
         httpSecurity
                 .authorizeHttpRequests(auth->auth
+                        .requestMatchers(staticResources).permitAll()
+                        .requestMatchers("/resources/**").permitAll()
+                        .requestMatchers("/register").permitAll()
                         .requestMatchers("/login").anonymous()
                         .anyRequest()
                             .authenticated());
@@ -45,11 +54,5 @@ public class SecurityConfig {
                         .tokenValiditySeconds(3600*24*30));
 
         return httpSecurity.build();
-
-//        return http
-//                .formLogin(form->form.loginPage("/login").permitAll())
-//                .authorizeHttpRequests(auth->auth.anyRequest().authenticated())
-//                .build();
     }
-
 }
