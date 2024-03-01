@@ -61,26 +61,51 @@
                                         </div>
                                         <div class="p-2 mt-5">
                                             <form class="form-horizontal" method="post" autocomplete="off">
+                                                <!-- phone number -->
                                                 <div class="form-pos row form-bt focused">
                                                     <div class="col-md-2">
                                                         <i class="material-symbols-outlined" > phone_in_talk </i>
                                                         <label for="username" style="z-index: 111;">Phone Number</label>
-                                                        <input type="text" class="form-control" id="username" name="username">
+                                                        <input type="tel" class="form-control" id="phone" name="phone" required>
                                                     </div>
                                                 </div>
+                                                <div class="msg" id="phone_msg" style="display: none;">Phone number is already in use</div>
+                                                <!-- email -->
+                                                <div class="form-pos row form-bt focused" id="signup_mail" style="display: none;">
+                                                    <div class="col-md-2">
+                                                        <i class="material-symbols-outlined norm" > mail </i>
+                                                        <label for="username" style="z-index: 111;">Email</label>
+                                                        <input type="email" class="form-control" id="email" name="email" required>
+                                                    </div>
+                                                </div>
+                                                <!-- password -->
                                                 <div class="form-pos row form-bt focused">
                                                     <div class="col-md-2">
                                                         <i class="material-symbols-outlined norm" > lock </i>
                                                         <label for="username" style="z-index: 111;">Password</label>
-                                                        <input type="password" class="form-control" id="password" name="password">
-                                                        <i class="material-symbols-outlined" id="iconPassword" onclick="seePass()">visibility</i>
+                                                        <input type="password" class="form-control" id="password" name="password" required>
+                                                        <i class="material-symbols-outlined" id="iconPassword1" onclick="seePass(idx=1)">visibility</i>
                                                     </div>
                                                 </div>
-                                                <div class="mt-4 text-center" style="display: flex; justify-content: center;">
+                                                <div class="form-pos row form-bt focused" id="signup_pass" style="display: none;">
+                                                    <div class="col-md-2">
+                                                        <i class="material-symbols-outlined norm" > lock </i>
+                                                        <label for="username" style="z-index: 111;">Retype your password</label>
+                                                        <input type="password" class="form-control" id="password_re" name="password" required>
+                                                        <i class="material-symbols-outlined" id="iconPassword2" onclick="seePass(idx=2)">visibility</i>
+                                                    </div>
+                                                </div>
+                                                <div class="msg" id="pass_msg" style="display: none;">Passwords do not match</div>
+                                                <!-- confirm button -->
+                                                <div class="mt-4 text-center" id="btn-2opts" style="display: flex; justify-content: center;">
                                                         <a class="btn" onclick="toSignup();" style="color: #2473DD; background-color:#fff; border: 1px solid #fff">Sign up</a>
                                                         <div style="width: 20px;"></div>
                                                         <a class="btn lgin-btn" onclick="toHome();" style="color:white;background-color: #2473DD; border: 1px solid #fff;">Log in</a>
                                                 </div>
+                                                <div class="mt-4 text-center" id="btn-checkSignup" style="display: none; justify-content: center;">
+                                                    <a class="btn lgin-btn" onclick="checkSignup();" style="color: #fff; background-color:#2473DD; border: 1px solid #fff">Confirm</a>
+                                                </div>
+
                                             </form>
                                         </div>
 
