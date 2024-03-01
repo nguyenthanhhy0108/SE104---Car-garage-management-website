@@ -214,6 +214,12 @@ body{
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
 }
+[class*=" ri-"], [class^=ri-] {
+    font-family: 'Material Symbols Outlined' !important;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 .form-pos label{
     position: absolute;
     top: -11px;
@@ -263,7 +269,7 @@ input:focus {
     color: #2473DD;
 }
 
-#iconPassword{
+#iconPassword1, #iconPassword2{
     position: absolute;
     left: 340px; /* Adjust this value as needed */
     top: 50%;
@@ -292,4 +298,11 @@ input:focus {
     background-color: #fff !important;
     border: #2473DD solid 1px !important;
     color: #2473DD !important;
+}
+
+.msg{
+    color: red; /* Màu chữ */
+    font-weight: bolder;
+    transition: ease-in-out 0.3s;
+    
 }
