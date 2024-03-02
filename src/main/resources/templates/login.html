@@ -58,7 +58,7 @@
                             <div class="main_content">
                                 <div class="logo-area">
                                     <a class="logo">
-                                        <img src="/images/logo.png" height="150">
+                                        <img src="/images/logo.png" height="150" alt="logo">
                                     </a>
                                 </div>
                                 <div class="p-2 mt-5">
@@ -80,8 +80,8 @@
                                         </div>
 
                                         <div class="remember-me-container">
-                                            <input type="checkbox" id="remember-me" name="remember-me" class="remember-me-checkbox" />
-                                            <label for="remember-me">Remember Me</label>
+                                            <input type="checkbox" name="remember-me" class="remember-me-checkbox" />
+                                            <label>Remember Me</label>
                                         </div>
 
                                         <div th:if="${session.username_not_exist}" class="error-message">
@@ -103,21 +103,14 @@
                                             <button class="btn lgin-btn" style="color:white;background-color: #2473DD; border: 1px solid #fff;" type="submit">Login</button>
                                         </div>
                                     </form>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
-
-
 </div>
 </body>
 </html>

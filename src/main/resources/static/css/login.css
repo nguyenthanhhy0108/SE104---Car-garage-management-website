@@ -267,6 +267,7 @@ input:focus {
     left: 10px;
     font-size: 31px;
     color: #2473DD;
+    margin-left: 10px;
 }
 
 #iconPassword{
