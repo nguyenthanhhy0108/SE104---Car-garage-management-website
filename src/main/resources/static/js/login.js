@@ -21,30 +21,27 @@ function prevImage() {
     showImage(index);
 }
 
-// Hàm khởi tạo
-document.addEventListener("DOMContentLoaded", function() {
-    showImage(index);  // Hiển thị ảnh đầu tiên khi trang được tải
+document.addEventListener("DOMContentLoaded", function () {
+    showImage(index);
 });
 
 
-// ---------password visibility---------//
-function seePass() {
-    var passwordInput = document.getElementById("password");
-    var iconPassword = document.getElementById("iconPassword");
-    
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        iconPassword.textContent = "visibility_off";
-    }else{
-        passwordInput.type = "password";
-        iconPassword.textContent = "visibility";
+function toSingup() {
+
+}
+
+function toHome() {
+
+}
+function checkPasswordMatch() {
+    alert("Function is called");
+
+    let password = document.getElementById("password").val();
+    let confirmPassword = document.getElementById("password_re").val();
+
+    if (password !== confirmPassword) {
+        $("#passwordMatchMessage").html("Passwords do not match!");
+    } else {
+        $("#passwordMatchMessage").html("Passwords match.");
     }
-}
-
-function toSingup(){
-
-}
-
-function toHome(){
-
 }

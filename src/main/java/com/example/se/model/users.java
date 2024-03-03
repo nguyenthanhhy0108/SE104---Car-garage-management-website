@@ -8,21 +8,18 @@ import lombok.Data;
 
 @Data
 @Entity
-public class account {
+public class users {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
     private String username;
     private String password;
-    private String role;
+    private String enabled;
 
-    public account() {
+    public users() {
     }
 
-    public account(int id, String username, String password, String role) {
-        this.id = id;
+    public users(String username, String password, String enabled) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.enabled = enabled;
     }
 }
