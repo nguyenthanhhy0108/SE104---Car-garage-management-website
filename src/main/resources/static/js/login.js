@@ -33,15 +33,5 @@ function toSingup() {
 function toHome() {
 
 }
-function checkPasswordMatch() {
-    alert("Function is called");
 
-    let password = document.getElementById("password").val();
-    let confirmPassword = document.getElementById("password_re").val();
 
-    if (password !== confirmPassword) {
-        $("#passwordMatchMessage").html("Passwords do not match!");
-    } else {
-        $("#passwordMatchMessage").html("Passwords match.");
-    }
-}

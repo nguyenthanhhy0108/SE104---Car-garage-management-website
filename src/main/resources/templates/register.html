@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Pocket Garage</title>
-    <link  rel="stylesheet" th:href="@{/css/login.css}" />
-    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+    <link  rel="stylesheet" th:href="@{/css/register.css}" />
+    <script type="text/javascript" th:src="@{/js/register.js}"></script>
 </head>
 <body>
 
@@ -62,7 +62,12 @@
                                     </a>
                                 </div>
                                 <div class="p-2 mt-5">
-                                    <form class="form-horizontal" method="POST" autocomplete="off" th:action="@{/register}">
+                                    <div class="form-pos row form-bt focused">
+                                        <div id="username_is_used" th:utext="${username_is_used}" class="error-message"></div>
+                                    </div>
+
+                                    <form class="form-horizontal" id="registrationForm" method="POST" autocomplete="off" th:action="@{/register}">
+
                                         <div class="form-pos row form-bt focused">
                                             <div class="col-md-2">
                                                 <i class="material-symbols-outlined" > phone_in_talk </i>
@@ -71,7 +76,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="msg" id="phone_msg" style="display: none;">Phone number is already in use</div>
+                                        <div class="form-pos row form-bt focused">
+                                            <div id="email_is_used" th:utext="${email_is_used}" class="error-message"></div>
+                                        </div>
 
                                         <!-- email -->
                                         <div class="form-pos row form-bt focused">
@@ -90,7 +97,7 @@
                                             </div>
                                         </div>
 
-                                        <p id="passwordMatchMessage"></p>
+                                        <p id="passwordMatchMessage" class="error-message"></p>
 
                                         <div class="form-pos row form-bt focused">
                                             <div class="col-md-2">
