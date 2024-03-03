@@ -21,8 +21,7 @@ public class usersDAOJpaImpl implements usersDAO{
             TypedQuery<users> theQuery = entityManager.createQuery(
                     "FROM users u WHERE u.username = :username", users.class);
             theQuery.setParameter("username", username);
-            List<users> usersList = theQuery.getResultList();
-            return usersList;
+            return theQuery.getResultList();
         } catch (Exception exception) {
             return null;
         }
