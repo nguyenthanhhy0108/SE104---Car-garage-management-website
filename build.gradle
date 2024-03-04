@@ -47,6 +47,8 @@ dependencies {
 
     implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.3.0'
 
+    implementation 'org.mindrot:jbcrypt:0.4'
+
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 

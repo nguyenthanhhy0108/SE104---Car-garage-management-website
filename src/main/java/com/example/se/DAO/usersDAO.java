@@ -7,4 +7,6 @@ import java.util.List;
 @Repository
 public interface usersDAO{
     List<users> findByUsername(String username);
+
+    users save(users User);
 }

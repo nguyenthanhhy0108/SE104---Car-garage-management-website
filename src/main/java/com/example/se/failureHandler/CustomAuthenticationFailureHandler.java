@@ -1,6 +1,6 @@
 package com.example.se.failureHandler;
+import com.example.se.config.SecurityConfig;
 import com.example.se.model.users;
-import com.example.se.DAO.usersDAO;
 import com.example.se.service.usersService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Autowired
     private usersService UsersService;
-
+    private final PasswordEncoder encoder = SecurityConfig.passwordEncoder();
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         super.onAuthenticationFailure(request, response, exception);
@@ -38,10 +38,8 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
             session.removeAttribute("password_wrong");
         }
         else{
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String CurrentPassword = passwordEncoder.encode(request.getParameter("password"));
             String UserPassword = accounts.get(0).getPassword();
-            if(!CurrentPassword.equals(UserPassword)){
+            if(!encoder.matches(request.getParameter("password"), UserPassword)){
                 session.setAttribute("password_wrong", true);
                 session.removeAttribute("username_not_exist");
             }
