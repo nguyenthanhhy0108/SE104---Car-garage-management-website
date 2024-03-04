@@ -303,6 +303,12 @@ input:focus {
     transition: ease-in-out 0.3s;
 }
 
+.create-successfully-message {
+    color: lawngreen;
+    font-weight: bolder;
+    transition: ease-in-out 0.3s;
+}
+
 .btn:hover{
     background-color: #2473DD !important;
     color: #fff !important;

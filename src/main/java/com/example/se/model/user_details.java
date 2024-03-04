@@ -7,17 +7,17 @@ import lombok.Data;
 
 @Data
 @Entity
-public class userDetails {
+public class user_details {
     @Id
     private String username;
     private String email;
     private String name;
     private String nationality;
 
-    public userDetails() {
+    public user_details() {
     }
 
-    public userDetails(String username, String email, String name, String nationality) {
+    public user_details(String username, String email, String name, String nationality) {
         this.username = username;
         this.email = email;
         this.name = name;

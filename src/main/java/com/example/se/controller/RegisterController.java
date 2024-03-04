@@ -1,10 +1,14 @@
 package com.example.se.controller;
-import com.example.se.model.userDetails;
+import com.example.se.config.SecurityConfig;
+import com.example.se.model.authorities;
+import com.example.se.model.user_details;
 import com.example.se.model.users;
-import com.example.se.service.userDetailsService;
+import com.example.se.service.authoritiesService;
+import com.example.se.service.user_detailsService;
 import com.example.se.service.usersService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +19,15 @@ import java.util.List;
 
 @Controller
 public class RegisterController {
-    private final userDetailsService UserDetailsService;
+    private final user_detailsService user_detailsService;
     private final usersService UsersService;
+    private final authoritiesService AuthoritiesService;
+    private final PasswordEncoder encoder = SecurityConfig.passwordEncoder();
     @Autowired
-    public RegisterController(userDetailsService userDetailsService, usersService usersService) {
-        UserDetailsService = userDetailsService;
-        UsersService = usersService;
+    public RegisterController(user_detailsService user_detailsService, usersService usersService, authoritiesService authoritiesService) {
+        this.user_detailsService = user_detailsService;
+        this.UsersService = usersService;
+        this.AuthoritiesService = authoritiesService;
     }
 
     @GetMapping("/register")
@@ -34,19 +41,13 @@ public class RegisterController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        System.out.println(username);
-        System.out.println(email);
-
         List<users> UsersList = UsersService.findByUsername(username);
-        List<userDetails> UserDetailsList = UserDetailsService.findByEmail(email);
-        System.out.println(UsersList);
-        System.out.println(UserDetailsList);
-        System.out.println(userDetails.class);
+        List<user_details> userDetailsList = user_detailsService.findByEmail(email);
 
         model.addAttribute("username", username);
         model.addAttribute("email", email);
 
-        if(!UsersList.isEmpty() && !UserDetailsList.isEmpty()) {
+        if(!UsersList.isEmpty() && !userDetailsList.isEmpty()) {
             model.addAttribute("username_is_used", "Phone number is already in use");
             model.addAttribute("email_is_used", "Email is already in use");
             return "register";
@@ -55,13 +56,17 @@ public class RegisterController {
             model.addAttribute("username_is_used", "Phone number is already in use");
             return "register";
         }
-        if(!UserDetailsList.isEmpty()) {
+        if(!userDetailsList.isEmpty()) {
             model.addAttribute("email_is_used", "Email is already in use");
             return "register";
         }
 
+        UsersService.save(new users(username, encoder.encode(password), 1));
+        AuthoritiesService.save(new authorities(username, "ROLE_USER"));
+        user_detailsService.save(new user_details(username, email, "", ""));
 
+        model.addAttribute("create_account_successfully", true);
 
-        return "register";
+        return "login";
     }
 }

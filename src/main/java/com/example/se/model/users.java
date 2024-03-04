@@ -12,12 +12,12 @@ public class users {
     @Id
     private String username;
     private String password;
-    private String enabled;
+    private int enabled;
 
     public users() {
     }
 
-    public users(String username, String password, String enabled) {
+    public users(String username, String password, int enabled) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;

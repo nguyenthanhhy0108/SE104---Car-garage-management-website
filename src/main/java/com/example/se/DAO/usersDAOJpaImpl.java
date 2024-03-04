@@ -26,4 +26,15 @@ public class usersDAOJpaImpl implements usersDAO{
             return null;
         }
     }
+
+    @Override
+    public users save(users User) {
+        try {
+            users dbUser = entityManager.merge(User);
+            return dbUser;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
 }
