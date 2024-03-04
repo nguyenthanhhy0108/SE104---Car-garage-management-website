@@ -295,18 +295,21 @@ input:focus {
     color: red;
     font-weight: bolder;
     transition: ease-in-out 0.3s;
+    margin-left: 5px;
 }
 
 .logout-message {
     color: blue;
     font-weight: bolder;
     transition: ease-in-out 0.3s;
+    margin-left: 5px;
 }
 
 .create-successfully-message {
     color: lawngreen;
     font-weight: bolder;
     transition: ease-in-out 0.3s;
+    margin-left: 5px;
 }
 
 .btn:hover{
