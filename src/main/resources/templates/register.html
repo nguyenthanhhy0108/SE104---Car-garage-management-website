@@ -72,7 +72,7 @@
                                             <div class="col-md-2">
                                                 <i class="material-symbols-outlined" > phone_in_talk </i>
                                                 <label for="username" style="z-index: 111;">Phone Number</label>
-                                                <input type="text" class="form-control" id="username" name="username" th:value="${session.username}" required>
+                                                <input type="text" class="form-control" id="username" name="username" th:value="${username}" required>
                                             </div>
                                         </div>
 
@@ -85,7 +85,7 @@
                                             <div class="col-md-2">
                                                 <i class="material-symbols-outlined norm" > mail </i>
                                                 <label for="username" style="z-index: 111;">Email</label>
-                                                <input type="email" class="form-control" id="email" name="email" th:value="${session.email}" required>
+                                                <input type="email" class="form-control" id="email" name="email" th:value="${email}" required>
                                             </div>
                                         </div>
 
@@ -97,7 +97,7 @@
                                             </div>
                                         </div>
 
-                                        <p id="passwordMatchMessage" class="error-message"></p>
+                                        <p id="passwordMatchMessage" class="password-error-message"></p>
 
                                         <div class="form-pos row form-bt focused">
                                             <div class="col-md-2">

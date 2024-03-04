@@ -39,12 +39,18 @@ public class RegisterController {
 
         List<users> UsersList = UsersService.findByUsername(username);
         List<userDetails> UserDetailsList = UserDetailsService.findByEmail(email);
+        System.out.println(UsersList);
+        System.out.println(UserDetailsList);
+        System.out.println(userDetails.class);
 
-//        if(!UsersList.isEmpty() && !UserDetailsList.isEmpty()) {
-//            model.addAttribute("username_is_used", "Phone number is already in use");
-//            model.addAttribute("email_is_used", "Email is already in use");
-//            return "register";
-//        }
+        model.addAttribute("username", username);
+        model.addAttribute("email", email);
+
+        if(!UsersList.isEmpty() && !UserDetailsList.isEmpty()) {
+            model.addAttribute("username_is_used", "Phone number is already in use");
+            model.addAttribute("email_is_used", "Email is already in use");
+            return "register";
+        }
         if(!UsersList.isEmpty()) {
             model.addAttribute("username_is_used", "Phone number is already in use");
             return "register";
@@ -53,6 +59,8 @@ public class RegisterController {
             model.addAttribute("email_is_used", "Email is already in use");
             return "register";
         }
+
+
 
         return "register";
     }
