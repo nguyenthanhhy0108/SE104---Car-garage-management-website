@@ -12,8 +12,9 @@ public class userDetailsServiceImpl implements userDetailsService{
     private final userDetailsDAO UserDetailsDAO;
     @Autowired
     public userDetailsServiceImpl(userDetailsDAO userDetailsDAO) {
-        this.UserDetailsDAO = userDetailsDAO;
+        UserDetailsDAO = userDetailsDAO;
     }
+
     @Override
     public List<userDetails> findByEmail(String email) {
         return UserDetailsDAO.findByEmail(email);

@@ -298,6 +298,12 @@ input:focus {
     margin-left: 12px;
 }
 
+.password-error-message{
+    color: red;
+    font-weight: bolder;
+    transition: ease-in-out 0.3s;
+}
+
 .logout-message {
     color: blue;
     font-weight: bolder;
