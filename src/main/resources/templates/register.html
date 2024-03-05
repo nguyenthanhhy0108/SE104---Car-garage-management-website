@@ -62,12 +62,9 @@
                                     </a>
                                 </div>
                                 <div class="p-2 mt-5">
-                                    <div class="form-pos row form-bt focused">
-                                        <div id="username_is_used" th:utext="${username_is_used}" class="error-message"></div>
-                                    </div>
 
                                     <form class="form-horizontal" id="registrationForm" method="POST" autocomplete="off" th:action="@{/register}">
-
+                                        <!--Phone Number-->
                                         <div class="form-pos row form-bt focused">
                                             <div class="col-md-2">
                                                 <i class="material-symbols-outlined" > phone_in_talk </i>
@@ -75,10 +72,8 @@
                                                 <input type="text" class="form-control" id="username" name="username" th:value="${username}" required>
                                             </div>
                                         </div>
+                                        <div id="username_used" th:text="${username_used}"  class="msg form-bt" style="display: none"></div>
 
-                                        <div class="form-pos row form-bt focused">
-                                            <div id="email_is_used" th:utext="${email_is_used}" class="error-message"></div>
-                                        </div>
 
                                         <!-- email -->
                                         <div class="form-pos row form-bt focused">
@@ -88,25 +83,26 @@
                                                 <input type="email" class="form-control" id="email" name="email" th:value="${email}" required>
                                             </div>
                                         </div>
+                                        <div id="email_used" th:text="${email_used}"  class="msg form-bt" style="display: none"></div>
 
+                                        <!-- Password-->
                                         <div class="form-pos row form-bt focused">
                                             <div class="col-md-2">
                                                 <i class="material-symbols-outlined norm" > lock </i>
                                                 <label for="username" style="z-index: 111;">Password</label>
-                                                <input type="password" class="form-control" id="password" name="password" required>
+                                                <input type="password" class="form-control" id="password" oninput="checkPasswordMatch()" name="password" required>
                                             </div>
                                         </div>
-
-                                        <p id="passwordMatchMessage" class="password-error-message"></p>
 
                                         <div class="form-pos row form-bt focused">
                                             <div class="col-md-2">
                                                 <i class="material-symbols-outlined norm" > lock </i>
                                                 <label for="username" style="z-index: 111;">Retype your password</label>
-                                                <input type="password" class="form-control" id="password_re" name="re-password" onblur="checkPasswordMatch()" required>
+                                                <input type="password" class="form-control" id="password_re" name="re-password" oninput="checkPasswordMatch()" required>
                                             </div>
                                         </div>
-
+                                        <div class="msg form-bt" id="passwordMatchMessage" style="display: none"></div>
+<!--                                        Confirm button-->
                                         <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
                                         <div class="mt-4 text-center" style="display: flex; justify-content: center;">
                                             <div style="width: 20px;"></div>

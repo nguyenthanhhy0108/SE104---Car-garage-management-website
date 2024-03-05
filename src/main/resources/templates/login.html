@@ -84,11 +84,11 @@
                                             <label>Remember Me</label>
                                         </div>
 
-                                        <div th:if="${session.username_not_exist}" class="error-message">
-                                            Username doesn't exist.
+                                        <div th:if="${session.username_not_exist}" class="msg">
+                                            User does not exist.
                                         </div>
 
-                                        <div id="password-error" th:if="${session.password_wrong}" class="error-message">
+                                        <div id="password-error" th:if="${session.password_wrong}" class="msg">
                                             Wrong password.
                                         </div>
 
@@ -96,9 +96,7 @@
                                             You have been logged out.
                                         </div>
 
-                                        <div th:if="${create_account_successfully}" class="create-successfully-message">
-                                            Create account successfully.
-                                        </div>
+                                        <div id="log-in" th:text="${create_account_successfully}" style="display: none" class="msg-ok"></div>
 
                                         <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
                                         <div class="mt-4 text-center" style="display: flex; justify-content: center;">

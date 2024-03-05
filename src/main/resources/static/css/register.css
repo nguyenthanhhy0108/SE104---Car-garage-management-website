@@ -291,15 +291,30 @@ input:focus {
     transition: background-color 0.3s ease;
 }
 
-.error-message{
-    color: red;
+
+/*messange*/
+.msg{
+    margin-left: 5%;
+    margin-top: 3%;
+    color: red; /* Màu chữ */
     font-weight: bolder;
     transition: ease-in-out 0.3s;
-    margin-left: 12px;
+
 }
 
-.password-error-message{
-    color: red;
+.msg-ok{
+    margin-left: 5%;
+    margin-top: 3%;
+    color: green;
+    font-weight: bolder;
+    transition: ease-in-out 0.3s;
+}
+
+.logout-message {
+    margin-left: 5%;
+    margin-top: 3%;
+    color: blue;
+    font-size: large;
     font-weight: bolder;
     transition: ease-in-out 0.3s;
 }

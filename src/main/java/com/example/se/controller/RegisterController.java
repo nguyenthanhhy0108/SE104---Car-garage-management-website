@@ -23,6 +23,7 @@ public class RegisterController {
     private final usersService UsersService;
     private final authoritiesService AuthoritiesService;
     private final PasswordEncoder encoder = SecurityConfig.passwordEncoder();
+
     @Autowired
     public RegisterController(user_detailsService user_detailsService, usersService usersService, authoritiesService authoritiesService) {
         this.user_detailsService = user_detailsService;
@@ -31,12 +32,12 @@ public class RegisterController {
     }
 
     @GetMapping("/register")
-    public String registerPage(){
+    public String registerPage() {
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(Model model, HttpServletRequest request){
+    public String register(Model model, HttpServletRequest request) {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -47,26 +48,29 @@ public class RegisterController {
         model.addAttribute("username", username);
         model.addAttribute("email", email);
 
-        if(!UsersList.isEmpty() && !userDetailsList.isEmpty()) {
-            model.addAttribute("username_is_used", "Phone number is already in use");
-            model.addAttribute("email_is_used", "Email is already in use");
+        if (!UsersList.isEmpty() && !userDetailsList.isEmpty()) {
+            model.addAttribute("email_used", "Phone number and Email are already used");
+            request.setAttribute("showError", true);
             return "register";
         }
-        if(!UsersList.isEmpty()) {
-            model.addAttribute("username_is_used", "Phone number is already in use");
+        if (!UsersList.isEmpty()) {
+            model.addAttribute("username_used", "Phone number is already used");
+            request.setAttribute("showError", true);
             return "register";
         }
-        if(!userDetailsList.isEmpty()) {
-            model.addAttribute("email_is_used", "Email is already in use");
+        if (!userDetailsList.isEmpty()) {
+            model.addAttribute("email_used", "Email is already used");
+            request.setAttribute("showError", true);
             return "register";
         }
+        model.addAttribute("create_account_successfully", "Create account successfully.");
 
         UsersService.save(new users(username, encoder.encode(password), 1));
         AuthoritiesService.save(new authorities(username, "ROLE_USER"));
         user_detailsService.save(new user_details(username, email, "", ""));
 
-        model.addAttribute("create_account_successfully", true);
-
         return "login";
     }
 }
+
+
