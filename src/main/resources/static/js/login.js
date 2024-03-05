@@ -26,12 +26,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-function toSingup() {
+function showError() {
+    var loginSuccess = document.getElementById('log-in');
+
+    if (loginSuccess.textContent.trim() !== "") {
+        loginSuccess.style.display = 'flex';
+    }
 
 }
-
-function toHome() {
-
-}
-
+document.addEventListener('DOMContentLoaded', showError);
 

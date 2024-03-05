@@ -291,25 +291,31 @@ input:focus {
     transition: background-color 0.3s ease;
 }
 
-.error-message{
-    color: red;
+.msg{
+    margin-left: 5%;
+    margin-top: 3%;
+    color: red; /* Màu chữ */
     font-weight: bolder;
     transition: ease-in-out 0.3s;
-    margin-left: 5px;
+
+}
+
+.msg-ok{
+    margin-left: 5%;
+    margin-top: 3%;
+    color: green;
+    font-size: large;
+    font-weight: bolder;
+    transition: ease-in-out 0.3s;
 }
 
 .logout-message {
+    margin-left: 5%;
+    margin-top: 3%;
     color: blue;
+    font-size: large;
     font-weight: bolder;
     transition: ease-in-out 0.3s;
-    margin-left: 5px;
-}
-
-.create-successfully-message {
-    color: lawngreen;
-    font-weight: bolder;
-    transition: ease-in-out 0.3s;
-    margin-left: 5px;
 }
 
 .btn:hover{

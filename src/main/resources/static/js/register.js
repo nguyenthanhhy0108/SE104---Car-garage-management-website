@@ -50,20 +50,21 @@ function checkPasswordMatch() {
     }
 }
 
-function displayErrorMessage() {
-    var errorMessage = document.getElementById('username_is_used');
 
-    if (errorMessage.innerHTML.trim() !== '') {
-        // Create a new element to display the error message
-        var errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.textContent = errorMessage.innerHTML.trim();
 
-        // Append the new element to the body
-        document.body.appendChild(errorDiv);
+function showError() {
+    var errorEmail = document.getElementById('email_used');
+    var errorUser = document.getElementById('username_used');
+
+    if (errorEmail.textContent.trim() !== "") {
+        errorEmail.style.display = 'flex';
+    }
+    if (errorUser.textContent.trim() !== "") {
+        errorUser.style.display = 'flex';
     }
 }
-
-document.addEventListener('DOMContentLoaded', displayErrorMessage);
+document.addEventListener('DOMContentLoaded', showError);
+document.getElementById("password").addEventListener("input", checkPasswordMatch);
+document.getElementById("password_re").addEventListener("input", checkPasswordMatch);
 
 
