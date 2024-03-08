@@ -1,28 +1,26 @@
 package com.example.se.service;
 
-import com.example.se.DAO.authoritiesDAO;
+import com.example.se.Repository.authoritiesRepository;
 import com.example.se.model.authorities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class authoritiesServiceImpl implements authoritiesService{
-    private final authoritiesDAO AuthoritiesDAO;
+    private final authoritiesRepository AuthoritiesRepository;
     @Autowired
-    public authoritiesServiceImpl(authoritiesDAO authoritiesDAO) {
-        AuthoritiesDAO = authoritiesDAO;
+    public authoritiesServiceImpl(authoritiesRepository AuthoritiesRepository) {
+        this.AuthoritiesRepository = AuthoritiesRepository;
     }
 
     @Override
     public List<authorities> findByUsername(String username) {
-        return AuthoritiesDAO.findByUsername(username);
+        return AuthoritiesRepository.findByUsername(username);
     }
-    @Transactional
-    @Override
+
     public authorities save(authorities Authorities) {
-        return AuthoritiesDAO.save(Authorities);
+        return AuthoritiesRepository.save(Authorities);
     }
 }

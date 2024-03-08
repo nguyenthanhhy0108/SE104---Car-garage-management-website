@@ -66,9 +66,9 @@ public class RegisterController {
         }
         model.addAttribute("create_account_successfully", "Create account successfully.");
 
-        UsersService.save(new users(username, encoder.encode(password), 1));
-        AuthoritiesService.save(new authorities(username, "ROLE_USER"));
-        user_detailsService.save(new user_details(username, email, "", ""));
+        users new_user = UsersService.save(new users(username, encoder.encode(password), 1));
+        authorities new_authorities = AuthoritiesService.save(new authorities(username, "ROLE_USER"));
+        user_details new_user_details = user_detailsService.save(new user_details(username, email, "", ""));
 
         HttpSession session = request.getSession();
         session.removeAttribute("password_wrong");
