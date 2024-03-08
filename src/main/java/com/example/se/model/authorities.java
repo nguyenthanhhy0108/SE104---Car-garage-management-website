@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+
+//Present authorities table in database
 @Entity
 @Data
 public class authorities {

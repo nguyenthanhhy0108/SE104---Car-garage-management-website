@@ -3,6 +3,7 @@ package com.example.se;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+//Main app
 @SpringBootApplication(scanBasePackages = {"com.example"})
 public class SeApplication {
 

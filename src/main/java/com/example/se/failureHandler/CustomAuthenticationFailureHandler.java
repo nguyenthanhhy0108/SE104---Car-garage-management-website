@@ -18,9 +18,16 @@ import java.util.List;
 
 @Component
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+    //Identify internal attribute
     @Autowired
     private usersService UsersService;
+    //Global PasswordEncoder from SecurityConfig
     private final PasswordEncoder encoder = SecurityConfig.passwordEncoder();
+
+    //Handle login error
+    //Get some parameter form login form
+    //Set username into login form to help end user
+    //Check username and password in database and set error message if it existed
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         super.onAuthenticationFailure(request, response, exception);

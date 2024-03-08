@@ -24,19 +24,26 @@ public class SecurityConfig {
     @Autowired
     CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
+    //Create bean passwordEncoder used for whole project
     @Bean
     public static final PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    //Point that authentication will use own database
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource){
         return new JdbcUserDetailsManager(dataSource);
     }
 
+    //Config Spring Security filter
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception
     {
+        //Custom login form
+        //Redirect login form to home page
+        //Config customAuthenticationFailureHandler
+        //Point that /login API can be access without inhibition
         httpSecurity
                 .formLogin(form -> form
                         .loginProcessingUrl("/authenticateTheUser")
@@ -45,12 +52,14 @@ public class SecurityConfig {
                         .failureHandler(customAuthenticationFailureHandler)
                         .loginPage("/login").permitAll());
 
+        //Config default directory for Front-end
         String[] staticResources = {
                 "/css/**",
                 "/images/**",
                 "/fonts/**",
                 "/js/**",};
 
+        //Config some API request
         httpSecurity
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers(staticResources).permitAll()
@@ -60,11 +69,13 @@ public class SecurityConfig {
                         .anyRequest()
                             .authenticated());
 
+        //Config logout API and delete cookies
         httpSecurity
                 .logout(logout -> logout
                         .deleteCookies("remember-me")
                         .permitAll());
 
+        //Config rememberMe feature
         httpSecurity
                 .rememberMe(rememberMe -> rememberMe
                         .tokenValiditySeconds(3600*24*30));
