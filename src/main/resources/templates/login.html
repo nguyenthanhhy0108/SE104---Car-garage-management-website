@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login - Pocket Garage</title>
     <link  rel="stylesheet" th:href="@{/css/login.css}" />
+    <link  rel="stylesheet" th:href="@{/css/style.css}" />
     <script type="text/javascript" th:src="@{/js/login.js}"></script>
 </head>
 <body>
@@ -103,6 +104,12 @@
                                             <a class="btn" href="/register" style="color: #2473DD; background-color:#fff; border: 1px solid #fff">Sign up</a>
                                             <div style="width: 20px;"></div>
                                             <button class="btn lgin-btn" style="color:white;background-color: #2473DD; border: 1px solid #fff;" type="submit">Login</button>
+                                        </div>
+                                        <div class="mt-4 align-items-center" style="display: flex; flex-direction: column;">
+                                            <a onclick="forgetPassword()" style="cursor: pointer;" class="text_muted">
+                                                <i id="forget" class ='material-symbols-outlined norm'>lock_open_right</i>
+                                                <i style="padding: 5px;">Forgot your password?</i>
+                                            </a>
                                         </div>
                                     </form>
                                 </div>
