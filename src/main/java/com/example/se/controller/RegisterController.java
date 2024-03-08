@@ -7,6 +7,7 @@ import com.example.se.service.authoritiesService;
 import com.example.se.service.user_detailsService;
 import com.example.se.service.usersService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -69,6 +70,9 @@ public class RegisterController {
         AuthoritiesService.save(new authorities(username, "ROLE_USER"));
         user_detailsService.save(new user_details(username, email, "", ""));
 
+        HttpSession session = request.getSession();
+        session.removeAttribute("password_wrong");
+        session.removeAttribute("username_not_exist");
         return "login";
     }
 }
