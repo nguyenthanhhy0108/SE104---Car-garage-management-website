@@ -42,6 +42,10 @@ dependencies {
     // Thymeleaf Layout Dialect
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.5.0'
 
+    //Validation
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.2.3")
+
     // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6
     implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity6', version: '3.1.2.RELEASE'
 
