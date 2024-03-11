@@ -63,8 +63,6 @@ public class SecurityConfig {
         //Config some API request
         httpSecurity
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/test").permitAll()
-                        .requestMatchers("/process").permitAll()
                         .requestMatchers(staticResources).permitAll()
                         .requestMatchers("/resources/**").permitAll()
                         .requestMatchers("/register").permitAll()
