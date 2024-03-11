@@ -14,4 +14,8 @@ public class LoginController {
     public String homePage() {
         return "home";
     }
+
+    @GetMapping("/password")
+    public String passwordPage(){return "password";}
+
 }
