@@ -42,6 +42,7 @@ public class RegisterController {
 
     //Execute after submit register form
     //Get some parameter: username, password, email
+    //Check space in parameters
     //Check username and email in database by Service layer method
     //  if they are overlapped: Response error message and redirect to register page
     //  else: Response successful message and eliminate some existed attribute in session and redirect to login page
