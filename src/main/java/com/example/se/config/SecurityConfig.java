@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers(staticResources).permitAll()
                         .requestMatchers("/resources/**").permitAll()
+                        .requestMatchers("/password").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/login").anonymous()
                         .anyRequest()

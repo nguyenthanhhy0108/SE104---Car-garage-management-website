@@ -34,5 +34,10 @@ function showError() {
     }
 
 }
+
+function forgetPassword(event) {
+    window.location.href = "/templates/password.html";
+}
+
 document.addEventListener('DOMContentLoaded', showError);
 
