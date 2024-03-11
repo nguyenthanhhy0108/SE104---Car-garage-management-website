@@ -20,11 +20,13 @@ import java.util.List;
 
 @Controller
 public class RegisterController {
+    //Identify internal attribute
     private final user_detailsService user_detailsService;
     private final usersService UsersService;
     private final authoritiesService AuthoritiesService;
     private final PasswordEncoder encoder = SecurityConfig.passwordEncoder();
 
+    //Initialize internal attribute
     @Autowired
     public RegisterController(user_detailsService user_detailsService, usersService usersService, authoritiesService authoritiesService) {
         this.user_detailsService = user_detailsService;
@@ -32,11 +34,18 @@ public class RegisterController {
         this.AuthoritiesService = authoritiesService;
     }
 
+    //Redirect to register page
     @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
 
+    //Execute after submit register form
+    //Get some parameter: username, password, email
+    //Check space in parameters
+    //Check username and email in database by Service layer method
+    //  if they are overlapped: Response error message and redirect to register page
+    //  else: Response successful message and eliminate some existed attribute in session and redirect to login page
     @PostMapping("/register")
     public String register(Model model, HttpServletRequest request) {
         String username = request.getParameter("username");
@@ -66,9 +75,9 @@ public class RegisterController {
         }
         model.addAttribute("create_account_successfully", "Create account successfully.");
 
-        UsersService.save(new users(username, encoder.encode(password), 1));
-        AuthoritiesService.save(new authorities(username, "ROLE_USER"));
-        user_detailsService.save(new user_details(username, email, "", ""));
+        users new_user = UsersService.save(new users(username, encoder.encode(password), 1));
+        authorities new_authorities = AuthoritiesService.save(new authorities(username, "ROLE_USER"));
+        user_details new_user_details = user_detailsService.save(new user_details(username, email, "", ""));
 
         HttpSession session = request.getSession();
         session.removeAttribute("password_wrong");

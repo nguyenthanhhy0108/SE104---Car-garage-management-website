@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+//Present user_details table in database
 @Data
 @Entity
 public class user_details {
