@@ -1,13 +1,14 @@
-package com.example.se.service;
+package com.example.se.service.impl;
 
 import com.example.se.repository.usersRepository;
 import com.example.se.model.users;
+import com.example.se.service.usersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class usersServiceImpl implements usersService{
+public class usersServiceImpl implements usersService {
 
     //Define and initialize internal attribute (DAO layer)
     private final usersRepository usersRepository;

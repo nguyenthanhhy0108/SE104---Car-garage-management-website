@@ -1,7 +1,8 @@
-package com.example.se.service;
+package com.example.se.service.impl;
 
 import com.example.se.repository.user_detailsRepository;
 import com.example.se.model.user_details;
+import com.example.se.service.user_detailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
