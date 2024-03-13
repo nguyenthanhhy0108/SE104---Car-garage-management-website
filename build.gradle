@@ -42,6 +42,10 @@ dependencies {
     // Thymeleaf Layout Dialect
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.5.0'
 
+    //Spring mail SMTP
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    implementation("org.springframework.boot:spring-boot-starter-mail:3.2.3")
+
     //Validation
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
     implementation("org.springframework.boot:spring-boot-starter-validation:3.2.3")

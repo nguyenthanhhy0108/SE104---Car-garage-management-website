@@ -1,10 +1,7 @@
 package com.example.se.controller;
 
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 
 @Controller
 public class LoginController {
@@ -19,8 +16,4 @@ public class LoginController {
     public String homePage() {
         return "home";
     }
-
-    @GetMapping("/password")
-    public String passwordPage(){return "password";}
-
 }
