@@ -53,7 +53,7 @@ public class emailSenderServiceImpl implements emailSenderService {
     //Function for create a random verification sequence(6 units) by number and upper/lower letter
     @Override
     public String randomVerificationCode() {
-        int length = 6;
+        int length = 4;
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         Random random = new Random();
 

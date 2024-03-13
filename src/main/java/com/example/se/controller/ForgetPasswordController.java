@@ -3,10 +3,12 @@ package com.example.se.controller;
 import com.example.se.model.verification_email_structure;
 import com.example.se.service.emailSenderService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -37,7 +39,7 @@ public class ForgetPasswordController {
     Input: Request from client
     Output: Response entity contain response body and http status
     */
-    public ResponseEntity<Map<String, Boolean>> process(HttpServletRequest request){
+    public ResponseEntity<Map<String, Boolean>> first_process(HttpServletRequest request){
         //Get parameter received email from client
         String receive_email = request.getParameter("email");
 
@@ -53,6 +55,7 @@ public class ForgetPasswordController {
         Map<String, Boolean> resposeMap = new HashMap<>();
         resposeMap.put("email", true);
         resposeMap.put("username", true);
+
         return new ResponseEntity<>(resposeMap, HttpStatus.OK);
     }
 }
