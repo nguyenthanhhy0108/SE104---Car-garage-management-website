@@ -4,4 +4,4 @@ Technology:
 - Spring Boot
 - SQL
 - Thymeleaf
-- TailwindCSS
+
