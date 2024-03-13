@@ -7,18 +7,18 @@ let inputs, buttons, button;
 // => chuyển display của class "mail_box" thành none và chuyển display của "veri_box" thành flex
 function sendCode(){
     //...
-    //nếu gửi code thành công
-    if(success){
-        popupDialog("Success", "We had sent you a verification code, please enter it for reseting password");
-        document.getElementById('mail-box').style.display='none';
-        document.getElementById('veri-box').style.display = 'flex';
+    //By default, it is always sent successfully
+    popupDialog("Success", "We had sent you a verification code, please enter it for reseting password");
+    document.getElementById('verification_email_form').style.display='none';
+    document.getElementById('veri-box').style.display = 'flex';
 
-        // Lấy inputs và button sau khi veri_box được hiển thị
-        inputs = document.querySelectorAll('#veri-box input[type="number"]');
-        button = document.querySelector('#veri-box button');
-        inputs[0].focus();
-        handleVeriBox();
-    }
+    saveInformationFromFirstForm();
+
+    // Lấy inputs và button sau khi veri_box được hiển thị
+    inputs = document.querySelectorAll('#veri-box input[type="number"]');
+    button = document.querySelector('#veri-box button');
+    inputs[0].focus();
+    handleVeriBox();
 }
 
 function handleVeriBox(){
@@ -117,3 +117,23 @@ function checkPasswordMatch() {
 function resetPassword(){
 
 }
+
+//Lưu username và email từ form đầu để hiển thị ở form 2
+function saveInformationFromFirstForm() {
+    var email = document.getElementById("mail").value;
+    var username = document.getElementById("username").value;
+    localStorage.setItem("savedEmail", email);
+    localStorage.setItem("savedUsername", username);
+}
+
+// Lấy giá trị email từ localStorage và hiển thị nó trong thẻ HTML
+document.addEventListener("DOMContentLoaded", function() {
+    var savedEmail = localStorage.getItem("savedEmail");
+    var emailMessage = document.getElementById("emailMessage");
+
+    var savedUsername = localStorage.getItem("savedUsername");
+    var usernameMessage = document.getElementById("usernameMessage");
+
+    emailMessage.textContent = savedEmail;
+    usernameMessage.textContent = savedUsername;
+});
