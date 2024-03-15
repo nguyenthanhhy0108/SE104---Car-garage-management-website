@@ -180,8 +180,9 @@ input:focus {
 }
 
 .remember-me-checkbox {
-    margin-left: -160px;
-    margin-right: -160px;
+    overflow: visible;
+    outline-offset: 0;
+    width: 10%;
 }
 
 .remember-me-label {

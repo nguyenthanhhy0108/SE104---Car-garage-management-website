@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Forms</title>
+</head>
+<body>
+<h1>Form 1</h1>
+<form action="/test" method="post" id="form1">
+    <input type="hidden" name="formId" value="form1">
+    <label for="username1">Username:</label>
+    <input type="text" id="username1" name="username1"><br><br>
+    <label for="email1">Email:</label>
+    <input type="email" id="email1" name="email1"><br><br>
+    <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
+    <button type="submit">Submit Form 1</button>
+</form>
+
+<h1>Form 2</h1>
+<form action="/test" method="post" id="form2">
+    <input type="hidden" name="formId" value="form2">
+    <label for="username2">Username:</label>
+    <input type="text" id="username2" name="username2"><br><br>
+    <label for="email2">Email:</label>
+    <input type="email" id="email2" name="email2"><br><br>
+    <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
+    <button type="submit">Submit Form 2</button>
+</form>
+
+<h1>Form 3</h1>
+<form action="/test" method="post" id="form3">
+    <input type="hidden" name="formId" value="form3">
+    <label for="username3">Username:</label>
+    <input type="text" id="username3" name="username3"><br><br>
+    <label for="email3">Email:</label>
+    <input type="email" id="email3" name="email3"><br><br>
+    <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
+    <button type="submit">Submit Form 3</button>
+</form>
+</body>
+</html>
