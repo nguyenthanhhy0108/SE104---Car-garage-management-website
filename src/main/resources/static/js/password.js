@@ -3,24 +3,6 @@
 //global variables
 let inputs, buttons, button;
 
-//hàm sendCode: click button => tiến hành gửi mail có mã code (4 số) qua mail user đã nhập => xuất ra cửa sổ thông báo đã gửi mail
-// => chuyển display của class "mail_box" thành none và chuyển display của "veri_box" thành flex
-function sendCode(){
-    //...
-    //By default, it is always sent successfully
-    popupDialog("Success", "We had sent you a verification code, please enter it for reseting password");
-    document.getElementById('verification_email_form').style.display='none';
-    document.getElementById('veri-box').style.display = 'flex';
-
-    saveInformationFromFirstForm();
-
-    // Lấy inputs và button sau khi veri_box được hiển thị
-    inputs = document.querySelectorAll('#veri-box input[type="number"]');
-    button = document.querySelector('#veri-box button');
-    inputs[0].focus();
-    handleVeriBox();
-}
-
 function handleVeriBox(){
     //duyet qua inputs
     inputs.forEach((input, index1) => {
@@ -118,22 +100,36 @@ function resetPassword(){
 
 }
 
-//Lưu username và email từ form đầu để hiển thị ở form 2
-function saveInformationFromFirstForm() {
-    var email = document.getElementById("mail").value;
-    var username = document.getElementById("username").value;
-    localStorage.setItem("savedEmail", email);
-    localStorage.setItem("savedUsername", username);
-}
+//Đã đem hàm sendcode qua đây
+//hàm sendCode: click button => tiến hành gửi mail có mã code (4 số) qua mail user đã nhập => xuất ra cửa sổ thông báo đã gửi mail
+// => chuyển display của class "mail_box" thành none và chuyển display của "veri_box" thành flex
+$(document).ready(() => {
+    $("#verification_email_form").submit(function(event) {
+        event.preventDefault();
+        // Gửi yêu cầu POST bằng AJAX
+        $.ajax({
+            type: "POST",
+            url: "/password",
+            data: $("#verification_email_form").serialize(),
+            success: function(data) {
+                //If sent successfully
+                popupDialog("Success", "We had sent you a verification code, please enter it for reseting password");
+                document.getElementById('verification_email_form').style.display='none';
+                document.getElementById('veri-box').style.display = 'flex';
+                // Hiển thị kết quả trên trang
+                $("#email").text(data.email);
+                $("#username_sent").text(data.username);
 
-// Lấy giá trị email từ localStorage và hiển thị nó trong thẻ HTML
-document.addEventListener("DOMContentLoaded", function() {
-    var savedEmail = localStorage.getItem("savedEmail");
-    var emailMessage = document.getElementById("emailMessage");
-
-    var savedUsername = localStorage.getItem("savedUsername");
-    var usernameMessage = document.getElementById("usernameMessage");
-
-    emailMessage.textContent = savedEmail;
-    usernameMessage.textContent = savedUsername;
+                // Lấy inputs và button sau khi veri_box được hiển thị
+                inputs = document.querySelectorAll('#veri-box input[type="number"]');
+                button = document.querySelector('#veri-box button');
+                inputs[0].focus();
+                handleVeriBox();
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
 });
+

@@ -63,9 +63,11 @@ public class SecurityConfig {
         //Config some API request
         httpSecurity
                 .authorizeHttpRequests(auth->auth
+//                                .anyRequest().permitAll()); //For testing
                         .requestMatchers(staticResources).permitAll()
                         .requestMatchers("/resources/**").permitAll()
                         .requestMatchers("/password").permitAll()
+                        .requestMatchers("/test").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/login").anonymous()
                         .anyRequest()
