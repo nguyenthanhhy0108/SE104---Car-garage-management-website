@@ -100,6 +100,15 @@ function resetPassword(){
 
 }
 
+function showLoading() {
+    $('.loading-overlay').fadeIn(); // Hiển thị hiệu ứng loading
+}
+
+function hideLoading() {
+    $('.loading-overlay').fadeOut(); // Ẩn hiệu ứng loading
+}
+
+
 //Đã đem hàm sendcode qua đây
 //hàm sendCode: click button => tiến hành gửi mail có mã code (4 số) qua mail user đã nhập => xuất ra cửa sổ thông báo đã gửi mail
 // => chuyển display của class "mail_box" thành none và chuyển display của "veri_box" thành flex
@@ -112,6 +121,8 @@ $(document).ready(() => {
             url: "/password",
             data: $("#verification_email_form").serialize(),
             success: function(data) {
+                document.querySelector('.loading-overlay').style.display = 'block';
+                hideLoading();
                 //If sent successfully
                 popupDialog("Success", "We had sent you a verification code, please enter it for reseting password");
                 document.getElementById('verification_email_form').style.display='none';
