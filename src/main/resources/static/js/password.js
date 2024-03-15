@@ -108,7 +108,7 @@ function hideLoading() {
     $('.loading-overlay').fadeOut(); // Ẩn hiệu ứng loading
 }
 
-
+//Receive response from server and display them!
 //Đã đem hàm sendcode qua đây
 //hàm sendCode: click button => tiến hành gửi mail có mã code (4 số) qua mail user đã nhập => xuất ra cửa sổ thông báo đã gửi mail
 // => chuyển display của class "mail_box" thành none và chuyển display của "veri_box" thành flex
@@ -123,19 +123,27 @@ $(document).ready(() => {
             success: function(data) {
                 document.querySelector('.loading-overlay').style.display = 'block';
                 hideLoading();
-                //If sent successfully
-                popupDialog("Success", "We had sent you a verification code, please enter it for reseting password");
-                document.getElementById('verification_email_form').style.display='none';
-                document.getElementById('veri-box').style.display = 'flex';
-                // Hiển thị kết quả trên trang
-                $("#email").text(data.email);
-                $("#username_sent").text(data.username);
 
-                // Lấy inputs và button sau khi veri_box được hiển thị
-                inputs = document.querySelectorAll('#veri-box input[type="number"]');
-                button = document.querySelector('#veri-box button');
-                inputs[0].focus();
-                handleVeriBox();
+                //If wrong username or email
+                if(data.Fail){
+                    $("#notExist").text(data.notExist);
+                    $("#notMatch").text(data.notMatch);
+                }
+                else{
+                    //If sent successfully
+                    popupDialog("Success", "We had sent you a verification code, please enter it for reseting password");
+                    document.getElementById('verification_email_form').style.display='none';
+                    document.getElementById('veri-box').style.display = 'flex';
+                    // Hiển thị kết quả trên trang
+                    $("#email").text(data.email);
+                    $("#username_sent").text(data.username);
+
+                    // Lấy inputs và button sau khi veri_box được hiển thị
+                    inputs = document.querySelectorAll('#veri-box input[type="number"]');
+                    button = document.querySelector('#veri-box button');
+                    inputs[0].focus();
+                    handleVeriBox();
+                }
             },
             error: function(error) {
                 console.log(error);
