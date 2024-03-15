@@ -49,6 +49,7 @@ public class ForgetPasswordController {
     */
     public ResponseEntity<Map<String, Object>> process(@RequestParam("formId") String formId, HttpServletRequest request, HttpServletResponse response){
         if ("form1".equals(formId)) {
+            boolean fail = false;
             Map<String, Object> resposeMap = new HashMap<>();
             resposeMap.put("Fail", false);
             resposeMap.put("notExist", "");
@@ -59,24 +60,27 @@ public class ForgetPasswordController {
 
             //Check username exist
             if(userDetailsService.findByUsername(username_from_client).isEmpty()){
-                resposeMap.put("notExist", "User does not exist.");
+                resposeMap.put("notExist", "Phone number does not exist.");
                 resposeMap.put("Fail", true);
+                fail = true;
             }
             else{
                 //Check username match with email received
                 if(!userDetailsService.findByUsername(username_from_client).get(0).getEmail().equals(email_from_client)){
-                    resposeMap.put("notMatch", "Username and email do not match");
+                    resposeMap.put("notMatch", "Phone number and email do not match");
                     resposeMap.put("Fail", true);
+                    fail = true;
                 }
             }
-
-            //Create a verification code and put it into mail message
-            //Record time sending mail
-            //Send mail
-            verificationEmailStructure.setVerification_code(emailSenderService.randomVerificationCode());
-            verificationEmailStructure.replace_code();
-            verificationEmailStructure.setSent_time(LocalDateTime.now());
-            emailSenderService.sendEmail(email_from_client, verificationEmailStructure);
+            if(!fail){
+                //Create a verification code and put it into mail message
+                //Record time sending mail
+                //Send mail
+                verificationEmailStructure.setVerification_code(emailSenderService.randomVerificationCode());
+                verificationEmailStructure.replace_code();
+                verificationEmailStructure.setSent_time(LocalDateTime.now());
+                emailSenderService.sendEmail(email_from_client, verificationEmailStructure);
+            }
 
             //Return some attribute, unfinished to be continue...
 
