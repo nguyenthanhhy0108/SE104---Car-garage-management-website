@@ -24,6 +24,7 @@ public class authoritiesServiceImpl implements authoritiesService {
     }
 
     //Use DAO attribute to save authorities on database
+    @Override
     public authorities save(authorities Authorities) {
         return AuthoritiesRepository.save(Authorities);
     }

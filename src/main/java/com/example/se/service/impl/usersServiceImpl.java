@@ -24,6 +24,7 @@ public class usersServiceImpl implements usersService {
     }
 
     //Use DAO attribute to save users on database
+    @Override
     public users save(users User) {
         return usersRepository.save(User);
     }
