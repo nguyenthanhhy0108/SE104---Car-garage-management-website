@@ -68,9 +68,6 @@ function checkPasswordMatch() {
 
 
 // hàm lấy giá trị input => thay đổi password trong db
-function resetPassword(){
-
-}
 
 function showLoading() {
     $('.loading-overlay').fadeIn(); // Hiển thị hiệu ứng loading
@@ -145,6 +142,33 @@ $(document).ready(() => {
                 else{
                     document.getElementById('veri-box').style.display='none';
                     document.getElementById('reset-pass').style.display='flex';
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+
+
+
+$(document).ready(() => {
+    $("#change_password_form").submit(function(event) {
+        event.preventDefault();
+        // Gửi yêu cầu POST bằng AJAX
+        $.ajax({
+            type: "POST",
+            url: "/password",
+            data: $("#change_password_form").serialize(),
+            success: function(data) {
+                if(data.Fail){
+                    $("#overlapped").text(data.overlapped);
+                }
+                else{
+                    $("#successful").text(data.successful);
+                    window.location.href = "/login?successful=true";
                 }
             },
             error: function(error) {

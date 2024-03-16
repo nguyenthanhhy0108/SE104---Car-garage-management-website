@@ -28,4 +28,13 @@ public class usersServiceImpl implements usersService {
     public users save(users User) {
         return usersRepository.save(User);
     }
+
+    //Use DAO attribute to save users on database
+    @Override
+    public users updatePasswordByUsername(String username, String newPassword) {
+        users new_user = usersRepository.findByUsername(username).get(0);
+        new_user.setPassword(newPassword);
+        usersRepository.save(new_user);
+        return new_user;
+    }
 }
