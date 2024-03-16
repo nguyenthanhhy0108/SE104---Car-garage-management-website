@@ -41,3 +41,13 @@ function forgetPassword(event) {
 
 document.addEventListener('DOMContentLoaded', showError);
 
+function showLoginMessage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const successful = urlParams.get('successful');
+    if (successful === 'true') {
+        document.getElementById("password-successMessage").style.display = "block";
+    }
+}
+
+window.onload = showLoginMessage;
+
