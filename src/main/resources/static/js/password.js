@@ -152,3 +152,31 @@ $(document).ready(() => {
     });
 });
 
+
+
+$(document).ready(() => {
+    $("#verification_code_form").submit(function(event) {
+        event.preventDefault();
+        // Gửi yêu cầu POST bằng AJAX
+        $.ajax({
+            type: "POST",
+            url: "/password",
+            data: $("#verification_code_form").serialize(),
+            success: function(data) {
+
+                if(data.Fail){
+                    $("#expiredCode").text(data.expiredCode);
+                    $("#wrongCode").text(data.wrongCode);
+                }
+                else{
+                    document.getElementById('veri-box').style.display='none';
+                    document.getElementById('reset-pass').style.display='flex';
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+

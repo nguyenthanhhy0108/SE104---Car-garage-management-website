@@ -48,9 +48,9 @@ public class ForgetPasswordController {
                      - "username" - String
     */
     public ResponseEntity<Map<String, Object>> process(@RequestParam("formId") String formId, HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> resposeMap = new HashMap<>();
         if ("form1".equals(formId)) {
             boolean fail = false;
-            Map<String, Object> resposeMap = new HashMap<>();
             resposeMap.put("Fail", false);
             resposeMap.put("notExist", "");
             resposeMap.put("notMatch", "");
@@ -66,7 +66,10 @@ public class ForgetPasswordController {
             }
             else{
                 //Check username match with email received
-                if(!userDetailsService.findByUsername(username_from_client).get(0).getEmail().equals(email_from_client)){
+                if(!userDetailsService.findByUsername(username_from_client)
+                        .get(0)
+                        .getEmail()
+                        .equals(email_from_client)){
                     resposeMap.put("notMatch", "Phone number and email do not match");
                     resposeMap.put("Fail", true);
                     fail = true;
@@ -90,6 +93,33 @@ public class ForgetPasswordController {
             response.setContentType("text/html");
 
             return new ResponseEntity<>(resposeMap, HttpStatus.OK);
+        }
+        if("form2".equals(formId)){
+            boolean fail = false;
+            String codeFromClient = request.getParameter("char1")
+                    + request.getParameter("char2")
+                    + request.getParameter("char3")
+                    + request.getParameter("char4");
+
+            LocalDateTime now = LocalDateTime.now();
+            if(now.isAfter(verificationEmailStructure.getSent_time().plusMinutes(1))){
+                fail = true;
+                resposeMap.put("expiredCode", "Your provided code was expired");
+                resposeMap.put("Fail", true);
+                return new ResponseEntity<>(resposeMap, HttpStatus.OK);
+            }
+            else{
+                if(!codeFromClient.equals(verificationEmailStructure.getVerification_code())){
+                    fail = true;
+                    resposeMap.put("wrongCode", "Your typed code was wrong");
+                    resposeMap.put("Fail", true);
+                    return new ResponseEntity<>(resposeMap, HttpStatus.OK);
+                }
+                else {
+                    resposeMap.put("Fail", false);
+                    return new ResponseEntity<>(resposeMap, HttpStatus.OK);
+                }
+            }
         }
         return null;
     }
