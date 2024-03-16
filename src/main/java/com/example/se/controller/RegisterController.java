@@ -59,18 +59,16 @@ public class RegisterController {
         model.addAttribute("email", email);
 
         if (!UsersList.isEmpty() && !userDetailsList.isEmpty()) {
-            model.addAttribute("email_used", "Phone number and Email are already used");
-            request.setAttribute("showError", true);
+            model.addAttribute("email_used", "Email are already used");
+            model.addAttribute("username_used", "Phone number is already used");
             return "register";
         }
         if (!UsersList.isEmpty()) {
             model.addAttribute("username_used", "Phone number is already used");
-            request.setAttribute("showError", true);
             return "register";
         }
         if (!userDetailsList.isEmpty()) {
             model.addAttribute("email_used", "Email is already used");
-            request.setAttribute("showError", true);
             return "register";
         }
         model.addAttribute("create_account_successfully", "Create account successfully.");

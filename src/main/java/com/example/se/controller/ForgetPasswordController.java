@@ -51,6 +51,7 @@ public class ForgetPasswordController {
         Map<String, Object> resposeMap = new HashMap<>();
         String username = "";
         if ("form1".equals(formId)) {
+            verificationEmailStructure = new verification_email_structure();
             boolean fail = false;
             resposeMap.put("Fail", false);
             resposeMap.put("notExist", "");
