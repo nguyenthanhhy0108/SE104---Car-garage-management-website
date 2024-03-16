@@ -50,34 +50,6 @@ function handleVeriBox(){
 //neu click confirm vericode => kiểm tra giá trị trong inputs có giống với code đã gửi qua mail hay không
 //nếu giống => thêm style display:flex cho id "reset-pass", chuyển style display:none cho "veri-box" và thực hiện logic của reset-pass
 //nếu không => hiện cửa sổ thông báo và reset lại inputs
-function checkOTP(){
-    // code check gia tri trong mảng inputs (có thể xóa đoạn code này)
-    inputs.forEach((input) => {
-        console.log(input.value);
-    });
-
-    //...
-
-    //nếu veri code đúng
-    if (success){
-        document.getElementById('veri-box').style.display='none';
-        document.getElementById('reset-pass').style.display='flex';
-        handleResetPass();
-    }
-    //nếu sai => xuất ra thông báo và reset lại giá trị inputs
-    else {
-        popupDialog("Error", "Your code is wrong, please try again.");
-        inputs.forEach((input, i) => {
-            if (i !== 0){
-                input.setAttribute('disabled', true);
-            }
-            input.value = "";
-        });
-        document.getElementById('veri-box').style.display='flex';
-        handleVeriBox();
-    }
-}
-
 function checkPasswordMatch() {
     let password = document.getElementById("password").value;
     let confirmPassword = document.getElementById("password_re").value;
@@ -139,10 +111,12 @@ $(document).ready(() => {
                     $("#username_sent").text(data.username);
 
                     // Lấy inputs và button sau khi veri_box được hiển thị
-                    inputs = document.querySelectorAll('#veri-box input[type="number"]');
+                    inputs = document.querySelectorAll('#veri-box input[type="text"]');
                     button = document.querySelector('#veri-box button');
+
                     inputs[0].focus();
                     handleVeriBox();
+
                 }
             },
             error: function(error) {
