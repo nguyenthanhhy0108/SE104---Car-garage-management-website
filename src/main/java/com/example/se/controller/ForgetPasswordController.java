@@ -41,14 +41,15 @@ public class ForgetPasswordController {
     /*
     Input: Request from client
     Output: Response entity contain response body and http status
-    Output contains: - "Fail" - Boolean
-                     - "notExist" - String
-                     - "notMatch" - String
-                     - "email" - String
-                     - "username" - String
+    Output form1 contains: - "Fail" - Boolean
+                           - "notExist" - String
+                           - "notMatch" - String
+                           - "email" - String
+                           - "username" - String
     */
     public ResponseEntity<Map<String, Object>> process(@RequestParam("formId") String formId, HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> resposeMap = new HashMap<>();
+        String username = "";
         if ("form1".equals(formId)) {
             boolean fail = false;
             resposeMap.put("Fail", false);
@@ -85,6 +86,7 @@ public class ForgetPasswordController {
                 emailSenderService.sendEmail(email_from_client, verificationEmailStructure);
             }
 
+            username = username_from_client;
             //Return some attribute, unfinished to be continue...
 
             resposeMap.put("email", email_from_client);
@@ -120,6 +122,9 @@ public class ForgetPasswordController {
                     return new ResponseEntity<>(resposeMap, HttpStatus.OK);
                 }
             }
+        }
+        if("form3".equals(formId)){
+
         }
         return null;
     }
