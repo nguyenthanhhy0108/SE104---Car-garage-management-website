@@ -135,7 +135,7 @@ public class ForgetPasswordController {
             //Get current time
             LocalDateTime now = LocalDateTime.now();
             //Check expired code and response
-            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(5))){
+            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(1))){
                 fail = true;
                 resposeMap.put("expiredCode", true);
                 resposeMap.put("Fail", true);
@@ -163,7 +163,7 @@ public class ForgetPasswordController {
             //Check overlap
             if(encoder.matches(new_pass, old_pass)){
                 resposeMap.put("Fail", true);
-                resposeMap.put("overlapped", "New password must not overlap with current password");
+                resposeMap.put("overlapped", true);
                 return new ResponseEntity<>(resposeMap, HttpStatus.OK);
             }
             else {
