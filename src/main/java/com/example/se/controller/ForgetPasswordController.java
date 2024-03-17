@@ -28,11 +28,12 @@ import java.util.Map;
 public class ForgetPasswordController {
     //Internal attribute for sending mail
     private final emailSenderService emailSenderService;
-    //2 Internal attribute for getting user information
+    //2 Internal attributes for getting user information
     private final user_detailsService userDetailsService;
     private final usersService usersService;
     //Internal attribute for mail content structure
     private verification_email_structure verificationEmailStructure = new verification_email_structure();
+    //Internal attributes for password retrieval and change
     private final PasswordEncoder encoder = SecurityConfig.passwordEncoder();
     private String username;
 
@@ -58,6 +59,14 @@ public class ForgetPasswordController {
                            - "notMatch" - String
                            - "email" - String
                            - "username" - String
+
+    Output form2 contains: - "Fail" - Boolean
+                           - "expiredCode" - String
+                           - "wrongCode" - String
+
+    Output form1 contains: - "Fail" - Boolean
+                           - "overlapped" - String
+                           - "successful" - String
     */
     public ResponseEntity<Map<String, Object>> process(@RequestParam("formId") String formId, HttpServletRequest request, HttpServletResponse response, Model model){
         Map<String, Object> resposeMap = new HashMap<>();
@@ -97,7 +106,7 @@ public class ForgetPasswordController {
                 this.verificationEmailStructure.setSent_time(LocalDateTime.now());
                 emailSenderService.sendEmail(email_from_client, this.verificationEmailStructure);
             }
-            //Return some attribute, unfinished to be continue...
+            //Return some attribute
 
             HttpSession session = request.getSession();
             session.setAttribute("username", username_from_client);
@@ -115,19 +124,23 @@ public class ForgetPasswordController {
         if("form2".equals(formId)){
             boolean fail = false;
 
+            //Get code from user typing
             String codeFromClient = request.getParameter("char1")
                     + request.getParameter("char2")
                     + request.getParameter("char3")
                     + request.getParameter("char4");
 
+            //Get current time
             LocalDateTime now = LocalDateTime.now();
-            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(1))){
+            //Check expired code and response
+            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(30))){
                 fail = true;
                 resposeMap.put("expiredCode", "Your provided code was expired");
                 resposeMap.put("Fail", true);
                 return new ResponseEntity<>(resposeMap, HttpStatus.OK);
             }
             else{
+                //Check code (true, false)
                 if(!codeFromClient.equals(this.verificationEmailStructure.getVerification_code())){
                     fail = true;
                     resposeMap.put("wrongCode", "Your typed code was wrong");
@@ -141,14 +154,18 @@ public class ForgetPasswordController {
             }
         }
         if("form3".equals(formId)){
+            //Find old password from database by username
             String old_pass = usersService.findByUsername(this.username).get(0).getPassword();
+            //Get new password from client
             String new_pass = request.getParameter("password");
+            //Check overlap
             if(encoder.matches(new_pass, old_pass)){
                 resposeMap.put("Fail", true);
                 resposeMap.put("overlapped", "New password must not overlap with current password");
                 return new ResponseEntity<>(resposeMap, HttpStatus.OK);
             }
             else {
+                //Set new pass into database
                 users new_users = usersService.updatePasswordByUsername(this.username, encoder.encode(new_pass));
                 resposeMap.put("successful", "Change password successfully");
                 resposeMap.put("Fail", false);
