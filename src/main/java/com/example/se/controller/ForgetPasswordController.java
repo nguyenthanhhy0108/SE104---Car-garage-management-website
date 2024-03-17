@@ -135,7 +135,7 @@ public class ForgetPasswordController {
             //Get current time
             LocalDateTime now = LocalDateTime.now();
             //Check expired code and response
-            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(1))){
+            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(30))){
                 fail = true;
                 resposeMap.put("expiredCode", true);
                 resposeMap.put("Fail", true);
