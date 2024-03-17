@@ -55,8 +55,8 @@ public class ForgetPasswordController {
     Input: Request from client
     Output: Response entity contain response body and http status
     Output form1 contains: - "Fail" - Boolean
-                           - "notExist" - String
-                           - "notMatch" - String
+                           - "notExist" - Boolean
+                           - "notMatch" - Boolean
                            - "email" - String
                            - "username" - String
 
@@ -74,15 +74,15 @@ public class ForgetPasswordController {
             this.verificationEmailStructure = new verification_email_structure();
             boolean fail = false;
             resposeMap.put("Fail", false);
-            resposeMap.put("notExist", "");
-            resposeMap.put("notMatch", "");
+            resposeMap.put("notExist", false);
+            resposeMap.put("notMatch", false);
             //Get parameter received email from client
             String email_from_client = request.getParameter("email");
             String username_from_client = request.getParameter("username");
 
             //Check username exist
             if(userDetailsService.findByUsername(username_from_client).isEmpty()){
-                resposeMap.put("notExist", "Phone number does not exist.");
+                resposeMap.put("notExist", true);
                 resposeMap.put("Fail", true);
                 fail = true;
             }
@@ -92,7 +92,7 @@ public class ForgetPasswordController {
                         .get(0)
                         .getEmail()
                         .equals(email_from_client)){
-                    resposeMap.put("notMatch", "Phone number and email do not match");
+                    resposeMap.put("notMatch", true);
                     resposeMap.put("Fail", true);
                     fail = true;
                 }

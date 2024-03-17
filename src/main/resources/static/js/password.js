@@ -1,7 +1,7 @@
 // source class "veri_box": https://www.youtube.com/watch?v=naVaJDYpptY&t=7s
 
 //global variables
-let inputs, buttons, button;
+let inputs, button;
 
 function handleVeriBox(){
     //duyet qua inputs
@@ -95,8 +95,8 @@ $(document).ready(() => {
 
                 //If wrong username or email
                 if(data.Fail){
-                    $("#notExist").text(data.notExist);
-                    $("#notMatch").text(data.notMatch);
+                    if(data.notExist) popupDialog("Error", "User does not exist.")
+                    if(data.notMatch) popupDialog("Error", "User and mail does not match.")
                 }
                 else{
                     //If sent successfully
