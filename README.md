@@ -1,7 +1,12 @@
-Garage Management
+Garage Management (SE104)
 
 Technology:
-- Spring Boot
-- SQL
-- Thymeleaf
+
+- Back-end
+  - Spring Boot
+  - SQL
+  
+- Front-end
+  - Thymeleaf
+  - jQuery
 
