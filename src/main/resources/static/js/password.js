@@ -72,13 +72,7 @@ function resetPassword(){
 
 }
 
-function showLoading() {
-    $('.loading-overlay').fadeIn(); // Hiển thị hiệu ứng loading
-}
 
-function hideLoading() {
-    $('.loading-overlay').fadeOut(); // Ẩn hiệu ứng loading
-}
 
 //Receive response from server and display them!
 //Đã đem hàm sendcode qua đây
