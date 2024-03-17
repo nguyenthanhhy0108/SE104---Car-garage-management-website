@@ -123,7 +123,9 @@ public class ForgetPasswordController {
         }
         if("form2".equals(formId)){
             boolean fail = false;
-
+            resposeMap.put("Fail", false);
+            resposeMap.put("expiredCode", false);
+            resposeMap.put("wrongCode", false);
             //Get code from user typing
             String codeFromClient = request.getParameter("char1")
                     + request.getParameter("char2")
@@ -133,9 +135,9 @@ public class ForgetPasswordController {
             //Get current time
             LocalDateTime now = LocalDateTime.now();
             //Check expired code and response
-            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(30))){
+            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(5))){
                 fail = true;
-                resposeMap.put("expiredCode", "Your provided code was expired");
+                resposeMap.put("expiredCode", true);
                 resposeMap.put("Fail", true);
                 return new ResponseEntity<>(resposeMap, HttpStatus.OK);
             }
@@ -143,7 +145,7 @@ public class ForgetPasswordController {
                 //Check code (true, false)
                 if(!codeFromClient.equals(this.verificationEmailStructure.getVerification_code())){
                     fail = true;
-                    resposeMap.put("wrongCode", "Your typed code was wrong");
+                    resposeMap.put("wrongCode", true);
                     resposeMap.put("Fail", true);
                     return new ResponseEntity<>(resposeMap, HttpStatus.OK);
                 }
