@@ -158,7 +158,7 @@ $(document).ready(() => {
             data: $("#change_password_form").serialize(),
             success: function(data) {
                 if(data.Fail){
-                    $("#overlapped").text(data.overlapped);
+                    if (data.overlapped) popupDialog("Error", "New password must not overlap with current password!");
                 }
                 else{
                     $("#successful").text(data.successful);
