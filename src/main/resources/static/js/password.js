@@ -69,13 +69,7 @@ function checkPasswordMatch() {
 
 // hàm lấy giá trị input => thay đổi password trong db
 
-function showLoading() {
-    $('.loading-overlay').fadeIn(); // Hiển thị hiệu ứng loading
-}
 
-function hideLoading() {
-    $('.loading-overlay').fadeOut(); // Ẩn hiệu ứng loading
-}
 
 //Receive response from server and display them!
 //Đã đem hàm sendcode qua đây
@@ -96,7 +90,7 @@ $(document).ready(() => {
                 //If wrong username or email
                 if(data.Fail){
                     if(data.notExist) popupDialog("Error", "User does not exist.")
-                    if(data.notMatch) popupDialog("Error", "User and mail does not match.")
+                    if(data.notMatch) popupDialog("Error", "User and mail do not match.")
                 }
                 else{
                     //If sent successfully
@@ -136,8 +130,8 @@ $(document).ready(() => {
             success: function(data) {
 
                 if(data.Fail){
-                    $("#expiredCode").text(data.expiredCode);
-                    $("#wrongCode").text(data.wrongCode);
+                    if (data.expiredCode) popupDialog("Error", "Your code was expired, please try again!");
+                    if (data.wrongCode) popupDialog("Error", "Your code was wrong, please try again!");
                 }
                 else{
                     document.getElementById('veri-box').style.display='none';
