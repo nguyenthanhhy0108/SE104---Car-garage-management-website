@@ -160,6 +160,7 @@ public class ForgetPasswordController {
             String old_pass = usersService.findByUsername(this.username).get(0).getPassword();
             //Get new password from client
             String new_pass = request.getParameter("password");
+
             //Check overlap
             if(encoder.matches(new_pass, old_pass)){
                 resposeMap.put("Fail", true);
