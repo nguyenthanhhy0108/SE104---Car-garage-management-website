@@ -28,3 +28,13 @@ function popupDialog(title, content){
         }
     });
 }
+
+//Loading
+function showLoading() {
+    console.log('show loading')
+    $('.loading-overlay').fadeIn(); // Hiển thị hiệu ứng loading
+}
+
+function hideLoading() {
+    $('.loading-overlay').fadeOut(); // Ẩn hiệu ứng loading
+}
