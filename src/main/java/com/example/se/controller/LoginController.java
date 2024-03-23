@@ -25,7 +25,7 @@ public class LoginController {
     //Redirect ro home page
     @GetMapping("/home")
     public String homePage() {
-        List<users> users = service.findByUsername("1");
+        List<users> users = service.findByUsername("0941609091");
 
         System.out.println(users.get(0).getUserDetails().getEmail());
         System.out.println(users.get(0).getAuthorities().get(0).getAuthority());
