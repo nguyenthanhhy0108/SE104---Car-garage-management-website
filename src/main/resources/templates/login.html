@@ -100,9 +100,11 @@
                                             You have been logged out.
                                         </div>
 
-                                        <div id="password-successMessage" style="display: none" class="msg-ok">
+                                        <div id="register-successMessage" style="display: none" class="msg-ok">
                                             Change password successfully
                                         </div>
+
+                                        <div id="password-successMessage" th:text="${create_account_successfully}" style="display: none" class="msg-ok"></div>
 
                                         <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
                                         <div class="mt-4 text-center" style="display: flex; justify-content: center;">

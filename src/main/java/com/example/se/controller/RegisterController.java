@@ -74,7 +74,12 @@ public class RegisterController {
         model.addAttribute("create_account_successfully", "Create account successfully.");
 
         users new_user = UsersService.save(new users(username, encoder.encode(password), 1));
-        authorities new_authorities = AuthoritiesService.save(new authorities(username, "ROLE_USER"));
+
+        authorities authorities = AuthoritiesService.save(new authorities(username, new_user, "ROLE_USER"));
+
+        System.out.println(username);
+        System.out.println(new_user.getUsername());
+
         user_details new_user_details = user_detailsService.save(new user_details(username, email, "", ""));
 
         HttpSession session = request.getSession();

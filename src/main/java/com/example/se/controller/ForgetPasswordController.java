@@ -81,7 +81,7 @@ public class ForgetPasswordController {
             String username_from_client = request.getParameter("username");
 
             //Check username exist
-            if(userDetailsService.findByUsername(username_from_client).isEmpty()){
+            if(usersService.findByUsername(username_from_client).isEmpty()){
                 resposeMap.put("notExist", true);
                 resposeMap.put("Fail", true);
                 fail = true;
