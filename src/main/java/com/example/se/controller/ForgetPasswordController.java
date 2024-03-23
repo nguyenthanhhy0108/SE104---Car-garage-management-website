@@ -170,7 +170,7 @@ public class ForgetPasswordController {
             else {
                 //Set new pass into database
                 users new_users = usersService.updatePasswordByUsername(this.username, encoder.encode(new_pass));
-                resposeMap.put("successful", "Change password successfully");
+                resposeMap.put("successful", true);
                 resposeMap.put("Fail", false);
                 return new ResponseEntity<>(resposeMap, HttpStatus.OK);
             }
