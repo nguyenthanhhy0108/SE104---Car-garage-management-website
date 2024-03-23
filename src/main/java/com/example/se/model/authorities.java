@@ -1,9 +1,6 @@
 package com.example.se.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 
@@ -15,14 +12,25 @@ public class authorities {
     @Id
     @Column(name = "Username")
     private String username;
+
+    @ManyToOne(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
+    @JoinColumn(name = "Username", insertable = false, updatable = false)
+    private users users;
+
     @Column(name = "Authority")
     private String authority;
 
     public authorities() {
     }
 
-    public authorities(String username, String authority) {
+    public authorities(String username, com.example.se.model.users users, String authority) {
         this.username = username;
+        this.users = users;
         this.authority = authority;
     }
 }

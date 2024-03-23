@@ -1,9 +1,6 @@
 package com.example.se.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 //Present user_details table in database
@@ -14,10 +11,17 @@ public class user_details {
     @Id
     @Column(name = "Username")
     private String username;
+
+    @OneToOne
+    @JoinColumn(name = "Username", insertable = false, updatable = false)
+    private users users;
+
     @Column(name = "Email")
     private String email;
+
     @Column(name = "Name")
     private String name;
+
     @Column(name = "Nationality")
     private String nationality;
 
