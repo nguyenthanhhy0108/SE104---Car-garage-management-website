@@ -1,5 +1,6 @@
 package com.example.se.model;
 
+import com.example.se.model.ID.authoritiesID;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "AUTHORITIES")
+@IdClass(authoritiesID.class)
 public class authorities {
     @Id
     @Column(name = "Username")
@@ -22,6 +24,7 @@ public class authorities {
     @JoinColumn(name = "Username", insertable = false, updatable = false)
     private users users;
 
+    @Id
     @Column(name = "Authority")
     private String authority;
 
