@@ -28,9 +28,8 @@ public class authorities {
     public authorities() {
     }
 
-    public authorities(String username, com.example.se.model.users users, String authority) {
+    public authorities(String username, String authority) {
         this.username = username;
-        this.users = users;
         this.authority = authority;
     }
 }

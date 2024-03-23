@@ -71,18 +71,15 @@ public class RegisterController {
             model.addAttribute("email_used", "Email is already used");
             return "register";
         }
-        model.addAttribute("create_account_successfully", "Create account successfully.");
 
         users new_user = UsersService.save(new users(username, encoder.encode(password), 1));
 
-        authorities authorities = AuthoritiesService.save(new authorities(username, new_user, "ROLE_USER"));
-
-        System.out.println(username);
-        System.out.println(new_user.getUsername());
+        authorities authorities = AuthoritiesService.save(new authorities(username, "ROLE_USER"));
 
         user_details new_user_details = user_detailsService.save(new user_details(username, email, "", ""));
 
         HttpSession session = request.getSession();
+        session.setAttribute("create_account_successfully", true);
         session.removeAttribute("password_wrong");
         session.removeAttribute("username_not_exist");
         return "login";
