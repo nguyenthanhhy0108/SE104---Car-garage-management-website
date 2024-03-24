@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
 @Controller
 public class LoginController {
     usersService service;
@@ -30,13 +28,14 @@ public class LoginController {
     @GetMapping("/home")
     public String homePage() {
 //        List<users> users = service.findByUsername("0941609091");
+//        System.out.println(service.findByUsername("1").get(0).getUsername());
 
 //        System.out.println(users.get(0).getUserDetails().getEmail());
 
 //        List<authorities> authorities = authoritiesService.findByUsername("0941609091");
 //        System.out.println(users.get(0).getAuthorities().size());
 
-        System.out.println(service.findByUsername("0941609091").get(0).getAuthorities().get(0).getAuthority());
+//        System.out.println(service.findByUsername("1").get(0).getAuthorities().get(0).getAuthority());
 //        System.out.println(users.get(0).getAuthorities().get(1).getAuthority());
 
 //        System.out.println(authorities.get(0).getAuthority());
@@ -46,6 +45,9 @@ public class LoginController {
 //            System.out.println(i);
 //            System.out.println(users.get(0).getAuthorities().get(i).getAuthority());
 //        }
+
+        users temp = service.findByUsername("1").get(0);
+        service.delete(temp);
         return "home";
     }
 }

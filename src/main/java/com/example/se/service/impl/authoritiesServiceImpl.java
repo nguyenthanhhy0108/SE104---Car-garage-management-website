@@ -3,6 +3,7 @@ package com.example.se.service.impl;
 import com.example.se.repository.authoritiesRepository;
 import com.example.se.model.authorities;
 import com.example.se.service.authoritiesService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,10 @@ public class authoritiesServiceImpl implements authoritiesService {
     @Override
     public authorities save(authorities Authorities) {
         return AuthoritiesRepository.save(Authorities);
+    }
+
+    @Override
+    public void delete(authorities authorities) {
+        this.AuthoritiesRepository.delete(authorities);
     }
 }

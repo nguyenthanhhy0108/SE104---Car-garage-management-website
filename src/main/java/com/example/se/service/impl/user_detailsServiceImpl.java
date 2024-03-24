@@ -10,6 +10,11 @@ import java.util.List;
 
 @Service
 public class user_detailsServiceImpl implements user_detailsService {
+    @Override
+    public void delete(user_details userDetails) {
+        this.user_detailsRepository.delete(userDetails);
+    }
+
     //Define and initialize internal attribute (DAO layer)
     private final user_detailsRepository user_detailsRepository;
     @Autowired

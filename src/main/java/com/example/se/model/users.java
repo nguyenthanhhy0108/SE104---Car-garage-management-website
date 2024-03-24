@@ -25,7 +25,8 @@ public class users {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.PERSIST,
-            CascadeType.REFRESH
+            CascadeType.REFRESH,
+            CascadeType.REMOVE
     })
     private user_details userDetails;
 
@@ -34,7 +35,7 @@ public class users {
             CascadeType.MERGE,
             CascadeType.PERSIST,
             CascadeType.REFRESH
-    }, fetch = FetchType.EAGER)
+    })
     private List<authorities> authorities;
 
     public users() {
