@@ -1,5 +1,7 @@
 package com.example.se.service.impl;
 
+import com.example.se.model.authorities;
+import com.example.se.repository.authoritiesRepository;
 import com.example.se.repository.usersRepository;
 import com.example.se.model.users;
 import com.example.se.service.usersService;
@@ -12,9 +14,11 @@ public class usersServiceImpl implements usersService {
 
     //Define and initialize internal attribute (DAO layer)
     private final usersRepository usersRepository;
+    private final authoritiesRepository authoritiesRepository;
     @Autowired
-    public usersServiceImpl(usersRepository usersRepository) {
+    public usersServiceImpl(usersRepository usersRepository, authoritiesRepository authoritiesRepository) {
         this.usersRepository = usersRepository;
+        this.authoritiesRepository = authoritiesRepository;
     }
 
     //Use DAO attribute to get list users from database
@@ -36,5 +40,14 @@ public class usersServiceImpl implements usersService {
         new_user.setPassword(newPassword);
         usersRepository.save(new_user);
         return new_user;
+    }
+
+    @Override
+    public void delete(users users) {
+        List<authorities> temp = this.authoritiesRepository.findByUsername(users.getUsername());
+        if(!temp.isEmpty()){
+            this.authoritiesRepository.deleteAll(temp);
+        }
+        this.usersRepository.delete(users);
     }
 }

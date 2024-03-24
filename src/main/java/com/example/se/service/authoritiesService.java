@@ -8,4 +8,5 @@ import java.util.List;
 public interface authoritiesService {
     List<authorities> findByUsername(String username);
     authorities save(authorities Authorities);
+    void delete(authorities authorities);
 }
