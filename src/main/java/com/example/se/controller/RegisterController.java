@@ -59,7 +59,7 @@ public class RegisterController {
         model.addAttribute("email", email);
 
         if (!UsersList.isEmpty() && !userDetailsList.isEmpty()) {
-            model.addAttribute("email_used", "Email are already used");
+            model.addAttribute("email_used", "Email is already used");
             model.addAttribute("username_used", "Phone number is already used");
             return "register";
         }
