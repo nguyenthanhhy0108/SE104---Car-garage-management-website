@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "USERDETAILS")
-public class user_details {
+public class userDetails {
     @Id
     @Column(name = "Username")
     private String username;
@@ -25,10 +25,17 @@ public class user_details {
     @Column(name = "Nationality")
     private String nationality;
 
-    public user_details() {
+    public userDetails() {
     }
 
-    public user_details(String username, String email, String name, String nationality) {
+    /**
+     * Constructor
+     * @param username: String
+     * @param email: String
+     * @param name: String
+     * @param nationality: String
+     */
+    public userDetails(String username, String email, String name, String nationality) {
         this.username = username;
         this.email = email;
         this.name = name;
