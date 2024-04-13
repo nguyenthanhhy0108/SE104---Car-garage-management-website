@@ -1,7 +1,5 @@
 package com.example.se.controller;
 
-import com.example.se.model.authorities;
-import com.example.se.model.users;
 import com.example.se.service.authoritiesService;
 import com.example.se.service.usersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,22 +7,36 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class LoginController {
+public class loginController {
     usersService service;
     authoritiesService authoritiesService;
+
+    /**
+     * Dependency Injection
+     * @param service: usersService object
+     * @param authoritiesService: authoritiesService object
+     */
     @Autowired
-    public LoginController(usersService service, authoritiesService authoritiesService) {
+    public loginController(usersService service, authoritiesService authoritiesService) {
         this.service = service;
         this.authoritiesService = authoritiesService;
     }
 
-    //Redirect to login page
+    /**
+     * Redirect to login page
+     * @return
+     * login.html
+     */
     @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
 
-    //Redirect ro home page
+    /**
+     * Redirect to home page
+     * @return
+     * home.html
+     */
     @GetMapping("/home")
     public String homePage() {
 //        List<users> users = service.findByUsername("0941609091");
@@ -46,8 +58,8 @@ public class LoginController {
 //            System.out.println(users.get(0).getAuthorities().get(i).getAuthority());
 //        }
 
-        users temp = service.findByUsername("1").get(0);
-        service.delete(temp);
+//        users temp = service.findByUsername("1").get(0);
+//        service.delete(temp);
         return "home";
     }
 }

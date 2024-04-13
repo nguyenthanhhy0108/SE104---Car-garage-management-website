@@ -1,16 +1,15 @@
 package com.example.se.controller;
 
-import com.example.se.config.SecurityConfig;
+import com.example.se.config.securityConfig;
 import com.example.se.model.users;
-import com.example.se.model.verification_email_structure;
-import com.example.se.service.emailSenderService;
-import com.example.se.service.user_detailsService;
+import com.example.se.model.verificationEmailStructure;
+import com.example.se.service.emailService;
+import com.example.se.service.userDetailsService;
 import com.example.se.service.usersService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,58 +19,79 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class ForgetPasswordController {
+public class forgetPasswordController {
     //Internal attribute for sending mail
-    private final emailSenderService emailSenderService;
+    private final emailService emailService;
     //2 Internal attributes for getting user information
-    private final user_detailsService userDetailsService;
+    private final userDetailsService userDetailsService;
     private final usersService usersService;
     //Internal attribute for mail content structure
-    private verification_email_structure verificationEmailStructure = new verification_email_structure();
+    private verificationEmailStructure verificationEmailStructure = new verificationEmailStructure();
     //Internal attributes for password retrieval and change
-    private final PasswordEncoder encoder = SecurityConfig.passwordEncoder();
+    private final PasswordEncoder encoder = securityConfig.passwordEncoder();
     private String username;
 
-    //Initialize internal attribute
+    /**
+     * Dependency Injection
+     * @param emailService: emailSenderService object
+     * @param userDetailsService: user_detailsService object
+     * @param usersService: usersService object
+     */
     @Autowired
-    public ForgetPasswordController(com.example.se.service.emailSenderService emailSenderService, user_detailsService userDetailsService, usersService usersService) {
-        this.emailSenderService = emailSenderService;
+    public forgetPasswordController(emailService emailService,
+                                    userDetailsService userDetailsService,
+                                    usersService usersService) {
+        this.emailService = emailService;
         this.userDetailsService = userDetailsService;
         this.usersService = usersService;
     }
 
-    //Redirect to forget password page
+    /**
+     * Redirect to forget password page
+     * @return
+     * password.html
+     */
     @GetMapping("/password")
     public String passwordPage(){return "password";}
 
-    //Process after submit former form
+    /**
+     * Process after submit forgot password form
+     * @param formId: RequestParam
+     * @param request: HttpServletRequest
+     * @param response: HttpServletResponse
+     * @param model: Model for interacting with UI
+     * @return
+     * ResponseEntity
+     */
     @PostMapping("/password")
-    /*
-    Input: Request from client
-    Output: Response entity contain response body and http status
-    Output form1 contains: - "Fail" - Boolean
-                           - "notExist" - Boolean
-                           - "notMatch" - Boolean
-                           - "email" - String
-                           - "username" - String
+    public ResponseEntity<Map<String, Object>> process(@RequestParam("formId") String formId,
+                                                       HttpServletRequest request,
+                                                       HttpServletResponse response,
+                                                       Model model){
+        /*
+        Input: Request from client
+        Output: Response entity contain response body and http status
+        Output form1 contains: - "Fail" - Boolean
+                               - "notExist" - Boolean
+                               - "notMatch" - Boolean
+                               - "email" - String
+                               - "username" - String
 
-    Output form2 contains: - "Fail" - Boolean
-                           - "expiredCode" - String
-                           - "wrongCode" - String
+        Output form2 contains: - "Fail" - Boolean
+                               - "expiredCode" - String
+                               - "wrongCode" - String
 
-    Output form1 contains: - "Fail" - Boolean
-                           - "overlapped" - String
-                           - "successful" - String
-    */
-    public ResponseEntity<Map<String, Object>> process(@RequestParam("formId") String formId, HttpServletRequest request, HttpServletResponse response, Model model){
+        Output form1 contains: - "Fail" - Boolean
+                               - "overlapped" - String
+                               - "successful" - String
+        */
         Map<String, Object> resposeMap = new HashMap<>();
         if ("form1".equals(formId)) {
-            this.verificationEmailStructure = new verification_email_structure();
+            this.verificationEmailStructure = new verificationEmailStructure();
             boolean fail = false;
             resposeMap.put("Fail", false);
             resposeMap.put("notExist", false);
@@ -81,17 +101,14 @@ public class ForgetPasswordController {
             String username_from_client = request.getParameter("username");
 
             //Check username exist
-            if(usersService.findByUsername(username_from_client).isEmpty()){
+            if(!usersService.checkUsernameExist(username_from_client)){
                 resposeMap.put("notExist", true);
                 resposeMap.put("Fail", true);
                 fail = true;
             }
             else{
                 //Check username match with email received
-                if(!userDetailsService.findByUsername(username_from_client)
-                        .get(0)
-                        .getEmail()
-                        .equals(email_from_client)){
+                if(!userDetailsService.checkEmailMatchUsername(email_from_client, username_from_client)){
                     resposeMap.put("notMatch", true);
                     resposeMap.put("Fail", true);
                     fail = true;
@@ -101,10 +118,8 @@ public class ForgetPasswordController {
                 //Create a verification code and put it into mail message
                 //Record time sending mail
                 //Send mail
-                this.verificationEmailStructure.setVerification_code(emailSenderService.randomVerificationCode());
-                this.verificationEmailStructure.replace_code();
-                this.verificationEmailStructure.setSent_time(LocalDateTime.now());
-                emailSenderService.sendEmail(email_from_client, this.verificationEmailStructure);
+                emailService.prepareMail(this.verificationEmailStructure);
+                emailService.sendEmail(email_from_client, this.verificationEmailStructure);
             }
             //Return some attribute
 
@@ -131,11 +146,8 @@ public class ForgetPasswordController {
                     + request.getParameter("char2")
                     + request.getParameter("char3")
                     + request.getParameter("char4");
-
-            //Get current time
-            LocalDateTime now = LocalDateTime.now();
             //Check expired code and response
-            if(now.isAfter(this.verificationEmailStructure.getSent_time().plusMinutes(30))){
+            if(emailService.checkVerificationCodeExpired(this.verificationEmailStructure)){
                 fail = true;
                 resposeMap.put("expiredCode", true);
                 resposeMap.put("Fail", true);
@@ -143,7 +155,7 @@ public class ForgetPasswordController {
             }
             else{
                 //Check code (true, false)
-                if(!codeFromClient.equals(this.verificationEmailStructure.getVerification_code())){
+                if(!emailService.checkVerificationCodeMatch(codeFromClient, this.verificationEmailStructure)){
                     fail = true;
                     resposeMap.put("wrongCode", true);
                     resposeMap.put("Fail", true);

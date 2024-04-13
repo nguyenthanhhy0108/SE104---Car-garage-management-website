@@ -28,7 +28,7 @@ public class users {
             CascadeType.REFRESH,
             CascadeType.REMOVE
     })
-    private user_details userDetails;
+    private com.example.se.model.userDetails userDetails;
 
     @OneToMany(mappedBy = "users", cascade = {
             CascadeType.DETACH,
@@ -41,12 +41,22 @@ public class users {
     public users() {
     }
 
+    /**
+     * Constructor
+     * @param username: String
+     * @param password: BCrypt-String
+     * @param enabled: Integer
+     */
     public users(String username, String password, int enabled) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
     }
 
+    /**
+     * Add authority
+     * @param authorities: authorities object
+     */
     public void add(authorities authorities){
         if(this.authorities == null){
             this.authorities = new ArrayList<>();
