@@ -22,19 +22,10 @@ function popupDialog(title, content){
             dialog.classList.add('hide');
             dialog.addEventListener('webkitAnimationEnd', function(){
                     dialog.classList.remove('hide');
-                    dialog.close();
+                    dialog.classList.remove('show')
+                    dialog.close()
                     dialog.removeEventListener('webkitAnimationEnd',  arguments.callee, false);}
                 , false);
         }
     });
-}
-
-//Loading
-function showLoading() {
-    console.log('show loading')
-    $('.loading-overlay').fadeIn(); // Hiển thị hiệu ứng loading
-}
-
-function hideLoading() {
-    $('.loading-overlay').fadeOut(); // Ẩn hiệu ứng loading
 }
