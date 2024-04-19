@@ -3,21 +3,281 @@
                 xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Title</title>
+    <title>Home - Pocket Garage</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+
+    <link  rel="stylesheet" href="../style.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="profile.css"/>
+
+    <style>
+        th{
+            color: #FFF;
+            background-color: #6fa9f5;
+            cursor: pointer;
+        }
+        .hidden{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
+    </style>
 </head>
 
-<body>
-    <h1>This is home page</h1>
+<body id="body-pd">
+<div class="container-lg p-0">
+    <!-- <div class="row no-gutters p-5"> -->
+    <header class="header" id="header">
+        <div id="main-screen-header" class="col" style="margin: 0;box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); margin: 0;">
+            <div class="row align-items-center">
 
-    <p>
-        User: <span sec:authentication="principal.username"></span>
-    </p>
+                <div class="header_toggle" style="padding: 1rem;">
+                    <i class='bx bx-menu' id="header-toggle">
+                        <span id="menu-open" class="material-symbols-outlined show">menu</span>
+                        <span id="menu-close" class="material-symbols-outlined hidden">close</span>
+                    </i>
+                </div>
+                <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
 
-    <form method="POST" th:action="@{/logout}">
-        <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
-        <button type="submit">Logout</button>
-    </form>
+                <div class="col text-center" style="font-size: 2rem; padding: 1rem; font-weight: bolder;">Order Management</div>
+                <div class="col-lg-2 d-flex align-items-center">
+                    <i class="material-symbols-outlined" style="font-size: 2rem;">settings_heart</i>
+                    <div style="width: 1vw;"></div>
+                    <span>Hello, Name</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="#" class="nav_logo">
+                    <img class='bx bx-layer nav_logo-icon' src="/graphics/logo-house.png" height="50" alt="logo">
+                    <span class="nav_logo-name">Pocket Garage</span>
+                </a>
+                <div class="nav_list">
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-order-alt nav_icon'>
+                            <span class="material-symbols-outlined show">list_alt</span>
+                        </i>
+                        <span class="nav_name">Order Management</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-user nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Users</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-message-square-detail nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Messages</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-bookmark nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Bookmark</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-folder nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Files</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-bar-chart-alt-2 nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Stats</span>
+                    </a>
+                </div>
+            </div>
+            <a href="#" class="nav_link">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="nav_name">SignOut</span>
+            </a>
+        </nav>
+    </div>
+
+    <div id="main-screen" class="col-lg height-100 bg-light">
+        <dialog id="dialog">
+            <h2 id="dialogTitle"></h2>
+            <p id="dialogContent"></p>
+        </dialog>
+
+        <!-- Biểu mẫu 1 -->
+        <div id="main-screen-content-order">
+            <!-- DATA TABLE -->
+            <div class="container" id="dataTable" style="z-index: 0;">
+                <div class="row">
+                    <div class="col">
+                        <div class="card-body">
+                            <input id="search-input" class="form-control" type="text" placeholder="Search by customer's name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col"style="overflow-x: auto;">
+                        <div class="table-responsive"">
+                        <table class="table table-striped table-bordered">
+                            <thead class="table-header">
+                            <th data-column="Name" data-order="desc">Name &#9650</th>
+                            <th data-column="Phone" data-order="desc">Phone Number &#9650</th>
+                            <th data-column="Email" data-order="desc">Email &#9650</th>
+                            <th data-column="Adress">Address</th>
+                            <th data-column="Vehicle license number" data-order="desc">License Number &#9650</th>
+                            <th data-column="Vehicle brand" data-order="desc">Brand &#9650</th>
+                            <th data-column="Date" data-order="desc">Date &#9650</th>
+                            <th data-column="Change">Change</th>
+                            </thead>
+                            <tbody id="myTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-end" style="padding: 1rem;">
+                <div class="col-auto d-grid">
+                    <button id="addData" class="btn btn-success btn-md" style="width: 100px;">Add</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM ADD -->
+        <div class="container form-up hidden" id="formAdd">
+            <div>
+                <div class="card" style=" padding-left:0 ;padding-right: 0;">
+                    <div class="card-header d-flex justify-content-between">
+                        <span class="header-text">Add Order</span>
+                        <span class="material-symbols-outlined" id="closeForm"  style="cursor: pointer;">close</span>
+                    </div>
+                    <div class="card-body" style="padding-bottom: 1rem;">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="addName" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="addName" placeholder="customer's name">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="addDate" class="form-label">Date</label>
+                                    <input type="text" class="form-control" id="addDate" placeholder="ordering date">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="addPhone" class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" id="addPhone" placeholder="customer's phone number" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="addEmail" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="addEmail" placeholder="customer's email address">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="addAdress" class="form-label">Adress</label>
+                                <input type="text" class="form-control" id="addAdress" placeholder="customer's address">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="addVeID" class="form-label">Vehicle's license number</label>
+                                    <input type="text" class="form-control" id="addVeID" placeholder="vehicle's license number" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="addBrand" class="form-label">Vehicle's brand</label>
+                                    <select id="addBrand" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>Toyota</option>
+                                        <option>Suzuki</option>
+                                        <option>Ford</option>
+                                        <option>Yamaha</option>
+                                        <option>Honda</option>
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
+                        <button class="btn btn-md btn-primary" type="submit">Submit form</button>
+                    </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM CHANGE -->
+        <div class="container form-up hidden" id="formChange">
+            <div>
+                <div class="card" style=" padding-left:0 ;padding-right: 0;">
+                    <div class="card-header d-flex justify-content-between">
+                        <span class="header-text">Change data information</span>
+                        <span class="material-symbols-outlined" id="closeFormChange"  style="cursor: pointer;">close</span>
+                    </div>
+                    <div class="card-body" style="padding-bottom: 1rem;">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="changeName" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="changeName" placeholder="customer's name">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="changeDate" class="form-label">Date</label>
+                                    <input type="text" class="form-control" id="changeDate" placeholder="ordering date" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="addPhone" class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" id="changePhone" placeholder="customer's phone number" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="changeEmail" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="changeEmail" placeholder="customer's email address">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="changeAdress" class="form-label">Adress</label>
+                                <input type="text" class="form-control" id="changeAdress" placeholder="customer's address">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="changeVeID" class="form-label">Vehicle's license number</label>
+                                    <input type="text" class="form-control" id="changeVeID" placeholder="vehicle's license number" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="changeBrand" class="form-label">Vehicle's brand</label>
+                                    <select id="changeBrand" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>Toyota</option>
+                                        <option>Suzuki</option>
+                                        <option>Ford</option>
+                                        <option>Yamaha</option>
+                                        <option>Honda</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
+                                <button class="btn btn-md btn-primary" type="submit">Submit form</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- </div> -->
+</div>
+<script src="/home/profile.js"></script>
+<script src="/all.js"></script>
 </body>
 
 </html>
