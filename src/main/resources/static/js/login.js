@@ -50,4 +50,3 @@ function showLoginMessage() {
 }
 
 window.onload = showLoginMessage;
-

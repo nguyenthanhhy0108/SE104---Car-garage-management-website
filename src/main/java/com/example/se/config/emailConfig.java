@@ -8,8 +8,12 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
-public class EmailConfig {
-    //Config email sender, protocol
+public class emailConfig {
+    /**
+     * Config email sender, protocol
+     * @return
+     * JavaMailSenderImpl object
+     */
     @Bean
     public JavaMailSender getJavaMailSender() {
         //Protocol: SMTP

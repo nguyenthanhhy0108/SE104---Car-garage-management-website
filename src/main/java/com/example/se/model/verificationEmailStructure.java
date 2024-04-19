@@ -6,13 +6,13 @@ import java.time.LocalDateTime;
 
 //Class for defining and initializing email structure
 @Data
-public class verification_email_structure {
+public class verificationEmailStructure {
     private String subject;
     private String message;
     private String verification_code;
     private LocalDateTime sent_time;
 
-    public verification_email_structure() {
+    public verificationEmailStructure() {
         //Initialize mail subject
         this.subject = "SE verification code";
         //Initialize mail content
