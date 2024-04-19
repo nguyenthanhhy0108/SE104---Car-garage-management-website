@@ -1,5 +1,5 @@
 package com.example.se.failureHandler;
-import com.example.se.config.SecurityConfig;
+import com.example.se.config.securityConfig;
 import com.example.se.model.users;
 import com.example.se.service.usersService;
 import jakarta.servlet.ServletException;
@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -17,19 +16,39 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
-public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    //Identify internal attribute
-    @Autowired
-    private usersService UsersService;
-    //Global PasswordEncoder from SecurityConfig
-    private final PasswordEncoder encoder = SecurityConfig.passwordEncoder();
+public class customAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-    //Handle login error
-    //Get some parameter form login form
-    //Set username into login form to help end user
-    //Check username and password in database and set error message if it existed
+    private final usersService UsersService;
+    //Global PasswordEncoder from securityConfig
+    private final PasswordEncoder encoder = securityConfig.passwordEncoder();
+
+    /**
+     * Dependency Injection
+     * @param usersService: usersService object
+     */
+    @Autowired
+    public customAuthenticationFailureHandler(usersService usersService) {
+        UsersService = usersService;
+    }
+
+    /**
+     * Handle login error
+     * @param request: HttpServletRequest object
+     * @param response: HttpServletResponse object
+     * @param exception: AuthenticationException object
+     * @throws IOException
+     * Exception on in-output process
+     * @throws ServletException
+     * Exception when execute
+     */
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        AuthenticationException exception) throws IOException, ServletException {
+        //Handle login error
+        //Get some parameter form login form
+        //Set username into login form to help end user
+        //Check username and password in database and set error message if it existed
         super.onAuthenticationFailure(request, response, exception);
 
         String username = request.getParameter("username");
