@@ -8,7 +8,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
 
-    <link  rel="stylesheet" href="../style.css"/>
+    <link  rel="stylesheet" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="profile.css"/>
 
@@ -55,7 +55,7 @@
         <nav class="nav">
             <div>
                 <a href="#" class="nav_logo">
-                    <img class='bx bx-layer nav_logo-icon' src="/graphics/logo-house.png" height="50" alt="logo">
+                    <img class='bx bx-layer nav_logo-icon' th:src="@{/graphics/logo-house.png}" height="50" alt="logo">
                     <span class="nav_logo-name">Pocket Garage</span>
                 </a>
                 <div class="nav_list">
@@ -272,10 +272,10 @@
 
 
 </div>
- </div>
 </div>
-<script src="/home/profile.js"></script>
-<script src="/all.js"></script>
+</div>
+<script type="text/javascript" th:src="@{/home/profile.js}"></script>
+<script type="text/javascript" th:src="@{/all.js}"></script>
 </body>
 
 </html>
