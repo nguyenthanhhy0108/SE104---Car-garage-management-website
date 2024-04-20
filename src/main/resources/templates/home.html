@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Home - Pocket Garage</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <link  rel="stylesheet" th:href="@{/css/style.css}"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/home.css}"/>
 
     <style>
@@ -55,7 +56,7 @@
         <nav class="nav">
             <div>
                 <a href="#" class="nav_logo">
-                    <img class='bx bx-layer nav_logo-icon' th:src="@{/graphics/logo-house.png}" height="50" alt="logo">
+                    <img class='bx bx-layer nav_logo-icon' th:src="@{/images/logo-house.png}" height="50" alt="logo">
                     <span class="nav_logo-name">Pocket Garage</span>
                 </a>
                 <div class="nav_list">
@@ -203,10 +204,10 @@
                         <button class="btn btn-md btn-primary" type="submit">Submit form</button>
                     </div>
                         </form>
+                    </div>
                 </div>
             </div>
         </div>
-
         <!-- FORM CHANGE -->
         <div class="container form-up hidden" id="formChange">
             <div>
