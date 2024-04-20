@@ -245,10 +245,6 @@ a {
     font-size: 1.25rem;
 }
 
-.show {
-    left: 0;
-}
-
 .body-pd {
     padding-left: calc(var(--nav-width) + 1rem);
 }
