@@ -4,82 +4,98 @@ GO
 use SE104
 go
 
+
 -- Owners Table
-CREATE TABLE Owners (
-    OwnerID INT IDENTITY PRIMARY KEY,
-    OwnerName VARCHAR(255),
-    OwnerAddress VARCHAR(255),
-    OwnerPhoneNumber VARCHAR(20),
-    OwnerEmail VARCHAR(255)
+CREATE TABLE OWNERS (
+                        OwnerID INT IDENTITY PRIMARY KEY,
+                        OwnerName VARCHAR(255),
+                        OwnerAddress VARCHAR(255),
+                        OwnerPhoneNumber VARCHAR(20),
+                        OwnerEmail VARCHAR(255)
 );
+
+
 
 -- Brands Table
-CREATE TABLE Brands (
-    BrandID INT IDENTITY PRIMARY KEY,
-    BrandName VARCHAR(255)
+CREATE TABLE BRANDS (
+                        BrandID INT IDENTITY PRIMARY KEY,
+                        BrandName VARCHAR(255)
 );
+
 
 -- Cars Table
-CREATE TABLE Cars (
-    CarID INT IDENTITY PRIMARY KEY,
-    LicensePlate VARCHAR(20) NOT NULL,
-    OwnerID INT,
-    BrandID INT,
-    FOREIGN KEY (OwnerID) REFERENCES Owners(OwnerID),
-    FOREIGN KEY (BrandID) REFERENCES Brands(BrandID)
+CREATE TABLE CARS (
+                      CarID INT IDENTITY PRIMARY KEY,
+                      LicensePlate VARCHAR(20) NOT NULL,
+                      OwnerID INT,
+                      BrandID INT,
+                      FOREIGN KEY (OwnerID) REFERENCES OWNERS(OwnerID),
+                      FOREIGN KEY (BrandID) REFERENCES BRANDS(BrandID)
 );
+
 
 -- Repair Orders Table
-CREATE TABLE RepairOrders (
-    OrderNumber INT IDENTITY PRIMARY KEY,
-    CarID INT,
-    Date DATE,
-    AmountOwed DECIMAL(10, 2),
-    PaymentDate DATE,
-    AmountPaid DECIMAL(10, 2),
-    FOREIGN KEY (CarID) REFERENCES Cars(CarID)
+CREATE TABLE REPAIR_ORDERS (
+                               OrderNumber INT IDENTITY PRIMARY KEY,
+                               CarID INT,
+                               Date DATE,
+                               AmountOwed DECIMAL(10, 2),
+                               PaymentDate DATE,
+                               AmountPaid DECIMAL(10, 2),
+                               FOREIGN KEY (CarID) REFERENCES CARS(CarID)
 );
 
+
 -- Maintenance Records Table
-CREATE TABLE MaintenanceRecords (
-    RecordID INT IDENTITY PRIMARY KEY,
-    CarID INT,
-    DateReceived DATE,
-    FOREIGN KEY (CarID) REFERENCES Cars(CarID)
+CREATE TABLE MAINTENANCE_RECORDS (
+                                     RecordID INT IDENTITY PRIMARY KEY,
+                                     CarID INT,
+                                     DateReceived DATE,
+                                     FOREIGN KEY (CarID) REFERENCES CARS(CarID)
 );
 
 -- Parts Table
-CREATE TABLE Parts (
-    PartID INT IDENTITY PRIMARY KEY,
-    PartName VARCHAR(255),
-    PartPrice DECIMAL(10, 2)
+CREATE TABLE PARTS (
+                       PartID INT IDENTITY PRIMARY KEY,
+                       PartName VARCHAR(255),
+                       PartPrice DECIMAL(10, 2)
 );
 
+
 -- Services Table
-CREATE TABLE Services (
-    ServiceID INT IDENTITY PRIMARY KEY,
-    ServiceName VARCHAR(255),
-    ServiceCost DECIMAL(10, 2)
+CREATE TABLE SERVICES (
+                          ServiceID INT IDENTITY PRIMARY KEY,
+                          ServiceName VARCHAR(255),
+                          ServiceCost DECIMAL(10, 2)
 );
 
 -- RepairOrderParts Junction Table
-CREATE TABLE RepairOrderParts (
+CREATE TABLE REPAIR_ORDERS_PARTS (
     OrderNumber INT,
     PartID INT,
     Quantity INT,
-    FOREIGN KEY (OrderNumber) REFERENCES RepairOrders(OrderNumber),
-    FOREIGN KEY (PartID) REFERENCES Parts(PartID),
+    FOREIGN KEY (OrderNumber) REFERENCES REPAIR_ORDERS(OrderNumber),
+    FOREIGN KEY (PartID) REFERENCES PARTS(PartID),
     PRIMARY KEY (OrderNumber, PartID)
 );
 
 -- RepairOrderServices Junction Table
-CREATE TABLE RepairOrderServices (
+CREATE TABLE REPAIR_ORDER_SERVICES (
     OrderNumber INT,
     ServiceID INT,
-    FOREIGN KEY (OrderNumber) REFERENCES RepairOrders(OrderNumber),
-    FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID),
+    FOREIGN KEY (OrderNumber) REFERENCES REPAIR_ORDERS(OrderNumber),
+    FOREIGN KEY (ServiceID) REFERENCES SERVICES(ServiceID),
     PRIMARY KEY (OrderNumber, ServiceID)
 );
+
+
+ALTER TABLE OWNERS
+    ADD Username VARCHAR(50);
+
+ALTER TABLE OWNERS
+    ADD CONSTRAINT FK_Owners_Users
+        FOREIGN KEY (Username) REFERENCES USERS(Username);
+
 
 create table USERS(
                       Username varchar(50) primary key,
@@ -110,11 +126,3 @@ create table USERDETAILS(
 
 
 insert into USERDETAILS(Username, Email, Name, Nationality) values ('0941609091', '22520593@gm.uit.edu.vn', 'Nguyen Thanh Hy','Viet Nam');
-
-
-ALTER TABLE Owners
-ADD Username VARCHAR(50);
-
-ALTER TABLE Owners
-ADD CONSTRAINT FK_Owners_Users
-FOREIGN KEY (Username) REFERENCES USERS(Username);

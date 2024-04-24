@@ -28,7 +28,7 @@ public class users {
             CascadeType.REFRESH,
             CascadeType.REMOVE
     })
-    private com.example.se.model.userDetails userDetails;
+    private userDetails userDetails;
 
     @OneToMany(mappedBy = "users", cascade = {
             CascadeType.DETACH,
@@ -37,6 +37,14 @@ public class users {
             CascadeType.REFRESH
     })
     private List<authorities> authorities;
+
+    @OneToMany(mappedBy = "users", cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
+    private List<owners> ownersList;
 
     public users() {
     }
