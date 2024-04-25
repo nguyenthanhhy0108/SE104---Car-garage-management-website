@@ -9,6 +9,7 @@ public class cars {
 
     @Id
     @Column(name = "CarID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int carID;
 
     @Column(name = "LicensePlate")

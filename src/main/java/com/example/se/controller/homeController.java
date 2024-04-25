@@ -18,6 +18,11 @@ public class homeController {
     private final userDetailsService userDetailsService;
     private final usersService userService;
 
+    /**
+     * Dependency Injection
+     * @param userDetailsService: userDetailsService object
+     * @param userService: usersService object
+     */
     @Autowired
     public homeController(userDetailsService userDetailsService,
                           usersService userService) {

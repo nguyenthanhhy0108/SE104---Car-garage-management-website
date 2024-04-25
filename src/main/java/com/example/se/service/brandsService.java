@@ -1,12 +1,8 @@
-package com.example.se.repository;
+package com.example.se.service;
 
 import com.example.se.model.brands;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface brandsRepository extends JpaRepository<brands, Integer> {
-
+public interface brandsService {
     /**
      * Find brand by brand ID
      * @param brandID: int
@@ -22,4 +18,12 @@ public interface brandsRepository extends JpaRepository<brands, Integer> {
      * brands object
      */
     brands findByBrandName(String brandName);
+
+    /**
+     * Save method
+     * @param brands: brands object
+     * @return
+     * brands object which was saved
+     */
+    brands save(brands brands);
 }

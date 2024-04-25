@@ -11,6 +11,7 @@ public class owners {
 
     @Id
     @Column(name = "OwnerID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ownerID;
 
     @Column(name = "OwnerName")

@@ -1,11 +1,8 @@
-package com.example.se.repository;
+package com.example.se.service;
 
 import com.example.se.model.owners;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ownersRepository extends JpaRepository<owners, Integer> {
+public interface ownersService {
     /**
      * Find owner by owner ID
      * @param ownerID: int
@@ -21,4 +18,13 @@ public interface ownersRepository extends JpaRepository<owners, Integer> {
      * owners object
      */
     owners findByUsername(String username);
+
+    /**
+     * Save owners to database
+     * @param owners owners object
+     * @return
+     * owners object which was saved
+     */
+    owners save(owners owners);
 }
+
