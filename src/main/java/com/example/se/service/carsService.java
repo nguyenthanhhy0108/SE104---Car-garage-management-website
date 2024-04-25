@@ -1,14 +1,10 @@
-package com.example.se.repository;
+package com.example.se.service;
 
 import com.example.se.model.cars;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface carsRepository extends CrudRepository<cars, Integer> {
-
+public interface carsService {
     /**
      * Find by car ID
      * @param carId: int
@@ -24,4 +20,12 @@ public interface carsRepository extends CrudRepository<cars, Integer> {
      * A list of cars object
      */
     List<cars> findByLicensePlate(String licensePlate);
+
+    /**
+     * Save method
+     * @param cars: cars object
+     * @return
+     * Cars which was saved
+     */
+    cars save(cars cars);
 }

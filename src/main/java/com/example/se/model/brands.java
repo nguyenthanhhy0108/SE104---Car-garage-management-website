@@ -11,6 +11,7 @@ public class brands {
 
     @Id
     @Column(name = "BrandID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int brandID;
 
     @Column(name = "BrandName")
