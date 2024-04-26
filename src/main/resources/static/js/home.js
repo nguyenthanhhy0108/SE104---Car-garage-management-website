@@ -72,26 +72,6 @@ async function fetchData() {
             }
             return filteredData
         }
-
-        function getDataFromServer() {
-            $.ajax({
-                method: 'GET',
-                url: '/data', // Thay thế đường dẫn với URL của dữ liệu JSON trên máy chủ của bạn
-                dataType: 'json',
-                success: function(response) {
-                    // Xử lý dữ liệu JSON được nhận từ máy chủ ở đây
-                    console.log('Data from server:', response);
-                    return response
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching data:', error);
-                }
-            });
-        }
-
-
-
-
 // Build Table function
         function addRow(data){
             // console.log(`${data.ID}`)
@@ -132,11 +112,7 @@ async function fetchData() {
         }
         buildTable(test)
 
-        function sendDeleteData(){
-
-        }
-
-// Delete data fucntion
+    // Delete data fucntion
         function deleteData(){
             // console.log("deldata called")
             var dataID = $(this).data('id')
