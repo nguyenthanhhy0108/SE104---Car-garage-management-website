@@ -34,5 +34,11 @@ public interface ownersService {
      * owners object which was saved
      */
     owners save(owners owners);
+
+    /**
+     * Delete by owner ID
+     * @param ownerID: int
+     */
+    void deleteByOwnerID(int ownerID);
 }
 

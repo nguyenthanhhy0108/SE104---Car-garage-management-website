@@ -29,4 +29,10 @@ public interface ownersRepository extends JpaRepository<owners, Integer> {
      * owners object
      */
     owners findByOwnerEmail(String email);
+
+    /**
+     * Delete by owner ID
+     * @param ownerID: int
+     */
+    void deleteByOwnerID(int ownerID);
 }
