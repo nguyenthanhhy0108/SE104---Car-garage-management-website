@@ -12,4 +12,12 @@ public interface maintenanceRecordsRepository extends JpaRepository<maintenanceR
      * @param id: int
      */
     void deleteByRecordID(int id);
+
+    /**
+     * Find by record ID
+     * @param id: int
+     * @return
+     * maintenanceRecords object
+     */
+    maintenanceRecords findByRecordID(int id);
 }

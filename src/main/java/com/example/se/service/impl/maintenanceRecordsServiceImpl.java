@@ -5,6 +5,7 @@ import com.example.se.repository.maintenanceRecordsRepository;
 import com.example.se.service.maintenanceRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,9 +36,21 @@ public class maintenanceRecordsServiceImpl implements maintenanceRecordsService 
     }
 
     /**
+     * Implement find by record id method
+     * @param id: int
+     * @return
+     * maintenanceRecords object
+     */
+    @Override
+    public maintenanceRecords findByRecordID(int id) {
+        return this.maintenanceRecordsRepository.findByRecordID(id);
+    }
+
+    /**
      * Implement delete by id method
      * @param id: int
      */
+    @Transactional
     @Override
     public void deleteByRecordID(int id) {
         this.maintenanceRecordsRepository.deleteByRecordID(id);
