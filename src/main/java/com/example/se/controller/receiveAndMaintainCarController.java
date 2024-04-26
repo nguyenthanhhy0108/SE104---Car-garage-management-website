@@ -2,14 +2,13 @@ package com.example.se.controller;
 
 import com.example.se.model.brands;
 import com.example.se.model.cars;
+import com.example.se.model.dataDTO.Form1InformationDTO;
 import com.example.se.model.maintenanceRecords;
 import com.example.se.model.owners;
 import com.example.se.service.maintenanceRecordsService;
 import com.example.se.service.brandsService;
 import com.example.se.service.carsService;
 import com.example.se.service.ownersService;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -32,6 +29,13 @@ public class receiveAndMaintainCarController {
     private final carsService carsService;
     private final brandsService brandsService;
 
+    /**
+     * Dependency Injection
+     * @param maintenanceService: maintenanceRecordsService object
+     * @param ownersService: ownersService object
+     * @param carsService: carsService object
+     * @param brandsService: brandsService object
+     */
     @Autowired
     public receiveAndMaintainCarController(maintenanceRecordsService maintenanceService,
                                            ownersService ownersService,
@@ -43,6 +47,11 @@ public class receiveAndMaintainCarController {
         this.brandsService = brandsService;
     }
 
+    /**
+     * Get all record
+     * @return
+     * A map containing all maintenance records
+     */
     @ResponseBody
     @GetMapping("/get-all-records")
     public ResponseEntity<List<Map<String, Object>>> getAllMaintenanceRecords() {
@@ -94,7 +103,13 @@ public class receiveAndMaintainCarController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/add-form")
+    /**
+     * Process when submit add form 1
+     * @param request: HttpServletRequest object
+     * @return
+     * Redirect to some HTML pages
+     */
+    @PostMapping("/add-form1")
     public String handleFormAdd(HttpServletRequest request) {
 
         String name = request.getParameter("name");
@@ -155,5 +170,103 @@ public class receiveAndMaintainCarController {
         maintenanceRecord = this.maintenanceService.save(maintenanceRecord);
 
         return "redirect:/home";
+    }
+
+    private Form1InformationDTO oldDataChange = new Form1InformationDTO();
+
+    /**
+     * Get old data to compare
+     * @param oldData: DTO from client
+     * @return
+     * Status ok
+     */
+    @PostMapping("/get-old-data-change-form1")
+    public ResponseEntity<Map<String, Object>> getOldData(@RequestBody Form1InformationDTO oldData) {
+        this.oldDataChange = oldData;
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("ok", "ok");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * Process when submit change form 1
+     * @param request: HttpServletRequest object
+     * @return
+     * Redirect to some HTML pages
+     */
+    @PostMapping("/change-form1")
+    public String handleFormChange(HttpServletRequest request) {
+
+        Form1InformationDTO oldData = this.oldDataChange;
+
+        HashMap<String, Object> response = new HashMap<>();
+
+        String name = request.getParameter("change_name");
+        String phone = request.getParameter("change_phone");
+        String email = request.getParameter("change_email");
+        String address = request.getParameter("change_address");
+        String vehicleLicenseNumber = request.getParameter("change_vehicleLicenseNumber");
+        String vehicleBrand = request.getParameter("change_vehicleBrand");
+
+        cars oldCars = this.carsService.findByLicensePlate(oldData.getLicense()).get(0);
+        oldCars.setLicensePlate(vehicleLicenseNumber);
+
+        brands oldBrands = this.brandsService.findByBrandName(oldData.getBrand());
+        int brandID = 0;
+        if(oldBrands.getCarsList().isEmpty()) {
+            oldBrands.setBrandID(oldBrands.getBrandID());
+            oldBrands.setBrandName(vehicleBrand);
+            brandID = this.brandsService.save(oldBrands).getBrandID();
+        }
+        else {
+            brands newBrands = this.brandsService.findByBrandName(vehicleBrand);
+            if(newBrands == null){
+                newBrands = new brands();
+                newBrands.setBrandName(vehicleBrand);
+                brandID = this.brandsService.save(newBrands).getBrandID();
+            }
+            else {
+                brandID = newBrands.getBrandID();
+            }
+        }
+
+        oldCars.setBrandID(brandID);
+
+        owners oldOwner = this.ownersService.findByOwnerEmail(oldData.getEmail());
+        oldOwner.setOwnerID(oldOwner.getOwnerID());
+        oldOwner.setOwnerName(name);
+        oldOwner.setOwnerAddress(address);
+        oldOwner.setOwnerPhoneNumber(phone);
+        oldOwner.setOwnerEmail(email);
+
+        this.ownersService.save(oldOwner);
+        this.carsService.save(oldCars);
+
+        System.out.println(name);
+
+        return "redirect:/home";
+    }
+
+    /**
+     * Delete a row
+     * @param Form1InformationDTO: Form 1 DTO
+     * @return
+     * Status and message
+     */
+    @ResponseBody
+    @PostMapping("/delete-row-form1")
+    public ResponseEntity<Map<String, String>> deleteRowForm1(@RequestBody Form1InformationDTO Form1InformationDTO) {
+        HashMap<String, String> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "success");
+
+        try {
+            this.maintenanceService.deleteByRecordID(Form1InformationDTO.getRecordID());
+        }catch (Exception e) {
+            response.put("status", "fail");
+            response.put("message", e.getMessage());
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -20,6 +20,14 @@ public interface ownersService {
     owners findByUsername(String username);
 
     /**
+     * Find owner by email
+     * @param email: String
+     * @return
+     * owners object
+     */
+    owners findByOwnerEmail(String email);
+
+    /**
      * Save owners to database
      * @param owners owners object
      * @return

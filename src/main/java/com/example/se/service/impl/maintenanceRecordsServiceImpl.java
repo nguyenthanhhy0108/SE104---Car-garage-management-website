@@ -33,4 +33,13 @@ public class maintenanceRecordsServiceImpl implements maintenanceRecordsService 
     public maintenanceRecords save(maintenanceRecords maintenanceRecords) {
         return this.maintenanceRecordsRepository.save(maintenanceRecords);
     }
+
+    /**
+     * Implement delete by id method
+     * @param id: int
+     */
+    @Override
+    public void deleteByRecordID(int id) {
+        this.maintenanceRecordsRepository.deleteByRecordID(id);
+    }
 }

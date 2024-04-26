@@ -19,4 +19,10 @@ public interface maintenanceRecordsService {
      * maintenanceRecords object which was saved
      */
     maintenanceRecords save(maintenanceRecords maintenanceRecords);
+
+    /**
+     * Delete by id
+     * @param id: int
+     */
+    void deleteByRecordID(int id);
 }

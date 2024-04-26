@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -61,6 +62,10 @@ public class securityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception
     {
+        //Disable CSRF and CORS
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.cors(AbstractHttpConfigurer::disable);
+
         //Custom login form
         //Redirect login form to home page
         //Config customAuthenticationFailureHandler
@@ -88,6 +93,10 @@ public class securityConfig {
                         .requestMatchers("/resources/**").permitAll()
                         .requestMatchers("/get-all-records").permitAll()
                         .requestMatchers("/add-form").permitAll()
+                        .requestMatchers("/delete-row-form1").permitAll()
+                        .requestMatchers("/delete-row-form1/**").permitAll()
+                        .requestMatchers("/change-form1").permitAll()
+                        .requestMatchers("/get-old-data-change-form1").permitAll()
                         .requestMatchers("/password").permitAll()
                         .requestMatchers("/test").permitAll()
                         .requestMatchers("/register").permitAll()

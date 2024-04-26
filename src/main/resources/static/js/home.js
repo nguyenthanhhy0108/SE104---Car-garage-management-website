@@ -110,130 +110,150 @@ async function fetchData() {
                             <button class="btn btn-sm btn-success" data-id=${data.ID} id="cancel-${data.ID}">Cancel</button>
                         </div>
                     </td>
-                </tr>`;
-      $("#myTable").append(row);
 
-      $(`#delete-${data.ID}`).on("click", deleteData);
-      $(`#cancel-${data.ID}`).on("click", cancelDeletion);
-      $(`#confirm-${data.ID}`).on("click", confirmDeletion);
-      $(`#change-${data.ID}`).on("click", editData);
-    }
+            </tr>`
+            $('#myTable').append(row)
 
-    function buildTable(data) {
-      console.log("build table called");
-      var table = document.getElementById("myTable");
-      table.innerHTML = "";
-      for (var i in data) {
-        addRow(data[i]);
-      }
-    }
-    buildTable(test);
+            $(`#delete-${data.ID}`).on('click', deleteData)
+            $(`#cancel-${data.ID}`).on('click', cancelDeletion)
+            $(`#confirm-${data.ID}`).on('click', confirmDeletion)
+            $(`#change-${data.ID}`).on('click', editData)
+        }
 
-    // Delete data fucntion
-    function deleteData() {
-      // console.log("deldata called")
-      var dataID = $(this).data("id");
-      var change_del_Btn = $(`#change-del-btn-${dataID}`);
-      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${dataID}`);
+        function buildTable(data){
+            console.log("build table called")
+            var table = document.getElementById('myTable')
+            table.innerHTML = ''
+            for (var i in data){
+                addRow(data[i])
+            }
+        }
+        buildTable(test)
 
-      change_del_Btn.addClass("hidden");
-      change_del_Btn.removeClass("show");
-      cancel_confirm_Btn.addClass("show");
-      cancel_confirm_Btn.removeClass("hidden");
-    }
-    function cancelDeletion() {
-      var dataID = $(this).data("id");
-      var change_del_Btn = $(`#change-del-btn-${dataID}`);
-      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${dataID}`);
+        function sendDeleteData(){
 
-      change_del_Btn.addClass("show");
-      change_del_Btn.removeClass("hidden");
-      cancel_confirm_Btn.addClass("hidden");
-      cancel_confirm_Btn.removeClass("show");
-    }
-    function confirmDeletion() {
-      var dataID = $(this).data("id");
-      var row = $(`.data-row-${dataID}`);
-      row.remove();
+        }
 
-      // handle Backend database
-      // after actually delete the data in database
-      // $.ajax({
-      //     method: 'GET',
-      //     url: , //url send data
-      //     dataType: 'json' ,
-      //     success:function(response){
-      //         data = response.data
-      //         buildTable(data)
-      //         // console.log(data)
-      //     }
-      // })
-      popupDialog("Success", "Data deleted");
-    }
+// Delete data fucntion
+        function deleteData(){
+            // console.log("deldata called")
+            var dataID = $(this).data('id')
+            var change_del_Btn = $(`#change-del-btn-${dataID}`)
+            var cancel_confirm_Btn = $(`#cancel-confirm-btn-${dataID}`)
 
-    // Edit data
-    function editData() {
-      var dataID = $(this).data("id");
-      console.log(dataID);
-      $("#formChange").addClass("show");
-      $("#dataTable").css({
-        opacity: "0.5",
-        "pointer-events": "none",
-      });
+            change_del_Btn.addClass('hidden')
+            change_del_Btn.removeClass('show')
+            cancel_confirm_Btn.addClass('show')
+            cancel_confirm_Btn.removeClass('hidden')
 
-      // Get old data
-      $("#changeName").val($(`#data-name-${dataID}`).text());
-      $("#changePhone").val($(`#data-phone-${dataID}`).text());
-      $("#changeEmail").val($(`#data-email-${dataID}`).text());
-      $("#changeAdress").val($(`#data-address-${dataID}`).text());
-      $("#changeVeID").val($(`#data-license-${dataID}`).text());
-      $("#changeBrand").val($(`#data-brand-${dataID}`).text());
-      $("#changeDate").val($(`#data-date-${dataID}`).text());
-      // submit event
-      console.log("before sub", test);
-      $("#formChange form")
-        .data("id", dataID)
-        .off("submit")
-        .on("submit", function (event) {
-          console.log("dataID sub", dataID);
-          // var datasubID = $(this).data('id')
-          // console.log("submitted")
-          event.preventDefault();
-          var updatedData = {
-            ID: dataID,
-            Name: $("#changeName").val(),
-            Phone: $("#changePhone").val(),
-            Email: $("#changeEmail").val(),
-            Address: $("#changeAdress").val(),
-            "Vehicle license number": $("#changeVeID").val(),
-            "Vehicle brand": $("#changeBrand").val(),
-            Date: $("#changeDate").val(),
-          };
-          console.log("updated data: ", updatedData);
-          updateData(dataID, updatedData);
 
-          $("#formChange").addClass("hidden");
-          $("#formChange").removeClass("show");
-          $("body").css("overflow", "auto");
-          $("#dataTable").css({
-            opacity: "",
-            "pointer-events": "",
-          });
-        });
-      // Handle updatedData to database
+        };
+        function cancelDeletion(){
+            var dataID = $(this).data('id')
+            var change_del_Btn = $(`#change-del-btn-${dataID}`)
+            var cancel_confirm_Btn = $(`#cancel-confirm-btn-${dataID}`)
 
-      // close change form with x
-      $("#closeFormChange").on("click", function () {
-        $("#formChange").addClass("hidden");
-        $("#formChange").removeClass("show");
-        $("body").css("overflow", "auto");
-        $("#dataTable").css({
-          opacity: "",
-          "pointer-events": "",
-        });
-        $("#formChange input").val("");
-      });
-    }
+            change_del_Btn.addClass('show')
+            change_del_Btn.removeClass('hidden')
+            cancel_confirm_Btn.addClass('hidden')
+            cancel_confirm_Btn.removeClass('show')
+        };
+        function confirmDeletion(){
+            var dataID = $(this).data('id');
+
+            var data = getDatasInRow(dataID);
+
+            $.ajax({
+                url: '/delete-row-form1',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    // alert('Data sent successfully:');
+                },
+                error: function(xhr, status, error) {
+                    alert(status + ': ' + error);
+                }
+            });
+
+            var row = $(`.data-row-${dataID}`);
+            row.remove();
+
+            popupDialog("Success", "Data deleted")
+
+        };
+
+
+        function getDatasInRow(dataID){
+            var phoneNumber = document.getElementById("data-phone-" + dataID.toString()).textContent;
+            var name = document.getElementById("data-name-" + dataID.toString()).textContent;
+            var email = document.getElementById("data-email-" + dataID.toString()).textContent;
+            var address = document.getElementById("data-address-" + dataID.toString()).textContent;
+            var license = document.getElementById("data-license-" + dataID.toString()).textContent;
+            var brand = document.getElementById("data-brand-" + dataID.toString()).textContent;
+            var date = document.getElementById("data-date-" + dataID.toString()).textContent;
+
+            return  data = {
+                recordID: dataID,
+                name: name,
+                phone: phoneNumber,
+                email: email,
+                address: address,
+                license: license,
+                brand: brand,
+                date: date
+            };
+        }
+
+// Edit data
+        function editData(){
+            var dataID = $(this).data('id')
+            console.log(dataID)
+            $('#formChange').addClass('show')
+            $('#dataTable').css({
+                'opacity': '0.5',
+                'pointer-events': 'none'
+            });
+
+            var data = getDatasInRow(dataID);
+
+            $.ajax({
+                url: '/get-old-data-change-form1',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    // alert("abc")
+                },
+                error: function(xhr, status, error) {
+                    alert(status + ': ' + error);
+                }
+            });
+
+            // Get old data
+            $("#changeName").val($(`#data-name-${dataID}`).text());
+            $("#changePhone").val($(`#data-phone-${dataID}`).text());
+            $("#changeEmail").val($(`#data-email-${dataID}`).text());
+            $("#changeAdress").val($(`#data-address-${dataID}`).text());
+            $("#changeVeID").val($(`#data-license-${dataID}`).text());
+            $("#changeBrand").val($(`#data-brand-${dataID}`).text());
+            $("#changeDate").val($(`#data-date-${dataID}`).text());
+
+            // close change form with x
+            $('#closeFormChange').on('click', function(){
+                $('#formChange').addClass('hidden');
+                $('#formChange').removeClass('show');
+                $('body').css('overflow', 'auto');
+                $('#dataTable').css({
+                    'opacity': '',
+                    'pointer-events': ''
+                });
+                $('#formChange input').val('');
+            });
+
+        };
+  
+  
     function updateData(dataID, newData) {
       console.log("after sub ", test);
       var index = test.findIndex((item) => item.ID === dataID);
