@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="${_csrf.token}"/>
@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <link  rel="stylesheet" th:href="@{/css/style.css}"/>
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/home.css}"/>
 
@@ -127,28 +127,28 @@
                 <div class="row" >
                     <div class="col" style="overflow-x: auto;">
                         <div class="table-responsive">
-                        <table class="table table-striped table-bordered">
-                            <thead class="table-header">
-                            <th data-column="Name" data-order="desc">Name &#9650</th>
-                            <th data-column="Phone" data-order="desc">Phone Number &#9650</th>
-                            <th data-column="Email" data-order="desc">Email &#9650</th>
-                            <th data-column="Address">Address</th>
-                            <th data-column="Vehicle license number" data-order="desc">License Number &#9650</th>
-                            <th data-column="Vehicle brand" data-order="desc">Brand &#9650</th>
-                            <th data-column="Date" data-order="desc">Date &#9650</th>
-                            <th data-column="Change">Change</th>
-                            </thead>
-                            <tbody id="myTable"></tbody>
-                        </table>
+                            <table class="table table-striped table-bordered">
+                                <thead class="table-header">
+                                <th data-column="Name" data-order="desc">Name &#9650</th>
+                                <th data-column="Phone" data-order="desc">Phone Number &#9650</th>
+                                <th data-column="Email" data-order="desc">Email &#9650</th>
+                                <th data-column="Address">Address</th>
+                                <th data-column="Vehicle license number" data-order="desc">License Number &#9650</th>
+                                <th data-column="Vehicle brand" data-order="desc">Brand &#9650</th>
+                                <th data-column="Date" data-order="desc">Date &#9650</th>
+                                <th data-column="Change">Change</th>
+                                </thead>
+                                <tbody id="myTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-end" style="padding: 1rem;">
+                    <div class="col-auto d-grid">
+                        <button id="addData" class="btn btn-success btn-md" style="width: 100px;">Add</button>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-end" style="padding: 1rem;">
-                <div class="col-auto d-grid">
-                    <button id="addData" class="btn btn-success btn-md" style="width: 100px;">Add</button>
-                </div>
-            </div>
-        </div>
         </div>
         <!-- FORM ADD -->
         <div class="container form-up hidden" id="formAdd">
@@ -193,18 +193,18 @@
                                 <div class="form-group col-md-6">
                                     <label for="addBrand" class="form-label">Vehicle's brand</label>
                                     <input id="addBrand" name="vehicleBrand" class="form-control" placeholder="Vehicle's brand" required>
-<!--                                        <option value="" disabled selected>Choose...</option>-->
-<!--                                        <option value="Toyota">Toyota</option>-->
-<!--                                        <option value="Suzuki">Suzuki</option>-->
-<!--                                        <option value="Ford">Ford</option>-->
-<!--                                        <option value="Yamaha">Yamaha</option>-->
-<!--                                        <option value="Honda">Honda</option>-->
-<!--                                    </select>-->
+                                    <!--                                        <option value="" disabled selected>Choose...</option>-->
+                                    <!--                                        <option value="Toyota">Toyota</option>-->
+                                    <!--                                        <option value="Suzuki">Suzuki</option>-->
+                                    <!--                                        <option value="Ford">Ford</option>-->
+                                    <!--                                        <option value="Yamaha">Yamaha</option>-->
+                                    <!--                                        <option value="Honda">Honda</option>-->
+                                    <!--                                    </select>-->
                                 </div>
                             </div>
-                    <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                        <input class="btn btn-md btn-primary" type="submit" value="Submit form">
-                    </div>
+                            <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
+                                <input class="btn btn-md btn-primary" type="submit" value="Submit form">
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -271,38 +271,38 @@
                 </div>
             </div>
         </div>
-         <!--Biểu mẫu 2-->
+        <!--Biểu mẫu 2-->
         <div id="main-screen-content-order2">
-<!--            <div class="container">-->
-<!--                <div class="row">-->
-<!--                    <div class="col">-->
-<!--                        <div class="card card-group">-->
-<!--                            <form action="" method="">-->
-<!--                                <input type="text" class="search-input" placeholder="Your phone number" />-->
-<!--                                <button class="my-btn">Search</button>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    <div class="col">-->
-<!--                        <div class="table-responsive">-->
-<!--                        <table class="table table-bordered">-->
-<!--                            <thead class="table-header">-->
-<!--                                <th data-column="ID" data-order="asc"># &#9650</th>-->
-<!--                                <th data-column="Vehicle license number" data-order="asc">License Number &#9650</th>-->
-<!--                                <th data-column="Vehicle brand" data-order="asc">Brand &#9650</th>-->
-<!--                                <th data-column="Name">Name </th>-->
-<!--                                <th data-column="Debt" data-order="asc">Debt &#9650</th>-->
-<!--                            </thead>-->
-<!--                            <tbody id="form-2TableBody"></tbody>-->
-<!--                        </table>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-    </div>
+            <!--            <div class="container">-->
+            <!--                <div class="row">-->
+            <!--                    <div class="col">-->
+            <!--                        <div class="card card-group">-->
+            <!--                            <form action="" method="">-->
+            <!--                                <input type="text" class="search-input" placeholder="Your phone number" />-->
+            <!--                                <button class="my-btn">Search</button>-->
+            <!--                            </form>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div class="row">-->
+            <!--                    <div class="col">-->
+            <!--                        <div class="table-responsive">-->
+            <!--                        <table class="table table-bordered">-->
+            <!--                            <thead class="table-header">-->
+            <!--                                <th data-column="ID" data-order="asc"># &#9650</th>-->
+            <!--                                <th data-column="Vehicle license number" data-order="asc">License Number &#9650</th>-->
+            <!--                                <th data-column="Vehicle brand" data-order="asc">Brand &#9650</th>-->
+            <!--                                <th data-column="Name">Name </th>-->
+            <!--                                <th data-column="Debt" data-order="asc">Debt &#9650</th>-->
+            <!--                            </thead>-->
+            <!--                            <tbody id="form-2TableBody"></tbody>-->
+            <!--                        </table>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+        </div>
     </div>
 
 </div>
