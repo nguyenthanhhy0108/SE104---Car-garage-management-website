@@ -47,7 +47,7 @@
                 <div class="col-lg-2 d-flex align-items-center">
                     <i class="material-symbols-outlined" style="font-size: 2rem;">settings_heart</i>
                     <div style="width: 1vw;"></div>
-                    <span>Hello, Name</span>
+                    <span>Hello <span style="color: royalblue" th:text="${session.name}"></span></span>
                 </div>
             </div>
         </div>
@@ -157,51 +157,51 @@
                         <span class="material-symbols-outlined" id="closeForm"  style="cursor: pointer;">close</span>
                     </div>
                     <div class="card-body" style="padding-bottom: 1rem;">
-                        <form>
+                        <form id="add-form" th:action="@{/add-form}" method="POST">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="addName" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="addName" placeholder="customer's name">
+                                    <input type="text" name="name" class="form-control" id="addName" placeholder="Customer's name" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="addDate" class="form-label">Date</label>
-                                    <input type="text" class="form-control" id="addDate" placeholder="ordering date">
+                                    <input type="date" name="date" class="form-control" id="addDate" placeholder="Ordering date" required>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="addPhone" class="form-label">Phone</label>
-                                    <input type="tel" class="form-control" id="addPhone" placeholder="customer's phone number" required>
+                                    <input type="tel" name="phone" class="form-control" id="addPhone" placeholder="Customer's phone number" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="addEmail" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="addEmail" placeholder="customer's email address">
+                                    <input type="email" name="email" class="form-control" id="addEmail" placeholder="Customer's email address" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="addAdress" class="form-label">Adress</label>
-                                <input type="text" class="form-control" id="addAdress" placeholder="customer's address">
+                                <label for="addAdress" class="form-label">Address</label>
+                                <input type="text" name="address" class="form-control" id="addAdress" placeholder="Customer's address" required>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="addVeID" class="form-label">Vehicle's license number</label>
-                                    <input type="text" class="form-control" id="addVeID" placeholder="vehicle's license number" required>
+                                    <input type="text" name="vehicleLicenseNumber" class="form-control" id="addVeID" placeholder="Vehicle's license number" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="addBrand" class="form-label">Vehicle's brand</label>
-                                    <select id="addBrand" class="form-control">
-                                        <option selected>Choose...</option>
-                                        <option>Toyota</option>
-                                        <option>Suzuki</option>
-                                        <option>Ford</option>
-                                        <option>Yamaha</option>
-                                        <option>Honda</option>
-                                    </select>
+                                    <input id="addBrand" name="vehicleBrand" class="form-control" placeholder="Vehicle's brand" required>
+<!--                                        <option value="" disabled selected>Choose...</option>-->
+<!--                                        <option value="Toyota">Toyota</option>-->
+<!--                                        <option value="Suzuki">Suzuki</option>-->
+<!--                                        <option value="Ford">Ford</option>-->
+<!--                                        <option value="Yamaha">Yamaha</option>-->
+<!--                                        <option value="Honda">Honda</option>-->
+<!--                                    </select>-->
                                 </div>
                             </div>
                     <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                        <button class="btn btn-md btn-primary" type="submit">Submit form</button>
+                        <input class="btn btn-md btn-primary" type="submit" value="Submit form">
                     </div>
                         </form>
                     </div>
@@ -269,6 +269,7 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
         <!--Biểu mẫu 2-->
   <div id="main-screen-content-order2">
         <div class="container">
@@ -295,15 +296,47 @@
                         </thead>
                         <tbody id="form-2TableBody"></tbody>
                     </table>
+=======
+         <!--Biểu mẫu 2-->
+        <div id="main-screen-content-order2">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card card-group">
+                            <form action="" method="">
+                                <input type="text" class="search-input" placeholder="Your phone number" />
+                                <button class="my-btn">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-header">
+                                <th data-column="ID" data-order="asc"># &#9650</th>
+                                <th data-column="Vehicle license number" data-order="asc">License Number &#9650</th>
+                                <th data-column="Vehicle brand" data-order="asc">Brand &#9650</th>
+                                <th data-column="Name">Name </th>
+                                <th data-column="Debt" data-order="asc">Debt &#9650</th>
+                            </thead>
+                            <tbody id="form-2TableBody"></tbody>
+                        </table>
+                        </div>
+>>>>>>> Nhaan
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     </div>
 
 </div>
 
+=======
+>>>>>>> Nhaan
 
 <script type="text/javascript" th:src="@{/js/home.js}"></script>
 <script type="text/javascript" th:src="@{/js/all.js}"></script>

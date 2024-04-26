@@ -242,10 +242,13 @@ a {
 
 .nav_icon {
   font-size: 1.25rem;
+<<<<<<< HEAD
 }
 
 .show {
   left: 0;
+=======
+>>>>>>> Nhaan
 }
 
 .body-pd {
@@ -296,8 +299,13 @@ a {
     padding-left: calc(var(--nav-width) + 188px);
   }
 }
+<<<<<<< HEAD
 
 /* Css cho biểu mẫu 2 */
+=======
+/* CSS Form 2 */
+
+>>>>>>> Nhaan
 #main-screen-content-order2 .my-btn {
   background-color: #fff;
   border: 1px solid #6fa9f5;
@@ -307,23 +315,43 @@ a {
   cursor: pointer;
   text-align: center;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Nhaan
 #main-screen-content-order2 .my-btn:hover {
   background-color: #6fa9f5;
   border: 1px solid #fff;
   color: #fff;
 }
+<<<<<<< HEAD
 #main-screen-content-order2 .my-btn:focus {
   outline: none;
 }
 #main-screen-content-order2 form {
   display: flex;
 }
+=======
+
+#main-screen-content-order2 .my-btn:focus {
+  outline: none;
+}
+
+#main-screen-content-order2 form {
+  display: flex;
+}
+
+>>>>>>> Nhaan
 #main-screen-content-order2 form .search-input {
   border-radius: 8px;
   border: 1px solid #ced4da;
   color: #495057;
   margin-right: 4px;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Nhaan
 #main-screen-content-order2 input:focus {
   box-shadow: -0 0 1px 2px #b6d7fa;
   outline: none;
