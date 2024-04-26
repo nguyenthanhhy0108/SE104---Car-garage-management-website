@@ -23,7 +23,7 @@ public class datasourceConfig {
         dataSourceBuilder.driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         dataSourceBuilder.url("jdbc:sqlserver://localhost:1433;databaseName=SE;trustServerCertificate=true;");
         dataSourceBuilder.username("sa");
-        dataSourceBuilder.password("123");
+        dataSourceBuilder.password("nhan132134@");
         return dataSourceBuilder.build();
     }
 

@@ -530,7 +530,7 @@ function printData(data) {
   }
   // console.log(html);
   $(document).ready(function () {
-    const body = $("table tbody#myTableBody");
+    const body = $("#main-screen-content-order2 tbody");
     body.html(html);
   });
 }
@@ -546,6 +546,7 @@ $(document).ready(() => {
       method: "GET",
       dataType: "JSON",
       success: function (data) {
+        console.log("succ");
         printData(data);
         list = data;
       },
