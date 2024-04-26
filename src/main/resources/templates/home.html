@@ -3,6 +3,8 @@
                 xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="${_csrf.token}"/>
+    <meta name="csrf-param" content="${_csrf.parameterName}"/>
     <title>Home - Pocket Garage</title>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
@@ -157,7 +159,7 @@
                         <span class="material-symbols-outlined" id="closeForm"  style="cursor: pointer;">close</span>
                     </div>
                     <div class="card-body" style="padding-bottom: 1rem;">
-                        <form id="add-form" th:action="@{/add-form}" method="POST">
+                        <form id="add-form" th:action="@{/add-form1}" method="POST">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="addName" class="form-label">Name</label>
@@ -217,52 +219,52 @@
                         <span class="material-symbols-outlined" id="closeFormChange"  style="cursor: pointer;">close</span>
                     </div>
                     <div class="card-body" style="padding-bottom: 1rem;">
-                        <form>
+                        <form th:action="@{/change-form1}" method="POST">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="changeName" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="changeName" placeholder="customer's name">
+                                    <input type="text" class="form-control" name="change_name" id="changeName" placeholder="customer's name">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="changeDate" class="form-label">Date</label>
-                                    <input type="text" class="form-control" id="changeDate" placeholder="ordering date" disabled>
+                                    <input type="text" class="form-control" name="date" id="changeDate" placeholder="ordering date" disabled>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="addPhone" class="form-label">Phone</label>
-                                    <input type="tel" class="form-control" id="changePhone" placeholder="customer's phone number" required>
+                                    <input type="tel" class="form-control" name="change_phone" id="changePhone" placeholder="customer's phone number" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="changeEmail" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="changeEmail" placeholder="customer's email address">
+                                    <input type="email" class="form-control" name="change_email" id="changeEmail" placeholder="customer's email address">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="changeAdress" class="form-label">Adress</label>
-                                <input type="text" class="form-control" id="changeAdress" placeholder="customer's address">
+                                <input type="text" class="form-control" id="changeAdress" name="change_address" placeholder="customer's address">
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="changeVeID" class="form-label">Vehicle's license number</label>
-                                    <input type="text" class="form-control" id="changeVeID" placeholder="vehicle's license number" required>
+                                    <input type="text" class="form-control" name="change_vehicleLicenseNumber" id="changeVeID" placeholder="vehicle's license number" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="changeBrand" class="form-label">Vehicle's brand</label>
-                                    <select id="changeBrand" class="form-control">
-                                        <option selected>Choose...</option>
-                                        <option>Toyota</option>
-                                        <option>Suzuki</option>
-                                        <option>Ford</option>
-                                        <option>Yamaha</option>
-                                        <option>Honda</option>
-                                    </select>
+                                    <input id="changeBrand" name="change_vehicleBrand" class="form-control" placeholder="Vehicle's brand" required>
+                                    <!--                                        <option value="" disabled selected>Choose...</option>-->
+                                    <!--                                        <option value="Toyota">Toyota</option>-->
+                                    <!--                                        <option value="Suzuki">Suzuki</option>-->
+                                    <!--                                        <option value="Ford">Ford</option>-->
+                                    <!--                                        <option value="Yamaha">Yamaha</option>-->
+                                    <!--                                        <option value="Honda">Honda</option>-->
+                                    <!--                                    </select>-->
                                 </div>
                             </div>
                             <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                                <button class="btn btn-md btn-primary" type="submit">Submit form</button>
+                                <input class="btn btn-md btn-primary" type="submit" value="Submit form">
                             </div>
                         </form>
                     </div>

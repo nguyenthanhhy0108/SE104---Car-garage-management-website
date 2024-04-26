@@ -21,4 +21,12 @@ public interface ownersRepository extends JpaRepository<owners, Integer> {
      * owners object
      */
     owners findByUsername(String username);
+
+    /**
+     * Find owner by email
+     * @param email: String
+     * @return
+     * owners object
+     */
+    owners findByOwnerEmail(String email);
 }
