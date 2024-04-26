@@ -43,6 +43,17 @@ public class ownersServiceImpl implements ownersService {
     }
 
     /**
+     * Implement find by email
+     * @param email: String
+     * @return
+     * owners object
+     */
+    @Override
+    public owners findByOwnerEmail(String email) {
+        return this.ownersRepository.findByOwnerEmail(email);
+    }
+
+    /**
      * Implement save method
      * @param owners owners object
      * @return
