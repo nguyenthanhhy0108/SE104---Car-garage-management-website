@@ -18,7 +18,6 @@ import javax.sql.DataSource;
 @Configuration
 public class securityConfig {
 
-
     customAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     /**
@@ -87,6 +86,8 @@ public class securityConfig {
 //                                .anyRequest().permitAll()); //For testing
                         .requestMatchers(staticResources).permitAll()
                         .requestMatchers("/resources/**").permitAll()
+                        .requestMatchers("/get-all-records").permitAll()
+                        .requestMatchers("/add-form").permitAll()
                         .requestMatchers("/password").permitAll()
                         .requestMatchers("/test").permitAll()
                         .requestMatchers("/register").permitAll()
