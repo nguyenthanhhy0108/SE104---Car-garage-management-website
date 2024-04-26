@@ -128,18 +128,14 @@ public class receiveAndMaintainCarController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        owners newOwner = this.ownersService.findByUsername(authentication.getName());
+        owners newOwner = new owners();
+        newOwner.setOwnerName(name);
+        newOwner.setOwnerAddress(address);
+        newOwner.setOwnerPhoneNumber(phone);
+        newOwner.setOwnerEmail(email);
+        newOwner.setUsername(authentication.getName());
 
-        if(newOwner == null) {
-            newOwner = new owners();
-            newOwner.setOwnerName(name);
-            newOwner.setOwnerAddress(address);
-            newOwner.setOwnerPhoneNumber(phone);
-            newOwner.setOwnerEmail(email);
-            newOwner.setUsername(authentication.getName());
-
-            newOwner = this.ownersService.save(newOwner);
-        }
+        newOwner = this.ownersService.save(newOwner);
 
         int ownerId = newOwner.getOwnerID();
 
@@ -242,8 +238,6 @@ public class receiveAndMaintainCarController {
         this.ownersService.save(oldOwner);
         this.carsService.save(oldCars);
 
-        System.out.println(name);
-
         return "redirect:/home";
     }
 
@@ -262,9 +256,11 @@ public class receiveAndMaintainCarController {
 
         maintenanceRecords maintenanceRecords = this.maintenanceService.findByRecordID(Form1InformationDTO.getRecordID());
         int carID = maintenanceRecords.getCarID();
+        int ownerID = this.carsService.findByCarID(carID).getOwnerID();
 
         this.maintenanceService.deleteByRecordID(Form1InformationDTO.getRecordID());
         this.carsService.deleteByCarID(carID);
+        this.ownersService.deleteByOwnerID(ownerID);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

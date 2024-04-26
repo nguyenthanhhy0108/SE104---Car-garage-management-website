@@ -5,6 +5,7 @@ import com.example.se.repository.ownersRepository;
 import com.example.se.service.ownersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ownersServiceImpl implements ownersService {
@@ -62,5 +63,11 @@ public class ownersServiceImpl implements ownersService {
     @Override
     public owners save(owners owners) {
         return this.ownersRepository.save(owners);
+    }
+
+    @Transactional
+    @Override
+    public void deleteByOwnerID(int ownerID) {
+        this.ownersRepository.deleteByOwnerID(ownerID);
     }
 }
