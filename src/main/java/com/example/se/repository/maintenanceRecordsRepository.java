@@ -6,4 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface maintenanceRecordsRepository extends JpaRepository<maintenanceRecords, Integer> {
+
+    /**
+     * Delete by id
+     * @param id: int
+     */
+    void deleteByRecordID(int id);
 }
