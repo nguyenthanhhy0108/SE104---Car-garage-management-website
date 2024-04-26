@@ -260,12 +260,11 @@ public class receiveAndMaintainCarController {
         response.put("status", "success");
         response.put("message", "success");
 
-        try {
-            this.maintenanceService.deleteByRecordID(Form1InformationDTO.getRecordID());
-        }catch (Exception e) {
-            response.put("status", "fail");
-            response.put("message", e.getMessage());
-        }
+        maintenanceRecords maintenanceRecords = this.maintenanceService.findByRecordID(Form1InformationDTO.getRecordID());
+        int carID = maintenanceRecords.getCarID();
+
+        this.maintenanceService.deleteByRecordID(Form1InformationDTO.getRecordID());
+        this.carsService.deleteByCarID(carID);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -21,6 +21,14 @@ public interface maintenanceRecordsService {
     maintenanceRecords save(maintenanceRecords maintenanceRecords);
 
     /**
+     * Find by record ID
+     * @param id: int
+     * @return
+     * maintenanceRecords object
+     */
+    maintenanceRecords findByRecordID(int id);
+
+    /**
      * Delete by id
      * @param id: int
      */

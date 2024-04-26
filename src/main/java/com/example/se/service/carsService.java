@@ -28,4 +28,10 @@ public interface carsService {
      * Cars which was saved
      */
     cars save(cars cars);
+
+    /**
+     * Delete by car id
+     * @param carId: int
+     */
+    void deleteByCarID(int carId);
 }

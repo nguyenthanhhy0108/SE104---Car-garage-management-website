@@ -24,4 +24,10 @@ public interface carsRepository extends CrudRepository<cars, Integer> {
      * A list of cars object
      */
     List<cars> findByLicensePlate(String licensePlate);
+
+    /**
+     * Delete by car id
+     * @param carId: int
+     */
+    void deleteByCarID(int carId);
 }

@@ -5,6 +5,7 @@ import com.example.se.repository.carsRepository;
 import com.example.se.service.carsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -53,5 +54,15 @@ public class carsServiceImpl implements carsService {
     @Override
     public cars save(cars cars) {
         return this.carsRepository.save(cars);
+    }
+
+    /**
+     * Implement delete by car id
+     * @param carId: int
+     */
+    @Transactional
+    @Override
+    public void deleteByCarID(int carId) {
+        this.carsRepository.deleteByCarID(carId);
     }
 }
