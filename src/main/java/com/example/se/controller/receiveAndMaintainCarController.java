@@ -112,60 +112,65 @@ public class receiveAndMaintainCarController {
     @PostMapping("/add-form1")
     public String handleFormAdd(HttpServletRequest request) {
 
-        String name = request.getParameter("name");
-        String date = request.getParameter("date");
-        String phone = request.getParameter("phone");
-        String email = request.getParameter("email");
-        String address = request.getParameter("address");
-        String vehicleLicenseNumber = request.getParameter("vehicleLicenseNumber");
-        String vehicleBrand = request.getParameter("vehicleBrand");
+        try {
+            String name = request.getParameter("name");
+            String date = request.getParameter("date");
+            String phone = request.getParameter("phone");
+            String email = request.getParameter("email");
+            String address = request.getParameter("address");
+            String vehicleLicenseNumber = request.getParameter("vehicleLicenseNumber");
+            String vehicleBrand = request.getParameter("vehicleBrand");
 
-        List<cars> carsList = this.carsService.findByLicensePlate(vehicleLicenseNumber);
+            List<cars> carsList = this.carsService.findByLicensePlate(vehicleLicenseNumber);
 
-        if(!carsList.isEmpty()) {
-            return "redirect:/home?exist=True";
+            if(!carsList.isEmpty()) {
+                return "redirect:/home?exist=True";
+            }
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            owners newOwner = new owners();
+            newOwner.setOwnerName(name);
+            newOwner.setOwnerAddress(address);
+            newOwner.setOwnerPhoneNumber(phone);
+            newOwner.setOwnerEmail(email);
+            newOwner.setUsername(authentication.getName());
+
+            newOwner = this.ownersService.save(newOwner);
+
+            int ownerId = newOwner.getOwnerID();
+
+            brands newBrand = this.brandsService.findByBrandName(vehicleBrand);
+            if(newBrand == null) {
+                newBrand = new brands();
+                newBrand.setBrandName(vehicleBrand);
+                newBrand = this.brandsService.save(newBrand);
+            }
+
+            int brandID = newBrand.getBrandID();
+
+            cars newCar = new cars();
+            newCar.setLicensePlate(vehicleLicenseNumber);
+            newCar.setOwnerID(ownerId);
+            newCar.setBrandID(brandID);
+
+            newCar = this.carsService.save(newCar);
+
+            int carID = newCar.getCarID();
+
+            maintenanceRecords maintenanceRecord = new maintenanceRecords();
+
+            maintenanceRecord.setCarID(carID);
+            LocalDate dateParsed = LocalDate.parse(date);
+            maintenanceRecord.setDateReceived(dateParsed);
+
+            maintenanceRecord = this.maintenanceService.save(maintenanceRecord);
+
+            return "redirect:/home";
+
+        } catch (Exception e) {
+            return "redirect:/home?full=true";
         }
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        owners newOwner = new owners();
-        newOwner.setOwnerName(name);
-        newOwner.setOwnerAddress(address);
-        newOwner.setOwnerPhoneNumber(phone);
-        newOwner.setOwnerEmail(email);
-        newOwner.setUsername(authentication.getName());
-
-        newOwner = this.ownersService.save(newOwner);
-
-        int ownerId = newOwner.getOwnerID();
-
-        brands newBrand = this.brandsService.findByBrandName(vehicleBrand);
-        if(newBrand == null) {
-            newBrand = new brands();
-            newBrand.setBrandName(vehicleBrand);
-            newBrand = this.brandsService.save(newBrand);
-        }
-
-        int brandID = newBrand.getBrandID();
-
-        cars newCar = new cars();
-        newCar.setLicensePlate(vehicleLicenseNumber);
-        newCar.setOwnerID(ownerId);
-        newCar.setBrandID(brandID);
-
-        newCar = this.carsService.save(newCar);
-
-        int carID = newCar.getCarID();
-
-        maintenanceRecords maintenanceRecord = new maintenanceRecords();
-
-        maintenanceRecord.setCarID(carID);
-        LocalDate dateParsed = LocalDate.parse(date);
-        maintenanceRecord.setDateReceived(dateParsed);
-
-        maintenanceRecord = this.maintenanceService.save(maintenanceRecord);
-
-        return "redirect:/home";
     }
 
     private Form1InformationDTO oldDataChange = new Form1InformationDTO();
