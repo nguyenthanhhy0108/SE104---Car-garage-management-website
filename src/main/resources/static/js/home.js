@@ -9,6 +9,7 @@ async function fetchData() {
         });
 
         checkLicensePlate();
+        checkFullForADay();
 // Sort table function
         $('th').on('click', function(){
             var column = $(this).data('column')
@@ -328,6 +329,14 @@ async function fetchData() {
             var check = urlParams.get('exist');
             if(check) {
                 popupDialog("Error", "This car is fixing !!!");
+            }
+        }
+
+        function checkFullForADay() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var check = urlParams.get('full');
+            if(check) {
+                popupDialog("Error", "My garage is full for this day. Please choose another day !!!");
             }
         }
 
