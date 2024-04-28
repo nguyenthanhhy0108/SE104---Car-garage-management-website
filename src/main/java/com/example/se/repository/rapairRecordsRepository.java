@@ -1,2 +1,4 @@
-package com.example.se.repository;public interface rapairRecordsRepository {
+package com.example.se.repository;
+
+public interface rapairRecordsRepository {
 }
