@@ -1,2 +1,4 @@
-package com.example.se.model;public class repairRecords {
+package com.example.se.model;
+
+public class repairRecords {
 }

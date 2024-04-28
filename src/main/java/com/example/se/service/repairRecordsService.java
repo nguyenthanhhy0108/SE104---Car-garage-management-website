@@ -1,2 +1,4 @@
-package com.example.se.service;public interface repairRecordsService {
+package com.example.se.service;
+
+public interface repairRecordsService {
 }
