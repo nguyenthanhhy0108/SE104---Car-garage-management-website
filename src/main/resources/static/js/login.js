@@ -56,5 +56,12 @@ function checkLogOut() {
     }
 }
 
+function focus() {
+    const url = window.location.search;
+    if (!url.includes('?logout')) {
+        let username = document.getElementById("username");
+        username.focus();
+    }
+}
 
 window.onload = showLoginMessage;
