@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="${_csrf.token}"/>
+    <meta name="csrf-param" content="${_csrf.parameterName}"/>
+    <title>Home - Pocket Garage</title>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link  rel="stylesheet" th:href="@{/css/style.css}"/>
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
+    <link rel="stylesheet" href="css/home.css">
+    <style>
+        th{
+            color: #FFF;
+            background-color: #6fa9f5;
+            cursor: pointer;
+        }
+        .hidden{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
+    </style>
+</head>
+
+<body id="body-pd">
+<div class="container-lg p-0">
+    <!-- <div class="row no-gutters p-5"> -->
+    <header class="header" id="header">
+        <div id="main-screen-header" class="col" style="margin: 0;box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); margin: 0;">
+            <div class="row align-items-center">
+
+                <div class="header_toggle" style="padding: 1rem;">
+                    <i class='bx bx-menu' id="header-toggle">
+                        <span id="menu-open" class="material-symbols-outlined show">menu</span>
+                        <span id="menu-close" class="material-symbols-outlined hidden">close</span>
+                    </i>
+                </div>
+                <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
+
+                <div class="col text-center" style="font-size: 2rem; padding: 1rem; font-weight: bolder;">Order Management</div>
+                <div class="col-lg-2 d-flex align-items-center">
+                    <i class="material-symbols-outlined" style="font-size: 2rem;">settings_heart</i>
+                    <div style="width: 1vw;"></div>
+                    <span>Hello <span style="color: royalblue" th:text="${session.name}"></span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="#" class="nav_logo">
+                    <img class='bx bx-layer nav_logo-icon' th:src="@{/images/logo-house.png}" height="50" alt="logo">
+                    <span class="nav_logo-name">Pocket Garage</span>
+                </a>
+                <div class="nav_list">
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-order-alt nav_icon'>
+                            <span class="material-symbols-outlined show">list_alt</span>
+                        </i>
+                        <span class="nav_name">Order Management</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-user nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Users</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-message-square-detail nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Messages</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-bookmark nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Bookmark</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-folder nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Files</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-bar-chart-alt-2 nav_icon'>
+                            <span class="material-symbols-outlined">list_alt</span>
+                        </i>
+                        <span class="nav_name">Stats</span>
+                    </a>
+                </div>
+            </div>
+            <a href="/logout" class="nav_link">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="nav_name">SignOut</span>
+            </a>
+        </nav>
+    </div>
+
+    <div id="main-screen" class="col-lg height-100 bg-light">
+        <dialog id="dialog">
+            <h2 id="dialogTitle"></h2>
+            <p id="dialogContent"></p>
+        </dialog>
+        <!--Biểu mẫu 2-->
+        <div id="main-screen-content-order">
+            <div class="container" id="dataTable" style="z-index: 0;">
+                <div class="row">
+                    <div class="col">
+                        <div class="card-body">
+                            <input id="search-input" class="form-control" type="text" placeholder="Search by customer's name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" style="overflow-x: auto;">
+                        <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-header">
+                                <th data-column="ID" data-order="asc"># &#9650</th>
+                                <th data-column="Vehicle license number" data-order="asc">License Number &#9650</th>
+                                <th data-column="Vehicle brand" data-order="asc">Brand &#9650</th>
+                                <th data-column="Name">Name </th>
+                                <th data-column="Debt" data-order="asc">Debt &#9650</th>
+                            </thead>
+                            <tbody id="myTable"></tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script src="js/home.js"></script> -->
+<script type="text/javascript" th:src="@{/js/form3.js}"></script>
+<!-- <script type="text/javascript" th:src="@{/js/home.js}"></script> -->
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+</body>
+
+</html>
