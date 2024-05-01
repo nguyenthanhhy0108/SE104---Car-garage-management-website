@@ -151,6 +151,7 @@ body {
 a {
   text-decoration: none;
 }
+/* Header */
 
 .header {
   width: 100%;
@@ -186,6 +187,7 @@ a {
   width: 40px;
 }
 
+/* Menu bar */
 .l-navbar {
   position: fixed;
   top: 0;
@@ -245,6 +247,7 @@ a {
   font-size: 1.25rem;
 }
 
+
 .body-pd {
   padding-left: calc(var(--nav-width) + 1rem);
 }
@@ -293,3 +296,19 @@ a {
     padding-left: calc(var(--nav-width) + 188px);
   }
 }
+
+/* Custom sub table */
+.custom-container {
+  max-width: 1200px;
+}
+
+.custom-form {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.custom-table {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
