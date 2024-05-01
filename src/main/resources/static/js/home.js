@@ -8,6 +8,8 @@ async function fetchData() {
             dataType: 'json'
         });
 
+        console.log(test);
+
         checkLicensePlate();
         checkFullForADay();
 // Sort table function
