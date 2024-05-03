@@ -102,56 +102,53 @@ async function fetchData() {
       });
     }
 
-    function addRow(data) {
-      var numOrders = data.Car.length
+    function addRow(data){
+      var numOrders = data.Cars.length
       // console.log(numOrders)
       // console.log(`${data.ID}`)
       var row = `<tr scope="row" class="data-row-${data.ID}" data-id=${data.ID}>
-            <td rowspan="${numOrders}" id="data-name-${data.ID}">${data.Name}</td>
-            <td rowspan="${numOrders}" id="data-phone-${data.ID}">${data.Phone}</td>
-            <td rowspan="${numOrders}" id="data-email-${data.ID}">${data.Email}</td>
-            <td rowspan="${numOrders}" id="data-address-${data.ID}">${data.Address}</td>
-            <td id=data-order-brand-${data.Car[0]['Vehicle license number']}>${data.Car[0]['Vehicle brand']}</td>
-            <td id=data-order-num-${data.Car[0]['Vehicle license number']}>${data.Car[0]['Vehicle license number']}</td>
-            <td>
-               <div class = "row col-sm-2 show" id = "change-del-btn-${data.Car[0]['Vehicle license number']}">
-                   <button class="btn btn-sm btn-info" data-id=${data.Car[0]['Vehicle license number']} id="details-${data.Car[0]['Vehicle license number']}">Details</button>
-                   <button class="btn btn-sm btn-danger" data-id=${data.Car[0]['Vehicle license number']} id="delete-${data.Car[0]['Vehicle license number']}">Delete</button>
-               </div>
-               <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Car[0]['Vehicle license number']}">
-                   <button class="btn btn-sm btn-danger" data-id=${data.Car[0]['Vehicle license number']} id="confirm-${data.Car[0]['Vehicle license number']}">Confirm</button>
-                   <button class="btn btn-sm btn-success" data-id=${data.Car[0]['Vehicle license number']} id="cancel-${data.Car[0]['Vehicle license number']}">Cancel</button>
-               </div>
-            </td>`;
+              <td rowspan="${numOrders}" id="data-name-${data.ID}">${data.Name}</td>
+              <td rowspan="${numOrders}" id="data-phone-${data.ID}">${data.Phone}</td>
+              <td rowspan="${numOrders}" id="data-email-${data.ID}">${data.Email}</td>
+              <td rowspan="${numOrders}" id="data-address-${data.ID}">${data.Address}</td>
+              <td id=data-order-brand-${data.Cars[0].licenseNumber}>${data.Cars[0].brand}</td>
+              <td id=data-order-num-${data.Cars[0].licenseNumber}>${data.Cars[0].licenseNumber}</td>
+              <td>
+                 <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[0].licenseNumber}">
+                     <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[0].licenseNumber} id="details-${data.Cars[0].licenseNumber}">Details</button>
+                     <button class="btn btn-sm btn-danger delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Delete</button>
+                     
+  
+                 </div>
+                 <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Cars[0].licenseNumber}">
+                     <button class="btn btn-sm btn-danger confirm-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Confirm</button>
+                     <button class="btn btn-sm btn-success cancel-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Cancel</button>
+                 </div>
+              </td>`;
 
       $('#myTable').append(row)
-      buttonEvent(data.Car[0]['Vehicle license number'], data.ID)
+      buttonEvent(data.Cars[0].licenseNumber, data.ID)
 
-      row = ''
-      for (var i in data.Car) {
-        if (i === 0) continue
-        else {
-          row += `
-                <tr>
-                    <td id=data-order-brand-${data.Car[i]['Vehicle license number']}>${data.Car[i]['Vehicle brand']}</td>
-                    <td id=data-order-num-${data.Car[i]['Vehicle license number']}>${data.Car[i]['Vehicle license number']}</td>
-                    <td>
-                        <div class = "row col-sm-2 show" id = "change-del-btn-${data.Car[i]['Vehicle license number']}">
-                            <button class="btn btn-sm btn-info" data-id=${data.Car[i]['Vehicle license number']} id="details-${data.Car[i]['Vehicle license number']}">Details</button>
-                            <button class="btn btn-sm btn-danger" data-id=${data.Car[i]['Vehicle license number']} id="delete-${data.Car[i]['Vehicle license number']}">Delete</button>
-                        </div>
-                        <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Car[i]['Vehicle license number']}">
-                            <button class="btn btn-sm btn-danger" data-id=${data.Car[i]['Vehicle license number']} id="confirm-${data.Car[i]['Vehicle license number']}">Confirm</button>
-                            <button class="btn btn-sm btn-success" data-id=${data.Car[i]['Vehicle license number']} id="cancel-${data.Car[i]['Vehicle license number']}">Cancel</button>
-                        </div>
-                    </td>
-                </tr>`
-          $('#myTable').append(row)
-          buttonEvent(data.Car[i]['Vehicle license number'], data.ID)
-        }
+      row =''
+      for (var i = 1; i < numOrders; i++) {
+        var subRow = `
+              <tr>
+                  <td id=data-order-brand-${data.Cars[i].licenseNumber}>${data.Cars[i].brand}</td>
+                  <td id=data-order-num-${data.Cars[i].licenseNumber}>${data.Cars[i].licenseNumber}</td>
+                  <td>
+                      <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[i].licenseNumber}">
+                          <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[i].licenseNumber} id="details-${data.Cars[i].licenseNumber}">Details</button>
+                          <button class="btn btn-sm btn-danger delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Delete</button>
+                      </div>
+                      <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Cars[i].licenseNumber}">
+                          <button class="btn btn-sm btn-danger confirm-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Confirm</button>
+                          <button class="btn btn-sm btn-success cancel-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Cancel</button>
+                      </div>
+                  </td>
+              </tr>`
+        $('#myTable').append(subRow)
+        buttonEvent(data.Cars[i].licenseNumber, data.ID)
       }
-
-
     }
 
     function buildTable(data) {
