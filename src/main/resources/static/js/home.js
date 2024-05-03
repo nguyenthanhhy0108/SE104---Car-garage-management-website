@@ -91,14 +91,15 @@ async function fetchData() {
     }
 
     // Build Table function
-    function buttonEvent(vehicleLicenseNumber, dataID) {
-      $(`#details-${vehicleLicenseNumber}`).on('click', function () {
-        detailsData.call(this, dataID)
+    function buttonEvent() {
+      $('.details-button').on('click', function() {
+        confirmDeletion.call(this);
       });
-      $(`#delete-${vehicleLicenseNumber}`).on('click', deleteData);
-      $(`#cancel-${vehicleLicenseNumber}`).on('click', cancelDeletion);
-      $(`#confirm-${vehicleLicenseNumber}`).on('click', function () {
-        confirmDeletion.call(this, dataID);
+      $('.delete-button').on('click', deleteData);
+      $('.cancel-button').on('click', cancelDeletion);
+
+      $('.confirm-button').on('click', function() {
+        confirmDeletion.call();
       });
     }
 
@@ -115,7 +116,7 @@ async function fetchData() {
               <td id=data-order-num-${data.Cars[0].licenseNumber}>${data.Cars[0].licenseNumber}</td>
               <td>
                  <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[0].licenseNumber}">
-                     <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[0].licenseNumber} id="details-${data.Cars[0].licenseNumber}">Details</button>
+                     <button class="btn btn-sm btn-info details-button" data-id=${data.Cars[0].licenseNumber} id="details-${data.Cars[0].licenseNumber}">Details</button>
                      <button class="btn btn-sm btn-danger delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Delete</button>
                      
   
@@ -210,25 +211,27 @@ async function fetchData() {
     }
 
     closeForm('#formAdd', '#closeForm_1', '#dataTable', 'click');
+
     // Delete data fucntion
     // ---------------- Delete data fucntion
     function deleteData() {
-      console.log("deldata called")
-      var dataID = $(this).data('id')
-      var change_del_Btn = $(`#change-del-btn-${dataID}`)
-      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${dataID}`)
+      // console.log("deldata called")
+      var vehicleID = $(this).data('vehicle-license-number')
+      var change_del_Btn = $(`#change-del-btn-${vehicleID.replace(/\./g, "\\.")}`);
+      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${vehicleID.replace(/\./g, "\\.")}`);
+
 
       change_del_Btn.addClass('hidden')
       change_del_Btn.removeClass('show')
       cancel_confirm_Btn.addClass('show')
       cancel_confirm_Btn.removeClass('hidden')
 
-    };
+    }
 
     function cancelDeletion() {
-      var dataID = $(this).data('id')
-      var change_del_Btn = $(`#change-del-btn-${dataID}`)
-      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${dataID}`)
+      var vehicleID = $(this).data('vehicle-license-number')
+      var change_del_Btn = $(`#change-del-btn-${vehicleID.replace(/\./g, "\\.")}`);
+      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${vehicleID.replace(/\./g, "\\.")}`);
 
       change_del_Btn.addClass('show')
       change_del_Btn.removeClass('hidden')
@@ -238,24 +241,22 @@ async function fetchData() {
 
     // 1/5
     function confirmDeletion(dataID) {
-      var vehicleID = $(this).data('id')
+      var vehicleID = $(this).data('vehicle-license-number')
       data = getDatasInRow(dataID, vehicleID)
       console.log(data)
       popupDialog("Success", "Data deleted")
     };
 
-
-    // Table 2
     //add row table 2
     function addRowDetails(data) {
-      data.Dates.forEach(function (dateData, dateIndex) {
+      data.Dates.forEach(function(dateData, dateIndex) {
         var isFirstDateRow = (dateIndex === 0);
-        dateData.Details.forEach(function (detail, detailIndex) {
+        dateData.Details.forEach(function(detail, detailIndex) {
           var newRow = $('<tr>');
           if (isFirstDateRow && detailIndex === 0) {
-            $('<td>').attr('rowspan', data.Dates.length * detailIndex).text(data["Vehicle license number"]).appendTo(newRow);
+            $('<td>').attr('rowspan', data.Dates.length * detailIndex).text(data.licenseNumber).appendTo(newRow);
           }
-          if (detailIndex === 0) {
+          if ( detailIndex === 0) {
             $('<td>').attr('rowspan', data.Dates.length).text(dateData.Date).appendTo(newRow);
           }
           $('<td>').text(detail.notes).appendTo(newRow);
@@ -271,18 +272,18 @@ async function fetchData() {
     }
 
     // -----------------Detailed datas of vehicle of customer
-    function detailsData(dataID) {
-      var vehicleID = $(this).data('id')
-      // console.log(vehicleID)
+    function detailsData(dataID){
+      var vehicleID = $(this).data('vehicle-license-number')
+      console.log(dataID)
       // firstData = getDatafromDB(vehicleID) // return JSON
       firstData = {
-        "Vehicle license number": vehicleID,
-        "Dates": [
+        "licenseNumber":vehicleID,
+        "Dates":[
           {
             'Date': '01/05/2024',
             'Details': [
               {
-                'notes': 'aaaa',
+                'notes':'aaaa',
                 'equip': 'wheels',
                 'quantity': '2',
                 'price': '10',
@@ -334,11 +335,11 @@ async function fetchData() {
       addRowDetails(firstData)
       // submit create order after choose the date
       dateCurr = null
-      $('#confirm-create').click(function (event) {
+      $('#confirm-create').click(function(event){
         event.preventDefault();
         var dateInput = $('#addDate').val()
         console.log(dateInput)
-        if (firstData.Dates.includes(dateInput)) {
+        if (firstData.Dates.includes(dateInput)){
           dateCurr = dateInput
         }
         console.log(dateCurr)
