@@ -1,5 +1,65 @@
 var test;
 
+// Menu handler
+document.addEventListener("DOMContentLoaded", function (event) {
+  const showNavbar = (toggleId, navId, bodyId, headerId) => {
+    const toggle = document.getElementById(toggleId),
+        nav = document.getElementById(navId),
+        bodypd = document.getElementById(bodyId),
+        headerpd = document.getElementById(headerId),
+        menuOpen = document.getElementById("menu-open");
+    menuClose = document.getElementById("menu-close");
+
+    // Validate that all variables exist
+    if (toggle && nav && bodypd && headerpd && menuOpen && menuClose) {
+      toggle.addEventListener("click", () => {
+        // show navbar
+        nav.classList.toggle("show-nav");
+
+        // change icon
+        if (menuOpen.classList.contains("show")) {
+          menuOpen.classList.remove("show");
+          menuOpen.classList.add("hidden");
+          menuClose.classList.remove("hidden");
+          menuClose.classList.add("show");
+        } else {
+          menuOpen.classList.remove("hidden");
+          menuOpen.classList.add("show");
+          menuClose.classList.remove("show");
+          menuClose.classList.add("hidden");
+        }
+
+        // add padding to body
+        bodypd.classList.toggle("body-pd");
+
+        // add padding to header
+        headerpd.classList.toggle("body-pd");
+      });
+    }
+  }
+  showNavbar("header-toggle", "nav-bar", "body-pd", "header");
+
+  const linkColor = document.querySelectorAll(".nav_link");
+
+  function colorLink() {
+    if (linkColor) {
+      linkColor.forEach((l) => l.classList.remove("active"));
+      this.classList.add("active");
+    }
+  }
+
+  linkColor.forEach((l) => l.addEventListener("click", colorLink));
+
+  // click event Menu => change html direction
+  // $("#orderMenu").click(function () {
+  //   window.location.href = 'home.html';
+  // });
+  //
+  // $("#vehicleMenu").click(function () {
+  //   window.location.href = 'vehicle.html';
+  // });
+});
+
 async function fetchData() {
   try {
     test = await $.ajax({
@@ -9,6 +69,8 @@ async function fetchData() {
     });
     console.log(test);
     checkLicensePlate();
+
+
     // Sort table function
     $("th").on("click", function () {
       var column = $(this).data("column");
@@ -92,66 +154,74 @@ async function fetchData() {
 
     // Build Table function
     function buttonEvent(vehicleLicenseNumber, dataID) {
-      $(`#details-${vehicleLicenseNumber}`).on('click', function () {
-        detailsData.call(this, dataID)
+      $('.details-button').on('click', function () {
+        // console.log("details button cl")
+        var vehicleLicenseNumber = $(this).data('vehicle-license-number');
+        var dataID = $(this).data('data-id');
+        console.log("button details clicked", vehicleLicenseNumber);
+        detailsData.call(this, dataID);
       });
-      $(`#delete-${vehicleLicenseNumber}`).on('click', deleteData);
-      $(`#cancel-${vehicleLicenseNumber}`).on('click', cancelDeletion);
-      $(`#confirm-${vehicleLicenseNumber}`).on('click', function () {
-        confirmDeletion.call(this, dataID);
-      });
-    }
 
-    function addRow(data) {
-      var numOrders = data.Car.length
+      $('.delete-button').on('click', deleteData);
+
+      $('.confirm-button').on('click', function() {
+        var vehicleLicenseNumber = $(this).data('vehicle-license-number');
+        var dataID = $(this).data('id');
+        console.log("button confirm clicked", vehicleLicenseNumber);
+        confirmDeletion(this, dataID);
+      });
+
+      $(`.cancel-button`).on('click', cancelDeletion);
+  }
+
+
+    function addRow(data){
+      var numOrders = data.Cars.length
       // console.log(numOrders)
       // console.log(`${data.ID}`)
       var row = `<tr scope="row" class="data-row-${data.ID}" data-id=${data.ID}>
-            <td rowspan="${numOrders}" id="Name-${data.ID}">${data.Name}</td>
-            <td rowspan="${numOrders}" id="Phone-${data.ID}">${data.Phone}</td>
-            <td rowspan="${numOrders}" id="Email-${data.ID}">${data.Email}</td>
-            <td rowspan="${numOrders}" id="Address-${data.ID}">${data.Address}</td>
-            <td id=data-order-brand-${data.Car[0]['Vehicle license number']}>${data.Car[0]['Vehicle brand']}</td>
-            <td id=data-order-num-${data.Car[0]['Vehicle license number']}>${data.Car[0]['Vehicle license number']}</td>
+            <td rowspan="${numOrders}" id="data-name-${data.ID}">${data.Name}</td>
+            <td rowspan="${numOrders}" id="data-phone-${data.ID}">${data.Phone}</td>
+            <td rowspan="${numOrders}" id="data-email-${data.ID}">${data.Email}</td>
+            <td rowspan="${numOrders}" id="data-address-${data.ID}">${data.Address}</td>
+            <td id=data-order-brand-${data.Cars[0].licenseNumber}>${data.Cars[0].brand}</td>
+            <td id=data-order-num-${data.Cars[0].licenseNumber}>${data.Cars[0].licenseNumber}</td>
             <td>
-               <div class = "row col-sm-2 show" id = "change-del-btn-${data.Car[0]['Vehicle license number']}">
-                   <button class="btn btn-sm btn-info" data-id=${data.Car[0]['Vehicle license number']} id="details-${data.Car[0]['Vehicle license number']}">Details</button>
-                   <button class="btn btn-sm btn-danger" data-id=${data.Car[0]['Vehicle license number']} id="delete-${data.Car[0]['Vehicle license number']}">Delete</button>
+               <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[0].licenseNumber}">
+                   <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[0].licenseNumber} id="details-${data.Cars[0].licenseNumber}">Details</button><!--                   <button class="btn btn-sm btn-danger" data-id=${data.Cars[0].licenseNumber} id="delete-${data.Cars[0].licenseNumber}">Delete</button>-->
+                   <button class="btn btn-sm btn-danger delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Delete</button>
+                   
+
                </div>
-               <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Car[0]['Vehicle license number']}">
-                   <button class="btn btn-sm btn-danger" data-id=${data.Car[0]['Vehicle license number']} id="confirm-${data.Car[0]['Vehicle license number']}">Confirm</button>
-                   <button class="btn btn-sm btn-success" data-id=${data.Car[0]['Vehicle license number']} id="cancel-${data.Car[0]['Vehicle license number']}">Cancel</button>
+               <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Cars[0].licenseNumber}">
+                   <button class="btn btn-sm btn-danger confirm-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Confirm</button>
+                   <button class="btn btn-sm btn-success cancel-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Cancel</button>
                </div>
             </td>`;
 
       $('#myTable').append(row)
-      buttonEvent(data.Car[0]['Vehicle license number'], data.ID)
+      buttonEvent(data.Cars[0].licenseNumber, data.ID)
 
-      row = ''
-      for (var i in data.Car) {
-        if (i === 0) continue
-        else {
-          row += `
-                <tr>
-                    <td id=data-order-brand-${data.Car[i]['Vehicle license number']}>${data.Car[i]['Vehicle brand']}</td>
-                    <td id=data-order-num-${data.Car[i]['Vehicle license number']}>${data.Car[i]['Vehicle license number']}</td>
-                    <td>
-                        <div class = "row col-sm-2 show" id = "change-del-btn-${data.Car[i]['Vehicle license number']}">
-                            <button class="btn btn-sm btn-info" data-id=${data.Car[i]['Vehicle license number']} id="details-${data.Car[i]['Vehicle license number']}">Details</button>
-                            <button class="btn btn-sm btn-danger" data-id=${data.Car[i]['Vehicle license number']} id="delete-${data.Car[i]['Vehicle license number']}">Delete</button>
-                        </div>
-                        <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Car[i]['Vehicle license number']}">
-                            <button class="btn btn-sm btn-danger" data-id=${data.Car[i]['Vehicle license number']} id="confirm-${data.Car[i]['Vehicle license number']}">Confirm</button>
-                            <button class="btn btn-sm btn-success" data-id=${data.Car[i]['Vehicle license number']} id="cancel-${data.Car[i]['Vehicle license number']}">Cancel</button>
-                        </div>
-                    </td>
-                </tr>`
-          $('#myTable').append(row)
-          buttonEvent(data.Car[i]['Vehicle license number'], data.ID)
-        }
+      row =''
+      for (var i = 1; i < numOrders; i++) {
+        var subRow = `
+            <tr>
+                <td id=data-order-brand-${data.Cars[i].licenseNumber}>${data.Cars[i].brand}</td>
+                <td id=data-order-num-${data.Cars[i].licenseNumber}>${data.Cars[i].licenseNumber}</td>
+                <td>
+                    <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[i].licenseNumber}">
+                        <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[i].licenseNumber} id="details-${data.Cars[i].licenseNumber}">Details</button>
+                        <button class="btn btn-sm btn-danger delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Delete</button>
+                    </div>
+                    <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Cars[i].licenseNumber}">
+                        <button class="btn btn-sm btn-danger confirm-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Confirm</button>
+                        <button class="btn btn-sm btn-success cancel-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Cancel</button>
+                    </div>
+                </td>
+            </tr>`
+        $('#myTable').append(subRow)
+        buttonEvent(data.Cars[i].licenseNumber, data.ID)
       }
-
-
     }
 
     function buildTable(data) {
@@ -217,21 +287,22 @@ async function fetchData() {
     // ---------------- Delete data fucntion
     function deleteData() {
       console.log("deldata called")
-      var dataID = $(this).data('id')
-      var change_del_Btn = $(`#change-del-btn-${dataID}`)
-      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${dataID}`)
+      var vehicleID = $(this).data('vehicle-license-number')
+      var change_del_Btn = $(`#change-del-btn-${vehicleID.replace(/\./g, "\\.")}`);
+      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${vehicleID.replace(/\./g, "\\.")}`);
+
 
       change_del_Btn.addClass('hidden')
       change_del_Btn.removeClass('show')
       cancel_confirm_Btn.addClass('show')
       cancel_confirm_Btn.removeClass('hidden')
 
-    };
+    }
 
     function cancelDeletion() {
-      var dataID = $(this).data('id')
-      var change_del_Btn = $(`#change-del-btn-${dataID}`)
-      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${dataID}`)
+      var vehicleID = $(this).data('vehicle-license-number')
+      var change_del_Btn = $(`#change-del-btn-${vehicleID.replace(/\./g, "\\.")}`);
+      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${vehicleID.replace(/\./g, "\\.")}`);
 
       change_del_Btn.addClass('show')
       change_del_Btn.removeClass('hidden')
@@ -241,7 +312,7 @@ async function fetchData() {
 
     // 1/5
     function confirmDeletion(dataID) {
-      var vehicleID = $(this).data('id')
+      var vehicleID = $(this).data('vehicle-license-number')
       data = getDatasInRow(dataID, vehicleID)
       console.log(data)
       popupDialog("Success", "Data deleted")
@@ -256,7 +327,7 @@ async function fetchData() {
         dateData.Details.forEach(function (detail, detailIndex) {
           var newRow = $('<tr>');
           if (isFirstDateRow && detailIndex === 0) {
-            $('<td>').attr('rowspan', data.Dates.length * detailIndex).text(data["Vehicle license number"]).appendTo(newRow);
+            $('<td>').attr('rowspan', data.Dates.length * detailIndex).text(data.licenseNumber).appendTo(newRow);
           }
           if (detailIndex === 0) {
             $('<td>').attr('rowspan', data.Dates.length).text(dateData.Date).appendTo(newRow);
@@ -276,10 +347,10 @@ async function fetchData() {
     // -----------------Detailed datas of vehicle of customer
     function detailsData(dataID) {
       var vehicleID = $(this).data('id')
-      // console.log(vehicleID)
+      console.log(dataID)
       // firstData = getDatafromDB(vehicleID) // return JSON
-      firstData = {
-        "Vehicle license number": vehicleID,
+      var firstData = {
+        "licenseNumber": vehicleID,
         "Dates": [
           {
             'Date': '01/05/2024',
@@ -336,7 +407,7 @@ async function fetchData() {
       // add the initial details in database
       addRowDetails(firstData)
       // submit create order after choose the date
-      dateCurr = null
+      var dateCurr = null
       $('#confirm-create').click(function (event) {
         event.preventDefault();
         var dateInput = $('#addDate').val()
@@ -382,32 +453,7 @@ async function fetchData() {
     });
   });
 
-  // $('#formAdd form').on('submit', function(event) {
-  //     event.preventDefault();
-  //     $('#formAdd').addClass('hidden');
-  //     $('#formAdd').removeClass('show');
-  //     $('body').css('overflow', 'auto');
-  //     $('#dataTable').css({
-  //         'opacity': '',
-  //         'pointer-events': ''
-  //     });
-  //     var newID = uuid.v4()
-  //     var newData = {
-  //         ID: newID,
-  //         Name: $('#addName').val(),
-  //         Phone: $('#addPhone').val(),
-  //         Email: $('#addEmail').val(),
-  //         Address: $('#addAdress').val(),
-  //         'Vehicle license number': $('#addVeID').val(),
-  //         'Vehicle brand': $('#addBrand').val(),
-  //         'Date': $('#addDate').val()
-  //     };
-  //     addRow(newData)
-  //
-  //     // Handle add data at Back End
-  // });
-
-  $("#closeForm").on("click", function () {
+  $("#closeForm_1").on("click", function () {
     $("#formAdd").addClass("hidden");
     $("#formAdd").removeClass("show");
     $("body").css("overflow", "auto");
@@ -424,66 +470,6 @@ async function fetchData() {
       popupDialog("Error", "This car is fixing !!!");
     }
   }
-
-  //Menu handle
-  document.addEventListener("DOMContentLoaded", function (event) {
-    const showNavbar = (toggleId, navId, bodyId, headerId) => {
-      const toggle = document.getElementById(toggleId),
-          nav = document.getElementById(navId),
-          bodypd = document.getElementById(bodyId),
-          headerpd = document.getElementById(headerId),
-          menuOpen = document.getElementById("menu-open");
-      menuClose = document.getElementById("menu-close");
-
-      // Validate that all variables exist
-      if (toggle && nav && bodypd && headerpd && menuOpen && menuClose) {
-        toggle.addEventListener("click", () => {
-          // show navbar
-          nav.classList.toggle("show-nav");
-
-          // change icon
-          if (menuOpen.classList.contains("show")) {
-            menuOpen.classList.remove("show");
-            menuOpen.classList.add("hidden");
-            menuClose.classList.remove("hidden");
-            menuClose.classList.add("show");
-          } else {
-            menuOpen.classList.remove("hidden");
-            menuOpen.classList.add("show");
-            menuClose.classList.remove("show");
-            menuClose.classList.add("hidden");
-          }
-
-          // add padding to body
-          bodypd.classList.toggle("body-pd");
-
-          // add padding to header
-          headerpd.classList.toggle("body-pd");
-        });
-      }
-    }
-    showNavbar("header-toggle", "nav-bar", "body-pd", "header");
-
-    const linkColor = document.querySelectorAll(".nav_link");
-
-    function colorLink() {
-      if (linkColor) {
-        linkColor.forEach((l) => l.classList.remove("active"));
-        this.classList.add("active");
-      }
-    }
-
-    linkColor.forEach((l) => l.addEventListener("click", colorLink));
-
-    // click event Menu => change html direction
-    // $("#orderMenu").click(function () {
-    //   window.location.href = 'home.html';
-    // });
-    //
-    // $("#vehicleMenu").click(function () {
-    //   window.location.href = 'vehicle.html';
-    // });
-  });
 }
 catch (error) {
     alert("Error: " + error);
