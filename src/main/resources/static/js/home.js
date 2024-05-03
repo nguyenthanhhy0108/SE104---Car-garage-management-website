@@ -153,26 +153,22 @@ async function fetchData() {
     }
 
     // Build Table function
-    function buttonEvent(vehicleLicenseNumber, dataID) {
-      $('.details-button').on('click', function () {
-        // console.log("details button cl")
-        var vehicleLicenseNumber = $(this).data('vehicle-license-number');
-        var dataID = $(this).data('data-id');
-        console.log("button details clicked", vehicleLicenseNumber);
-        detailsData.call(this, dataID);
+    // Build Table function
+    function buttonEvent() {
+      // Gỡ bỏ sự kiện click trước khi gán lại
+      $('.details-button[data-vehicle-license-number]').off('click').on('click', function() {
+        detailsData.call(this);
       });
 
-      $('.delete-button').on('click', deleteData);
+      $('.delete-button[data-vehicle-license-number]').off('click').on('click', deleteData);
 
-      $('.confirm-button').on('click', function() {
-        var vehicleLicenseNumber = $(this).data('vehicle-license-number');
-        var dataID = $(this).data('id');
-        console.log("button confirm clicked", vehicleLicenseNumber);
-        confirmDeletion(this, dataID);
+      $('.confirm-button[data-vehicle-license-number]').off('click').on('click', function() {
+        confirmDeletion.call(this);
       });
 
-      $(`.cancel-button`).on('click', cancelDeletion);
-  }
+      $('.cancel-button[data-vehicle-license-number]').off('click').on('click', cancelDeletion);
+    }
+
 
 
     function addRow(data){
@@ -188,7 +184,7 @@ async function fetchData() {
             <td id=data-order-num-${data.Cars[0].licenseNumber}>${data.Cars[0].licenseNumber}</td>
             <td>
                <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[0].licenseNumber}">
-                   <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[0].licenseNumber} id="details-${data.Cars[0].licenseNumber}">Details</button><!--                   <button class="btn btn-sm btn-danger" data-id=${data.Cars[0].licenseNumber} id="delete-${data.Cars[0].licenseNumber}">Delete</button>-->
+                    <button class="btn btn-sm btn-info  details-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Details</button>                   <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[0].licenseNumber} id="details-${data.Cars[0].licenseNumber}">Details</button><!--                   <button class="btn btn-sm btn-danger" data-id=${data.Cars[0].licenseNumber} id="delete-${data.Cars[0].licenseNumber}">Delete</button>-->
                    <button class="btn btn-sm btn-danger delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Delete</button>
                    
 
@@ -210,7 +206,7 @@ async function fetchData() {
                 <td id=data-order-num-${data.Cars[i].licenseNumber}>${data.Cars[i].licenseNumber}</td>
                 <td>
                     <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[i].licenseNumber}">
-                        <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[i].licenseNumber} id="details-${data.Cars[i].licenseNumber}">Details</button>
+                        <button class="btn btn-sm btn-info  details-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Details</button>
                         <button class="btn btn-sm btn-danger delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Delete</button>
                     </div>
                     <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Cars[i].licenseNumber}">
@@ -322,12 +318,17 @@ async function fetchData() {
     // Table 2
     //add row table 2
     function addRowDetails(data) {
+      let numVehicle=0;
+      data.Dates.forEach(function(date) {
+        numVehicle += date.Details.length
+      });
+      console.log("numVe", numVehicle)
       data.Dates.forEach(function (dateData, dateIndex) {
         var isFirstDateRow = (dateIndex === 0);
         dateData.Details.forEach(function (detail, detailIndex) {
           var newRow = $('<tr>');
           if (isFirstDateRow && detailIndex === 0) {
-            $('<td>').attr('rowspan', data.Dates.length * detailIndex).text(data.licenseNumber).appendTo(newRow);
+            $('<td>').attr('rowspan', numVehicle).text(data.licenseNumber).appendTo(newRow);
           }
           if (detailIndex === 0) {
             $('<td>').attr('rowspan', data.Dates.length).text(dateData.Date).appendTo(newRow);
@@ -344,46 +345,44 @@ async function fetchData() {
       });
     }
 
-    // -----------------Detailed datas of vehicle of customer
-    function detailsData(dataID) {
-      var vehicleID = $(this).data('id')
-      console.log(dataID)
-      // firstData = getDatafromDB(vehicleID) // return JSON
+
+    function detailsData() {
+      $(`#detailsTable`).empty()
+      var vehicleID = $(this).data('vehicle-license-number');
+      console.log(vehicleID);
+
       var firstData = {
         "licenseNumber": vehicleID,
-        "Dates": [
-          {
-            'Date': '01/05/2024',
-            'Details': [
-              {
-                'notes': 'aaaa',
-                'equip': 'wheels',
-                'quantity': '2',
-                'price': '10',
-                'charge': '4',
-                'total': '24'
-              },
-              {
-                'notes': 'bbbbb',
-                'equip': 'big wheels',
-                'quantity': '2',
-                'price': '20',
-                'charge': '4',
-                'total': '24'
-              }
-            ]
+        "Dates": [{
+          'Date': '01/05/2024',
+          'Details': [{
+            'notes': 'aaaa',
+            'equip': 'wheels',
+            'quantity': '2',
+            'price': '10',
+            'charge': '4',
+            'total': '24'
           },
+            {
+              'notes': 'bbbbb',
+              'equip': 'big wheels',
+              'quantity': '2',
+              'price': '20',
+              'charge': '4',
+              'total': '24'
+            }
+          ]
+        },
           {
             'Date': '1/1/2005',
-            'Details': [
-              {
-                'notes': 'bbbbb',
-                'equip': 'small wheels',
-                'quantity': '2',
-                'price': '8',
-                'charge': '4',
-                'total': '24'
-              },
+            'Details': [{
+              'notes': 'bbbbb',
+              'equip': 'small wheels',
+              'quantity': '2',
+              'price': '8',
+              'charge': '4',
+              'total': '24'
+            },
               {
                 'notes': 'bbbbb',
                 'equip': 'big glass',
@@ -395,54 +394,34 @@ async function fetchData() {
             ]
           }
         ]
-      }
-      closeForm('#formDetails', '#closeForm', '#dataTable', 'click')
-      // Show the form
-      $('#formDetails').addClass('show')
-      $('#formDetails').removeClass('hidden')
+      };
+
+      closeForm('#formDetails', '#closeForm', '#dataTable', 'click');
+      $('#formDetails').addClass('show').removeClass('hidden');
       $('#dataTable').css({
         'opacity': '0.5',
         'pointer-events': 'none'
       });
-      // add the initial details in database
-      addRowDetails(firstData)
-      // submit create order after choose the date
-      var dateCurr = null
-      $('#confirm-create').click(function (event) {
-        event.preventDefault();
-        var dateInput = $('#addDate').val()
-        console.log(dateInput)
-        if (firstData.Dates.includes(dateInput)) {
-          dateCurr = dateInput
-        }
-        console.log(dateCurr)
-      })
+
+      addRowDetails(firstData);
+
+      // var dateCurr = null;
+      // $('#confirm-create').click(function (event) {
+      //     event.preventDefault();
+      //     var dateInput = $('#addDate').val();
+      //     console.log(dateInput);
+      //     // Check if the dateInput is present in any of the Dates
+      //     var isDatePresent = firstData.Dates.some(function (dateObj) {
+      //         return dateObj.Date === dateInput;
+      //     });
+      //     if (isDatePresent) {
+      //         dateCurr = dateInput;
+      //         console.log(dateCurr);
+      //     } else {
+      //         console.log("Date not found in data.");
+      //     }
+      // });
     }
-
-    // Handle updatedData to database
-
-    // close change form with x
-    $("#closeFormChange").on("click", function () {
-      $("#formChange").addClass("hidden");
-      $("#formChange").removeClass("show");
-      $("body").css("overflow", "auto");
-      $("#dataTable").css({
-        opacity: "",
-        "pointer-events": "",
-      });
-      $("#formChange input").val("");
-    });
-
-  function updateData(dataID, newData) {
-    console.log("after sub ", test);
-    var index = test.findIndex((item) => item.ID === dataID);
-    console.log("index: ", index);
-    if (index !== -1) {
-      test[index] = newData;
-    }
-
-    buildTable(test);
-  }
 
   // Form Appear after click add button
   $("#addData").on("click", function () {
