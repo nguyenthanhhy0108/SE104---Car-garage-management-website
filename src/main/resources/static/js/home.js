@@ -60,6 +60,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
   // });
 });
 
+async function deleteForm1(vehicleLicensePlate) {
+  try {
+    const test = await $.ajax({
+      url: `/delete-row-form1?license_plate=${vehicleLicensePlate}`,
+      method: 'DELETE',
+      dataType: 'json'
+    });
+    return test;
+  } catch (error) {
+    alert(error);
+  }
+}
+
 async function fetchData() {
   try {
     test = await $.ajax({
@@ -168,7 +181,6 @@ async function fetchData() {
 
       $('.cancel-button[data-vehicle-license-number]').off('click').on('click', cancelDeletion);
     }
-
 
 
     function addRow(data){
@@ -282,18 +294,23 @@ async function fetchData() {
     // Delete data fucntion
     // ---------------- Delete data fucntion
     function deleteData() {
-      console.log("deldata called")
-      var vehicleID = $(this).data('vehicle-license-number')
-      var change_del_Btn = $(`#change-del-btn-${vehicleID.replace(/\./g, "\\.")}`);
-      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${vehicleID.replace(/\./g, "\\.")}`);
+      var vehicleID = $(this).attr('data-vehicle-license-number');
 
+      // Kiểm tra xem vehicleID có giá trị không
+      if (vehicleID) {
+        console.log("deldata called");
+        var change_del_Btn = $(`#change-del-btn-${vehicleID.replace(/\./g, "\\.")}`);
+        var cancel_confirm_Btn = $(`#cancel-confirm-btn-${vehicleID.replace(/\./g, "\\.")}`);
 
-      change_del_Btn.addClass('hidden')
-      change_del_Btn.removeClass('show')
-      cancel_confirm_Btn.addClass('show')
-      cancel_confirm_Btn.removeClass('hidden')
-
+        change_del_Btn.addClass('hidden');
+        change_del_Btn.removeClass('show');
+        cancel_confirm_Btn.addClass('show');
+        cancel_confirm_Btn.removeClass('hidden');
+      } else {
+        console.log("vehicleID is undefined or empty");
+      }
     }
+
 
     function cancelDeletion() {
       var vehicleID = $(this).data('vehicle-license-number')
@@ -307,11 +324,19 @@ async function fetchData() {
     };
 
     // 1/5
-    function confirmDeletion(dataID) {
+    async function confirmDeletion(dataID) {
       var vehicleID = $(this).data('vehicle-license-number')
-      data = getDatasInRow(dataID, vehicleID)
-      console.log(data)
-      popupDialog("Success", "Data deleted")
+      let response = await deleteForm1(vehicleID);
+      if (response.success) {
+        popupDialog("Success", "Data deleted")
+        setTimeout(function () {
+          console.log("Waiting 5 seconds")
+          window.location.reload();
+        }, 3000);
+      }
+      else {
+        alert("Error !!!");
+      }
     };
 
 
