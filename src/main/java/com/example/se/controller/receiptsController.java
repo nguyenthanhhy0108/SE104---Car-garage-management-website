@@ -1,25 +1,22 @@
 package com.example.se.controller;
-import com.example.se.service.receiptsService;
-import org.springframework.stereotype.Controller;
-import com.example.se.model.brands;
 import com.example.se.model.cars;
-import com.example.se.model.dataDTO.Form1InformationDTO;
-import com.example.se.model.maintenanceRecords;
 import com.example.se.model.owners;
-import com.example.se.service.maintenanceRecordsService;
-import com.example.se.service.brandsService;
-import com.example.se.service.carsService;
-import com.example.se.service.ownersService;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.se.model.receipts;
+import com.example.se.service.receiptsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
-import java.util.*;
+import com.example.se.service.carsService;
+import com.example.se.service.ownersService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class receiptsController {
     private final receiptsService receiptsService;
@@ -27,10 +24,38 @@ public class receiptsController {
     private  final carsService carsService;
 
     @Autowired
-    public receiptsController(receiptsService receiptsService, com.example.se.service.ownersService ownersService, com.example.se.service.carsService carsService) {
+    public receiptsController(receiptsService receiptsService, ownersService ownersService, carsService carsService) {
         this.receiptsService = receiptsService;
         this.ownersService = ownersService;
         this.carsService = carsService;
     }
+    @ResponseBody
+    @GetMapping("/get-all-payment")
+    public ResponseEntity<List<Map<String, Object>>> getAllReceipts() {
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        List<receipts> allReceipts = receiptsService.findAllReceipts();
+        for (receipts receipt : allReceipts) {
+            Map<String, Object> map = new HashMap<>();
+
+            int carId = receipt.getCarId();
+            cars car = carsService.findByCarID(carId);
+            if (car != null) {
+                int ownerId = receipt.getOwnerId();
+                owners owner = ownersService.findByOwnerID(ownerId);
+                if (owner != null) {
+                    map.put("Owner Name", owner.getOwnerName());
+                    map.put("License Plate", car.getLicensePlate());
+                    map.put("Phone Number", owner.getOwnerPhoneNumber());
+                    map.put("Email", owner.getOwnerEmail());
+                    map.put("Payment Date", receipt.getPaymentdate());
+                    map.put("Amount Paid", receipt.getAmountpaid());
+                    response.add(map);
+                }
+            }
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
 }
