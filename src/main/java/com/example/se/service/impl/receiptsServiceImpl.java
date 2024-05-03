@@ -1,37 +1,40 @@
 package com.example.se.service.impl;
 
 import com.example.se.model.receipts;
+import com.example.se.repository.receiptsRepository;
 import com.example.se.service.receiptsService;
 import org.springframework.stereotype.Service;
-import com.example.se.repository.receiptsRepository;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+
 @Service
 public class receiptsServiceImpl implements receiptsService {
     private final receiptsRepository receiptsRepository;
 
-    public receiptsServiceImpl(com.example.se.repository.receiptsRepository receiptsRepository) {
+    public receiptsServiceImpl(receiptsRepository receiptsRepository) {
         this.receiptsRepository = receiptsRepository;
     }
 
     @Override
-    public List<receipts> findAllreceipts() {
+    public receipts findByOrdernumber(int orderNumber) {
+        return this.receiptsRepository.findByOrdernumber(orderNumber);
+    }
+
+    @Override
+    public List<receipts> findAllReceipts() {
         return this.receiptsRepository.findAll();
     }
 
     @Transactional
     @Override
-    public receipts save(receipts receipts) {
-        return this.receiptsRepository.save(receipts);
-    }
-    @Override
-    public receipts findReceiptsbyId(int receiptId) {
-        return this.receiptsRepository.findByReceiptsId(receiptId);
+    public receipts save(receipts receipt) {
+        return this.receiptsRepository.save(receipt);
     }
 
     @Transactional
     @Override
-    public void deletebyId(int receiptId) {
-        this.receiptsRepository.deleteById(receiptId);
+    public void deleteById(int ordernumber) {
+        this.receiptsRepository.deleteByOrdernumber(ordernumber);
     }
 }
