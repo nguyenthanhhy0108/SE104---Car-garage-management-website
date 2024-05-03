@@ -75,6 +75,7 @@ public class receiveAndMaintainCarController {
 
         for(owners owner : owners) {
             Map<String, Object> record = new HashMap<>();
+            record.put("ID", owner.getOwnerID());
             record.put("Name", owner.getOwnerName());
             record.put("Phone", owner.getOwnerPhoneNumber());
             record.put("Email", owner.getOwnerEmail());
