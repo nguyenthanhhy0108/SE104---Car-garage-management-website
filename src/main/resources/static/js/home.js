@@ -184,7 +184,7 @@ async function fetchData() {
             <td id=data-order-num-${data.Cars[0].licenseNumber}>${data.Cars[0].licenseNumber}</td>
             <td>
                <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[0].licenseNumber}">
-                    <button class="btn btn-sm btn-info  details-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Details</button>                   <button class="btn btn-sm btn-info  details-button" data-id=${data.Cars[0].licenseNumber} id="details-${data.Cars[0].licenseNumber}">Details</button><!--                   <button class="btn btn-sm btn-danger" data-id=${data.Cars[0].licenseNumber} id="delete-${data.Cars[0].licenseNumber}">Delete</button>-->
+                    <button class="btn btn-sm btn-info  details-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Details</button>                   
                    <button class="btn btn-sm btn-danger delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Delete</button>
                    
 
