@@ -49,7 +49,7 @@
                 <div class="col-lg-2 d-flex align-items-center">
                     <i class="material-symbols-outlined" style="font-size: 2rem;">settings_heart</i>
                     <div style="width: 1vw;"></div>
-                    <span>Hello <span style="color: royalblue" th:text="${session.name}"></span></span>
+                    <span>Hello, Name</span>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
         <nav class="nav">
             <div>
                 <a href="#" class="nav_logo">
-                    <img class='bx bx-layer nav_logo-icon' th:src="@{/images/logo-house.png}" height="50" alt="logo">
+                    <img class='bx bx-layer nav_logo-icon' src="/images/logo-house.png" height="50" alt="logo">
                     <span class="nav_logo-name">Pocket Garage</span>
                 </a>
                 <div class="nav_list">
@@ -66,13 +66,13 @@
                         <i class='bx bx-order-alt nav_icon'>
                             <span class="material-symbols-outlined show">list_alt</span>
                         </i>
-                        <span class="nav_name">Order Management</span>
+                        <span class="nav_name" id="orderMenu" onclick="">Customers' Ordering</span>
                     </a>
                     <a href="#" class="nav_link">
                         <i class='bx bx-user nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
+                            <span class="material-symbols-outlined">directions_car</span>
                         </i>
-                        <span class="nav_name">Users</span>
+                        <span class="nav_name" id="vehicleMenu">Vehicles' List</span>
                     </a>
                     <a href="#" class="nav_link">
                         <i class='bx bx-message-square-detail nav_icon'>
@@ -100,7 +100,7 @@
                     </a>
                 </div>
             </div>
-            <a href="/logout" class="nav_link">
+            <a href="#" class="nav_link">
                 <span class="material-symbols-outlined">logout</span>
                 <span class="nav_name">SignOut</span>
             </a>
@@ -133,7 +133,7 @@
                                     <th data-column="Name" data-order="desc" rowspan="3">Name &#9650</th>
                                     <th data-column="Phone" data-order="desc" rowspan="3">Phone Number &#9650</th>
                                     <th data-column="Email" data-order="desc" rowspan="3">Email &#9650</th>
-                                    <th data-column="Adress" rowspan="3">Address</th>
+                                    <th data-column="Address" rowspan="3">Address</th>
                                     <th data-column="Order" data-order="desc" colspan="2">Order details </th>
                                     <!-- <th data-column="Vehicle brand" data-order="desc">Brand &#9650</th>
                                     <th data-column="Date" data-order="desc">Date &#9650</th> -->
@@ -161,14 +161,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- FORM ADD -->
-        <div class="formAdd container form-up hidden" id="formAdd">
+            <!-- FORM ADD -->
+            <div class="formAdd container form-up hidden" id="formAdd">
             <div>
                 <div class="card" style=" padding-left:0 ;padding-right: 0;">
                     <div class="card-header d-flex justify-content-between">
                         <span class="header-text">Add Order</span>
-                        <span class="material-symbols-outlined" id="closeForm"  style="cursor: pointer;">close</span>
+                        <span class="material-symbols-outlined" id="closeForm_1"  style="cursor: pointer;">close</span>
                     </div>
                     <div class="card-body" style="padding-bottom: 1rem;">
                         <form id="add-form" th:action="@{/add-form1}" method="POST">
@@ -216,8 +215,8 @@
                 </div>
             </div>
         </div>
-        <!-- FORM ADD 2 -->
-        <div class="formAdd container custom-container form-up hidden" id="formDetails" style="width: 1500px;">
+            <!-- FORM DETAILS -->
+            <div class="formAdd container custom-container form-up hidden" id="formDetails" style="width: 1500px;">
             <div class="card" style=" padding-left:0 ;padding-right: 0;">
                 <div class="card-header d-flex justify-content-between">
                     <span class="header-text">Add Details</span>
@@ -308,42 +307,9 @@
                 </div>
             </div>
         </div>
-        <!--Biểu mẫu 2-->
-        <div id="main-screen-content-order2">
-            <!--            <div class="container">-->
-            <!--                <div class="row">-->
-            <!--                    <div class="col">-->
-            <!--                        <div class="card card-group">-->
-            <!--                            <form action="" method="">-->
-            <!--                                <input type="text" class="search-input" placeholder="Your phone number" />-->
-            <!--                                <button class="my-btn">Search</button>-->
-            <!--                            </form>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="row">-->
-            <!--                    <div class="col">-->
-            <!--                        <div class="table-responsive">-->
-            <!--                        <table class="table table-bordered">-->
-            <!--                            <thead class="table-header">-->
-            <!--                                <th data-column="ID" data-order="asc"># &#9650</th>-->
-            <!--                                <th data-column="Vehicle license number" data-order="asc">License Number &#9650</th>-->
-            <!--                                <th data-column="Vehicle brand" data-order="asc">Brand &#9650</th>-->
-            <!--                                <th data-column="Name">Name </th>-->
-            <!--                                <th data-column="Debt" data-order="asc">Debt &#9650</th>-->
-            <!--                            </thead>-->
-            <!--                            <tbody id="form-2TableBody"></tbody>-->
-            <!--                        </table>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--        </div>-->
         </div>
     </div>
-
 </div>
-
 
 <script type="text/javascript" th:src="@{/js/home.js}"></script>
 <script type="text/javascript" th:src="@{/js/all.js}"></script>
