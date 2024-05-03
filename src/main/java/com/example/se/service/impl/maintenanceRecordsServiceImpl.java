@@ -55,4 +55,15 @@ public class maintenanceRecordsServiceImpl implements maintenanceRecordsService 
     public void deleteByRecordID(int id) {
         this.maintenanceRecordsRepository.deleteByRecordID(id);
     }
+
+    /**
+     * Implement find by car ID
+     * @param carID: int
+     * @return
+     * maintenanceRecords object
+     */
+    @Override
+    public maintenanceRecords findByCarID(int carID) {
+        return this.maintenanceRecordsRepository.findByCarID(carID);
+    }
 }

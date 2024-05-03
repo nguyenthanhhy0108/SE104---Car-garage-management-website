@@ -20,4 +20,12 @@ public interface maintenanceRecordsRepository extends JpaRepository<maintenanceR
      * maintenanceRecords object
      */
     maintenanceRecords findByRecordID(int id);
+
+    /**
+     * Find by car ID
+     * @param carID: int
+     * @return
+     * maintenanceRecord object
+     */
+    maintenanceRecords findByCarID(int carID);
 }
