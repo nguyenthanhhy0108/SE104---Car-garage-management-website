@@ -107,10 +107,10 @@ async function fetchData() {
       // console.log(numOrders)
       // console.log(`${data.ID}`)
       var row = `<tr scope="row" class="data-row-${data.ID}" data-id=${data.ID}>
-            <td rowspan="${numOrders}" id="data-name-${data.ID}">${data.Name}</td>
-            <td rowspan="${numOrders}" id="data-phone-${data.ID}">${data.Phone}</td>
-            <td rowspan="${numOrders}" id="data-email-${data.ID}">${data.Email}</td>
-            <td rowspan="${numOrders}" id="data-address-${data.ID}">${data.Address}</td>
+            <td rowspan="${numOrders}" id="Name-${data.ID}">${data.Name}</td>
+            <td rowspan="${numOrders}" id="Phone-${data.ID}">${data.Phone}</td>
+            <td rowspan="${numOrders}" id="Email-${data.ID}">${data.Email}</td>
+            <td rowspan="${numOrders}" id="Address-${data.ID}">${data.Address}</td>
             <td id=data-order-brand-${data.Car[0]['Vehicle license number']}>${data.Car[0]['Vehicle brand']}</td>
             <td id=data-order-num-${data.Car[0]['Vehicle license number']}>${data.Car[0]['Vehicle license number']}</td>
             <td>
