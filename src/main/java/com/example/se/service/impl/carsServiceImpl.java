@@ -94,7 +94,7 @@ public class carsServiceImpl implements carsService {
     public CarDTO toDTO(cars cars) {
         CarDTO carDTO = new CarDTO();
         carDTO.setLicenseNumber(cars.getLicensePlate());
-        carDTO.setBranch(this.brandsService.findByBrandID(cars.getBrandID()).getBrandName());
+        carDTO.setBrand(this.brandsService.findByBrandID(cars.getBrandID()).getBrandName());
 
         return carDTO;
     }

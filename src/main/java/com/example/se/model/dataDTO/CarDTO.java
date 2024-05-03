@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CarDTO {
     private String licenseNumber;
-    private String branch;
+    private String brand;
 }
