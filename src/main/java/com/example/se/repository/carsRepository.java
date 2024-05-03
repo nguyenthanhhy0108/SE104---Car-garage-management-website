@@ -30,4 +30,12 @@ public interface carsRepository extends CrudRepository<cars, Integer> {
      * @param carId: int
      */
     void deleteByCarID(int carId);
+
+    /**
+     * Find by Owner ID
+     * @param ownerID: int
+     * @return
+     * List cars objects
+     */
+    List<cars> findByOwnerID(int ownerID);
 }
