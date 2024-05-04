@@ -16,8 +16,11 @@ public class receipts {
     @Column(name = "CarID")
     private int carId;
 
-    @Column(name = "OwnerID")
-    private int ownerId;
+    @Column(name = "Date")
+    private LocalDate date;
+
+    @Column(name = "AmountOwed")
+    private double amountOwed;
 
     @Column(name = "PaymentDate")
     private LocalDate paymentdate;
@@ -29,17 +32,13 @@ public class receipts {
     @JoinColumn(name = "CarID", insertable = false, updatable = false)
     private cars cars;
 
-    @OneToOne
-    @JoinColumn(name = "OwnerID", insertable = false,updatable = false)
-    private owners owners;
-
-    public receipts(int ordernumber,int carId,int ownerId,LocalDate paymentdate,double amountpaid)
-    {
-        this.ordernumber=ordernumber;
-        this.carId=carId;
-        this.ownerId=ownerId;
-        this.paymentdate=paymentdate;
-        this.amountpaid=amountpaid;
+    public receipts(int ordernumber, int carId, LocalDate date, double amountOwed, LocalDate paymentdate, double amountpaid) {
+        this.ordernumber = ordernumber;
+        this.carId = carId;
+        this.date = date;
+        this.amountOwed = amountOwed;
+        this.paymentdate = paymentdate;
+        this.amountpaid = amountpaid;
     }
 
     public receipts() {
