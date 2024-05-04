@@ -29,6 +29,11 @@ public class receiptsController {
         this.ownersService = ownersService;
         this.carsService = carsService;
     }
+
+    /**
+     * Get all payments method
+     * @return
+     */
     @ResponseBody
     @GetMapping("/get-all-payment")
     public ResponseEntity<List<Map<String, Object>>> getAllReceipts() {
