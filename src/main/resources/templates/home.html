@@ -49,7 +49,7 @@
                 <div class="col-lg-2 d-flex align-items-center">
                     <i class="material-symbols-outlined" style="font-size: 2rem;">settings_heart</i>
                     <div style="width: 1vw;"></div>
-                    <span>Hello <span style="color: royalblue" th:text="${session.name}"></span></span>
+                    <span>Hello <span th:text="${session.name}" style="color: #0e4bf1"></span></span>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
         <nav class="nav">
             <div>
                 <a href="#" class="nav_logo">
-                    <img class='bx bx-layer nav_logo-icon' th:src="@{/images/logo-house.png}" height="50" alt="logo">
+                    <img class='bx bx-layer nav_logo-icon' src="/images/logo-house.png" height="50" alt="logo">
                     <span class="nav_logo-name">Pocket Garage</span>
                 </a>
                 <div class="nav_list">
@@ -66,13 +66,13 @@
                         <i class='bx bx-order-alt nav_icon'>
                             <span class="material-symbols-outlined show">list_alt</span>
                         </i>
-                        <span class="nav_name">Order Management</span>
+                        <span class="nav_name" id="orderMenu" onclick="">Customers' Ordering</span>
                     </a>
                     <a href="#" class="nav_link">
                         <i class='bx bx-user nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
+                            <span class="material-symbols-outlined">directions_car</span>
                         </i>
-                        <span class="nav_name">Users</span>
+                        <span class="nav_name" id="vehicleMenu">Vehicles' List</span>
                     </a>
                     <a href="#" class="nav_link">
                         <i class='bx bx-message-square-detail nav_icon'>
@@ -100,7 +100,7 @@
                     </a>
                 </div>
             </div>
-            <a href="#" class="nav_link">
+            <a href="/logout" class="nav_link">
                 <span class="material-symbols-outlined">logout</span>
                 <span class="nav_name">SignOut</span>
             </a>
@@ -129,16 +129,28 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered">
                                 <thead class="table-header">
-                                <th data-column="Name" data-order="desc">Name &#9650</th>
-                                <th data-column="Phone" data-order="desc">Phone Number &#9650</th>
-                                <th data-column="Email" data-order="desc">Email &#9650</th>
-                                <th data-column="Address">Address</th>
-                                <th data-column="Vehicle license number" data-order="desc">License Number &#9650</th>
-                                <th data-column="Vehicle brand" data-order="desc">Brand &#9650</th>
-                                <th data-column="Date" data-order="desc">Date &#9650</th>
-                                <th data-column="Change">Change</th>
+                                <tr>
+                                    <th data-column="Name" data-order="desc" rowspan="3">Name &#9650</th>
+                                    <th data-column="Phone" data-order="desc" rowspan="3">Phone Number &#9650</th>
+                                    <th data-column="Email" data-order="desc" rowspan="3">Email &#9650</th>
+                                    <th data-column="Address" rowspan="3">Address</th>
+                                    <th data-column="Order" data-order="desc" colspan="2">Order details </th>
+                                    <!-- <th data-column="Vehicle brand" data-order="desc">Brand &#9650</th>
+                                    <th data-column="Date" data-order="desc">Date &#9650</th> -->
+                                    <th data-column="Change" rowspan="3">Change</th>
+                                </tr>
+                                <tr>
+                                    <!-- <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th> -->
+                                    <th data-column="Brand">Vehicle's brand</th>
+                                    <th data-column="License">Vehicle's license number</th>
+                                    <!-- <th></th> -->
+                                </tr>
                                 </thead>
                                 <tbody id="myTable"></tbody>
+
                             </table>
                         </div>
                     </div>
@@ -149,26 +161,19 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- FORM ADD -->
-        <div class="container form-up hidden" id="formAdd">
+            <!-- FORM ADD -->
+            <div class="formAdd container form-up hidden" id="formAdd">
             <div>
                 <div class="card" style=" padding-left:0 ;padding-right: 0;">
                     <div class="card-header d-flex justify-content-between">
                         <span class="header-text">Add Order</span>
-                        <span class="material-symbols-outlined" id="closeForm"  style="cursor: pointer;">close</span>
+                        <span class="material-symbols-outlined" id="closeForm_1"  style="cursor: pointer;">close</span>
                     </div>
                     <div class="card-body" style="padding-bottom: 1rem;">
                         <form id="add-form" th:action="@{/add-form1}" method="POST">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="addName" class="form-label">Name</label>
-                                    <input type="text" name="name" class="form-control" id="addName" placeholder="Customer's name" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="addDate" class="form-label">Date</label>
-                                    <input type="date" name="date" class="form-control" id="addDate" placeholder="Ordering date" required>
-                                </div>
+                            <div class="form-group">
+                                <label for="addName" class="form-label">Name</label>
+                                <input type="text" name="name" class="form-control" id="addName" placeholder="Customer's name" required>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -182,8 +187,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="addAdress" class="form-label">Address</label>
-                                <input type="text" name="address" class="form-control" id="addAdress" placeholder="Customer's address" required>
+                                <label for="addAddress" class="form-label">Address</label>
+                                <input type="text" name="address" class="form-control" id="addAddress" placeholder="Customer's address" required>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -210,103 +215,101 @@
                 </div>
             </div>
         </div>
-        <!-- FORM CHANGE -->
-        <div class="container form-up hidden" id="formChange">
-            <div>
-                <div class="card" style=" padding-left:0 ;padding-right: 0;">
-                    <div class="card-header d-flex justify-content-between">
-                        <span class="header-text">Change data information</span>
-                        <span class="material-symbols-outlined" id="closeFormChange"  style="cursor: pointer;">close</span>
-                    </div>
-                    <div class="card-body" style="padding-bottom: 1rem;">
-                        <form th:action="@{/change-form1}" method="POST">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="changeName" class="form-label">Name</label>
-                                    <input type="text" class="form-control" name="change_name" id="changeName" placeholder="customer's name">
+            <!-- FORM DETAILS -->
+            <div class="formAdd container custom-container form-up hidden" id="formDetails" style="width: 1500px;">
+            <div class="card" style=" padding-left:0 ;padding-right: 0;">
+                <div class="card-header d-flex justify-content-between">
+                    <span class="header-text">Add Details</span>
+                    <span class="material-symbols-outlined" id="closeForm"  style="cursor: pointer;">close</span>
+                </div>
+                <div class="card-body row" style="padding-bottom: 1rem;">
+                    <!-- Left Form -->
+                    <div class="col-md-5">
+                        <form>
+                            <!-- Sub form 1: Vehicle and Date -->
+                            <form class="vehicle">
+                                <div class="form-group">
+                                    <label for="addDate" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="addDate" placeholder="ordering date" required>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="changeDate" class="form-label">Date</label>
-                                    <input type="text" class="form-control" name="date" id="changeDate" placeholder="ordering date" disabled>
-                                </div>
-                            </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="addPhone" class="form-label">Phone</label>
-                                    <input type="tel" class="form-control" name="change_phone" id="changePhone" placeholder="customer's phone number" required>
+                                <!-- --------Button create -------- -->
+                                <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
+                                    <button class="btn btn-md btn-primary btn-success" id="confirm-create" >Create Order</button>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="changeEmail" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" name="change_email" id="changeEmail" placeholder="customer's email address">
-                                </div>
-                            </div>
+                            </form>
 
-                            <div class="form-group">
-                                <label for="changeAdress" class="form-label">Adress</label>
-                                <input type="text" class="form-control" id="changeAdress" name="change_address" placeholder="customer's address">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="changeVeID" class="form-label">Vehicle's license number</label>
-                                    <input type="text" class="form-control" name="change_vehicleLicenseNumber" id="changeVeID" placeholder="vehicle's license number" required>
+                            <!-- Sub form 2: Equipment -->
+                            <form class="fixObjectForm">
+                                <div class="form-group">
+                                    <label for="addDetails" class="form-label">Notes</label>
+                                    <input type="text" class="form-control" id="addDetails">
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="changeBrand" class="form-label">Vehicle's brand</label>
-                                    <input id="changeBrand" name="change_vehicleBrand" class="form-control" placeholder="Vehicle's brand" required>
-                                    <!--                                        <option value="" disabled selected>Choose...</option>-->
-                                    <!--                                        <option value="Toyota">Toyota</option>-->
-                                    <!--                                        <option value="Suzuki">Suzuki</option>-->
-                                    <!--                                        <option value="Ford">Ford</option>-->
-                                    <!--                                        <option value="Yamaha">Yamaha</option>-->
-                                    <!--                                        <option value="Honda">Honda</option>-->
-                                    <!--                                    </select>-->
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="addEquip" class="form-label">Equipment</label>
+                                        <select class="form-control" id="addEquip" required>
+                                            <option selected>Choose Equipment</option>
+                                            <option>Wheels</option>
+                                            <option>Glass</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="quantity">Quantity</label>
+                                        <input type="number" class="form-control" id="quantity" required>
+                                    </div>
+                                    <div class="form-group col-md-4 ">
+                                        <label for="price">Price</label>
+                                        <input type="text" class="form-control" id="price" required>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                                <input class="btn btn-md btn-primary" type="submit" value="Submit form">
-                            </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="charge">Charge price</label>
+                                        <input type="text" class="form-control" id="charge" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="totalPrice">Total</label>
+                                        <input type="text" class="form-control" id="totalPrice" disabled>
+                                    </div>
+                                </div>
+
+                                <!-- -------------Add equipment button------- -->
+                                <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
+                                    <button class="btn btn-md btn-primary btn-success" type="submit">Add Equipment</button>
+                                </div>
+                            </form>
                         </form>
+                    </div>
+                    <!-- ---------Right interactive table-------- -->
+                    <div class="col-md-7">
+                        <div class="table-responsive custom-table">
+                            <table class="table table-striped table-bordered">
+                                <thead class="table-header">
+                                <tr>
+                                    <th data-column="IdVe" data-order="desc" rowspan="2">ID Vehicle &#9650</th>
+                                    <th data-column="Date" data-order="desc" rowspan="2">Date &#9650</th>
+                                    <th data-column="Details" colspan="6">Details</th>
+                                </tr>
+                                <tr>
+                                    <th data-column="Notes">Notes</th>
+                                    <th data-column="Equipment">Equipment</th>
+                                    <th data-column="Quantities">Quantities</th>
+                                    <th data-column="Price">Price</th>
+                                    <th data-column="Charge">Charge</th>
+                                    <th data-column="totalPrice">Total Price</th>
+                                </tr>
+                                </thead>
+                                <tbody id="detailsTable"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--Biểu mẫu 2-->
-        <div id="main-screen-content-order2">
-            <!--            <div class="container">-->
-            <!--                <div class="row">-->
-            <!--                    <div class="col">-->
-            <!--                        <div class="card card-group">-->
-            <!--                            <form action="" method="">-->
-            <!--                                <input type="text" class="search-input" placeholder="Your phone number" />-->
-            <!--                                <button class="my-btn">Search</button>-->
-            <!--                            </form>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="row">-->
-            <!--                    <div class="col">-->
-            <!--                        <div class="table-responsive">-->
-            <!--                        <table class="table table-bordered">-->
-            <!--                            <thead class="table-header">-->
-            <!--                                <th data-column="ID" data-order="asc"># &#9650</th>-->
-            <!--                                <th data-column="Vehicle license number" data-order="asc">License Number &#9650</th>-->
-            <!--                                <th data-column="Vehicle brand" data-order="asc">Brand &#9650</th>-->
-            <!--                                <th data-column="Name">Name </th>-->
-            <!--                                <th data-column="Debt" data-order="asc">Debt &#9650</th>-->
-            <!--                            </thead>-->
-            <!--                            <tbody id="form-2TableBody"></tbody>-->
-            <!--                        </table>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--        </div>-->
         </div>
     </div>
-
 </div>
-
 
 <script type="text/javascript" th:src="@{/js/home.js}"></script>
 <script type="text/javascript" th:src="@{/js/all.js}"></script>

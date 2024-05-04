@@ -11,7 +11,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<body>
+<body onload="focus()">
 
 <div class="container-lg p-0">
     <div class="row no-gutters">
@@ -72,19 +72,19 @@
                                             <div class="col-md-2">
                                                 <i class="material-symbols-outlined" > phone_in_talk </i>
                                                 <label for="username" style="z-index: 111;">Phone Number</label>
-                                                <input type="text" class="form-control" id="username" name="username" th:value="${session.username}" required>
+                                                <input type="text" class="form-control" id="username" name="username" th:value="${session.username}" onfocus="checkLogOut()" required>
                                             </div>
                                         </div>
                                         <div class="form-pos row form-bt focused">
                                             <div class="col-md-2">
                                                 <i class="material-symbols-outlined norm" > lock </i>
                                                 <label for="username" style="z-index: 111;">Password</label>
-                                                <input type="password" class="form-control" id="password" name="password" required>
+                                                <input type="password" class="form-control" onfocus="checkLogOut()" id="password" name="password" required>
                                             </div>
                                         </div>
 
                                         <div class="remember-me-container">
-                                            <input type="checkbox" name="remember-me" class="remember-me-checkbox" />
+                                            <input type="checkbox" name="remember-me" onfocus="checkLogOut()" class="remember-me-checkbox" />
                                             <label>Remember Me</label>
                                         </div>
 

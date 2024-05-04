@@ -64,7 +64,7 @@ public class securityConfig {
     {
         //Disable CSRF and CORS
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
-        httpSecurity.cors(AbstractHttpConfigurer::disable);
+//        httpSecurity.cors(AbstractHttpConfigurer::disable);
 
         //Custom login form
         //Redirect login form to home page
@@ -74,7 +74,7 @@ public class securityConfig {
                 .formLogin(form -> form
                         .loginProcessingUrl("/authenticateTheUser")
                         .successForwardUrl("/home")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/", true)
                         .failureHandler(customAuthenticationFailureHandler)
                         .loginPage("/login").permitAll());
 
@@ -100,7 +100,7 @@ public class securityConfig {
                         .requestMatchers("/password").permitAll()
                         .requestMatchers("/test").permitAll()
                         .requestMatchers("/register").permitAll()
-                        .requestMatchers("/login").anonymous()
+//                        .requestMatchers("/login").anonymous()
                         .anyRequest()
                             .authenticated());
 
