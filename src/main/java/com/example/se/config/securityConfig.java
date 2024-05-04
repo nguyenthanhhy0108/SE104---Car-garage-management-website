@@ -99,6 +99,7 @@ public class securityConfig {
                         .requestMatchers("/get-old-data-change-form1").permitAll()
                         .requestMatchers("/password").permitAll()
                         .requestMatchers("/test").permitAll()
+                        .requestMatchers("/get-all-payment").permitAll()
                         .requestMatchers("/register").permitAll()
 //                        .requestMatchers("/login").anonymous()
                         .anyRequest()
