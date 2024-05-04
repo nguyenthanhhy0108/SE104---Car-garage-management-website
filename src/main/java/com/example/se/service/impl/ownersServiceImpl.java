@@ -70,4 +70,15 @@ public class ownersServiceImpl implements ownersService {
     public void deleteByOwnerID(int ownerID) {
         this.ownersRepository.deleteByOwnerID(ownerID);
     }
+
+    /**
+     * Implement find by owner phone number
+     * @param phoneNumber: String
+     * @return
+     * owners object
+     */
+    @Override
+    public owners findByOwnerPhoneNumber(String phoneNumber) {
+        return this.ownersRepository.findByOwnerPhoneNumber(phoneNumber);
+    }
 }

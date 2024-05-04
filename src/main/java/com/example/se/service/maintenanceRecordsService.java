@@ -33,4 +33,12 @@ public interface maintenanceRecordsService {
      * @param id: int
      */
     void deleteByRecordID(int id);
+
+    /**
+     * Find by car ID
+     * @param carID: int
+     * @return
+     * maintenanceRecord object
+     */
+    maintenanceRecords findByCarID(int carID);
 }

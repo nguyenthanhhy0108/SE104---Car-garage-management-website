@@ -40,5 +40,13 @@ public interface ownersService {
      * @param ownerID: int
      */
     void deleteByOwnerID(int ownerID);
+
+    /**
+     * Find owner by phone number
+     * @param phoneNumber: String
+     * @return
+     * owner object
+     */
+    owners findByOwnerPhoneNumber(String phoneNumber);
 }
 
