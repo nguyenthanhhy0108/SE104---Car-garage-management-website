@@ -40,13 +40,17 @@ public class receiptsController {
         List<Map<String, Object>> response = new ArrayList<>();
 
         List<receipts> allReceipts = receiptsService.findAllReceipts();
+
         for (receipts receipt : allReceipts) {
             Map<String, Object> map = new HashMap<>();
 
             int carId = receipt.getCarId();
             cars car = carsService.findByCarID(carId);
             if (car != null) {
-                int ownerId = receipt.getOwnerId();
+                int ownerId = this.carsService
+                        .findByCarID(
+                                receipt.getCarId())
+                        .getOwnerID();
                 owners owner = ownersService.findByOwnerID(ownerId);
                 if (owner != null) {
                     map.put("Owner Name", owner.getOwnerName());
