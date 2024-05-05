@@ -180,6 +180,9 @@ async function fetchData() {
       });
 
       $('.cancel-button[data-vehicle-license-number]').off('click').on('click', cancelDeletion);
+      $('[id^="data-"]').off('click').on('click', function(){
+        editDataForm1.call(this);
+      })
     }
 
 
@@ -188,10 +191,10 @@ async function fetchData() {
       // console.log(numOrders)
       // console.log(`${data.ID}`)
       var row = `<tr scope="row" class="data-row-${data.ID}" data-id=${data.ID}>
-            <td rowspan="${numOrders}" id="data-name-${data.ID}">${data.Name}</td>
-            <td rowspan="${numOrders}" id="data-phone-${data.ID}">${data.Phone}</td>
-            <td rowspan="${numOrders}" id="data-email-${data.ID}">${data.Email}</td>
-            <td rowspan="${numOrders}" id="data-address-${data.ID}">${data.Address}</td>
+            <td rowspan="${numOrders}" id="data-name-${data.ID}" data-toggle="tooltip" title="click for edit">${data.Name}</td>
+            <td rowspan="${numOrders}" id="data-phone-${data.ID}" data-toggle="tooltip" title="click for edit">${data.Phone}</td>
+            <td rowspan="${numOrders}" id="data-email-${data.ID}" data-toggle="tooltip" title="click for edit">${data.Email}</td>
+            <td rowspan="${numOrders}" id="data-address-${data.ID}" data-toggle="tooltip" title="click for edit">${data.Address}</td>
             <td id=data-order-brand-${data.Cars[0].licenseNumber}>${data.Cars[0].brand}</td>
             <td id=data-order-num-${data.Cars[0].licenseNumber}>${data.Cars[0].licenseNumber}</td>
             <td>
@@ -243,6 +246,52 @@ async function fetchData() {
     }
 
     buildTable(test);
+
+    // ----------------- edit form1 function
+    function editDataForm1(){
+      var dataID =  $(this).attr('id')
+      if (dataID.includes('data-order-')){
+        return ;
+      }
+      console.log(dataID)
+      var currentData = $(this).text()
+      var inputElement = $('<input type="text" class="form-control">').val(currentData)
+      $(this).empty().append(inputElement);
+      inputElement.focus();
+      var beforeInput = currentData
+      // console.log("before", beforeInput)
+      var originalElement = $(this);
+      inputElement.blur(function() {
+        var newData = $(this).val();
+        $(this).parent().text(newData);
+
+        if (newData !== currentData) {
+          Swal.fire({
+            title: 'Changes Confirmation',
+            text: 'Are you sure to save these changes?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            cancelButtonText: 'Cancel'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire('Success', 'Changes saved', 'success');
+            } else {
+              // console.log("after", beforeInput)
+              originalElement.text(beforeInput)
+            }
+          });
+        }
+      });
+
+      $(`input`).on('keyup', function(event) {
+        if (event.keyCode === 13) {
+          $(this).blur();
+        }
+      });
+
+      // call api change data
+    }
 
     //Add data functions
     // ------------------ Form Appear after click add button
