@@ -73,6 +73,47 @@ async function deleteForm1(vehicleLicensePlate) {
   }
 }
 
+async function callAPIChangeForm1(oldPhoneNumber, newData, type) {
+  let name = null;
+  let phoneNumber = null;
+  let email = null;
+  let address = null;
+
+  let dataObject = {
+    name: name,
+    phoneNumber: phoneNumber,
+    email: email,
+    address: address,
+    oldPhoneNumber: oldPhoneNumber
+  };
+
+  if (type === "email") {
+    dataObject.email = newData;
+  }
+  if (type === "phone") {
+    dataObject.phoneNumber = newData;
+  }
+  if (type === "name") {
+    dataObject.name = newData;
+  }
+  if (type === "address") {
+    dataObject.address = newData;
+  }
+
+  $.ajax({
+    url: '/change-form1',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(dataObject),
+    success: function(response) {
+      // alert(response.status);
+    },
+    error: function(xhr, status, error) {
+      alert(error)
+    }
+  });
+}
+
 async function fetchData() {
   try {
     test = await $.ajax({
@@ -263,7 +304,6 @@ async function fetchData() {
       if (dataID.includes('data-order-')){
         return ;
       }
-      console.log(dataID)
       var currentData = $(this).text()
       var inputElement = $('<input type="text" class="form-control">').val(currentData)
       $(this).empty().append(inputElement);
@@ -286,7 +326,27 @@ async function fetchData() {
           }).then((result) => {
             if (result.isConfirmed) {
               console.log("old Phone, new Data: ", oldPhone, newData)
-              Swal.fire('Success', 'Changes saved', 'success');
+              let type = null;
+              if (dataID.toString().includes("email")) {
+                type = "email";
+              }
+              if (dataID.toString().includes("name")) {
+                type = "name";
+              }
+              if (dataID.toString().includes("phone")) {
+                type = "phone";
+              }
+              if (dataID.toString().includes("address")) {
+                type = "address";
+              }
+              callAPIChangeForm1(oldPhone, newData, type);
+
+              setTimeout(function () {
+                Swal.fire('Success', 'Changes saved', 'success');
+              }, 3000);
+
+              window.location.reload();
+
             } else {
               // console.log("after", beforeInput)
               originalElement.text(beforeInput)
