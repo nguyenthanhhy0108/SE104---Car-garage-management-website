@@ -4,6 +4,7 @@ import com.example.se.model.brands;
 import com.example.se.model.cars;
 import com.example.se.model.dataDTO.CarDTO;
 import com.example.se.model.dataDTO.Form1InformationDTO;
+import com.example.se.model.dataDTO.OwnerDTO;
 import com.example.se.model.maintenanceRecords;
 import com.example.se.model.owners;
 import com.example.se.service.maintenanceRecordsService;
@@ -163,78 +164,31 @@ public class receiveAndMaintainCarController {
         }
     }
 
-//    private Form1InformationDTO oldDataChange = new Form1InformationDTO();
-//
-//    /**
-//     * Get old data to compare
-//     * @param oldData: DTO from client
-//     * @return
-//     * Status ok
-//     */
-//    @PostMapping("/get-old-data-change-form1")
-//    public ResponseEntity<Map<String, Object>> getOldData(@RequestBody Form1InformationDTO oldData) {
-//        this.oldDataChange = oldData;
-//        HashMap<String, Object> response = new HashMap<>();
-//        response.put("ok", "ok");
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-//
-//    /**
-//     * Process when submit change form 1
-//     * @param request: HttpServletRequest object
-//     * @return
-//     * Redirect to some HTML pages
-//     */
-//    @PostMapping("/change-form1")
-//    public String handleFormChange(HttpServletRequest request) {
-//
-//        Form1InformationDTO oldData = this.oldDataChange;
-//
-//        HashMap<String, Object> response = new HashMap<>();
-//
-//        String name = request.getParameter("change_name");
-//        String phone = request.getParameter("change_phone");
-//        String email = request.getParameter("change_email");
-//        String address = request.getParameter("change_address");
-//        String vehicleLicenseNumber = request.getParameter("change_vehicleLicenseNumber");
-//        String vehicleBrand = request.getParameter("change_vehicleBrand");
-//
-//        cars oldCars = this.carsService.findByLicensePlate(oldData.getLicense()).get(0);
-//        oldCars.setLicensePlate(vehicleLicenseNumber);
-//
-//        brands oldBrands = this.brandsService.findByBrandName(oldData.getBrand());
-//        int brandID = 0;
-//        if(oldBrands.getCarsList().isEmpty()) {
-//            oldBrands.setBrandID(oldBrands.getBrandID());
-//            oldBrands.setBrandName(vehicleBrand);
-//            brandID = this.brandsService.save(oldBrands).getBrandID();
-//        }
-//        else {
-//            brands newBrands = this.brandsService.findByBrandName(vehicleBrand);
-//            if(newBrands == null){
-//                newBrands = new brands();
-//                newBrands.setBrandName(vehicleBrand);
-//                brandID = this.brandsService.save(newBrands).getBrandID();
-//            }
-//            else {
-//                brandID = newBrands.getBrandID();
-//            }
-//        }
-//
-//        oldCars.setBrandID(brandID);
-//
-//        owners oldOwner = this.ownersService.findByOwnerEmail(oldData.getEmail());
-//        oldOwner.setOwnerID(oldOwner.getOwnerID());
-//        oldOwner.setOwnerName(name);
-//        oldOwner.setOwnerAddress(address);
-//        oldOwner.setOwnerPhoneNumber(phone);
-//        oldOwner.setOwnerEmail(email);
-//
-//        this.ownersService.save(oldOwner);
-//        this.carsService.save(oldCars);
-//
-//        return "redirect:/home";
-//    }
+    @PostMapping("/change-form1")
+    public ResponseEntity<Map<String, Object>> handleFormChange(@RequestBody OwnerDTO ownerDTO) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "success");
+
+        owners owners = ownersService.findByOwnerPhoneNumber(ownerDTO.getOldPhoneNumber());
+
+        if (ownerDTO.getName() != null) {
+            owners.setOwnerName(ownerDTO.getName());
+        }
+        if (ownerDTO.getPhoneNumber() != null) {
+            owners.setOwnerPhoneNumber(ownerDTO.getPhoneNumber());
+        }
+        if (ownerDTO.getEmail() != null) {
+            owners.setOwnerEmail(ownerDTO.getEmail());
+        }
+        if (ownerDTO.getAddress() != null) {
+            owners.setOwnerAddress(ownerDTO.getAddress());
+        }
+
+        this.ownersService.save(owners);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     /**
      * Delete a row
