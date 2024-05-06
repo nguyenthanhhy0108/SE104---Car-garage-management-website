@@ -273,6 +273,8 @@ async function fetchData() {
             cancelButtonText: 'Cancel'
           }).then((result) => {
             if (result.isConfirmed) {
+
+              console.log(newData);
               Swal.fire('Success', 'Changes saved', 'success');
             } else {
               // console.log("after", beforeInput)
