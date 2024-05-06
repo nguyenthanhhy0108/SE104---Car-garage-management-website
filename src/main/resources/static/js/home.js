@@ -325,7 +325,7 @@ async function fetchData() {
             cancelButtonText: 'Cancel'
           }).then((result) => {
             if (result.isConfirmed) {
-              console.log("old Phone, new Data: ", oldPhone, newData)
+              // console.log("old Phone, new Data: ", oldPhone, newData)
               let type = null;
               if (dataID.toString().includes("email")) {
                 type = "email";
@@ -453,38 +453,48 @@ async function fetchData() {
         return false;
     }
 
+    // ------------ FORM 2 ---------------
 
-    // Table 2
-    //add row table 2
+    // Right Table
     function addRowDetails(data) {
-      let numVehicle=0;
-      data.Dates.forEach(function(date) {
-        numVehicle += date.Details.length
-      });
-      console.log("numVe", numVehicle)
-      data.Dates.forEach(function (dateData, dateIndex) {
-        var isFirstDateRow = (dateIndex === 0);
-        dateData.Details.forEach(function (detail, detailIndex) {
-          var newRow = $('<tr>');
-          if (isFirstDateRow && detailIndex === 0) {
-            $('<td>').attr('rowspan', numVehicle).text(data.licenseNumber).appendTo(newRow);
-          }
-          if (detailIndex === 0) {
-            $('<td>').attr('rowspan', data.Dates.length).text(dateData.Date).appendTo(newRow);
-          }
-          $('<td>').text(detail.notes).appendTo(newRow);
-          $('<td>').text(detail.equip).appendTo(newRow);
-          $('<td>').text(detail.quantity).appendTo(newRow);
-          $('<td>').text(detail.price).appendTo(newRow);
-          $('<td>').text(detail.charge).appendTo(newRow);
-          $('<td>').text(detail.total).appendTo(newRow);
+      let numVehicle = 0;
 
-          $('#detailsTable').append(newRow);
-        });
+      // Tính tổng số lượng chi tiết
+      data.Dates.forEach(function(date) {
+        numVehicle += date.Details.length;
+      });
+
+      data.Dates.forEach(function(dateData, dateIndex) {
+        dateData.Details.forEach(function(detail, detailIndex) {
+          var orderNumber = detail.OrderNumber;
+          var row = '';
+          if (detailIndex === 0) {
+            row += `<tr>`;
+            if (dateIndex === 0)
+              row += `<td id="data-order-num-${data.licenseNumber}" rowspan="${numVehicle}">${data.licenseNumber}</td>`;
+            row += `<td id="data-order-date-${data.Dates.length}" rowspan="${data.Dates.length}">${dateData.Date}</td>`;
+          }
+          row += `<td data-order-id="${orderNumber}" id="data-order-note-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.notes}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-equip-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.equip}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-quantity-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.quantity}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-price-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.price}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.charge}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-total-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
+                        <td>
+                            <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order="${detail.OrderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
+                        </td>
+                    </tr>`;
+
+          $('#detailsTable').append(row);
+          $('.delete-button[data-order-]').off('click').on('click', function(){
+            deleteDetails.call(this)
+          })
+          $('[id^="data-order-"]').off('click').on('click', function(){
+            editDataDetails.call(this);
+          })
+        })
       });
     }
-
-
     function detailsData() {
       $(`#detailsTable`).empty()
       var vehicleID = $(this).data('vehicle-license-number');
@@ -495,6 +505,7 @@ async function fetchData() {
         "Dates": [{
           'Date': '01/05/2024',
           'Details': [{
+            'OrderNumber':'1',
             'notes': 'aaaa',
             'equip': 'wheels',
             'quantity': '2',
@@ -503,6 +514,7 @@ async function fetchData() {
             'total': '24'
           },
             {
+              'OrderNumber':'2',
               'notes': 'bbbbb',
               'equip': 'big wheels',
               'quantity': '2',
@@ -515,6 +527,7 @@ async function fetchData() {
           {
             'Date': '1/1/2005',
             'Details': [{
+              'OrderNumber':'3',
               'notes': 'bbbbb',
               'equip': 'small wheels',
               'quantity': '2',
@@ -523,6 +536,7 @@ async function fetchData() {
               'total': '24'
             },
               {
+                'OrderNumber':'4',
                 'notes': 'bbbbb',
                 'equip': 'big glass',
                 'quantity': '2',
@@ -543,26 +557,84 @@ async function fetchData() {
       });
 
       addRowDetails(firstData);
+    }
+    function deleteDetails(){
+      var orderID = $(this).data('order-id')
+      console.log(orderID)
+      if (orderID){
+        Swal.fire({
+          title: 'Delete Confirmation',
+          text: 'Are you sure to delete this data?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if (confirmDeletionDetails(vehicleID))
+              Swal.fire('Success', 'Deleted ', 'success');
+            // console.log(vehicleID)
+            else
+              Swal.fire('Cancel', 'Cancel Deletion', 'info')
 
-      // var dateCurr = null;
-      // $('#confirm-create').click(function (event) {
-      //     event.preventDefault();
-      //     var dateInput = $('#addDate').val();
-      //     console.log(dateInput);
-      //     // Check if the dateInput is present in any of the Dates
-      //     var isDatePresent = firstData.Dates.some(function (dateObj) {
-      //         return dateObj.Date === dateInput;
-      //     });
-      //     if (isDatePresent) {
-      //         dateCurr = dateInput;
-      //         console.log(dateCurr);
-      //     } else {
-      //         console.log("Date not found in data.");
-      //     }
-      // });
+          }
+        });
+      } else {
+        console.log("vehicleID is undefined or empty");
+      }
+    }
+    function confirmDeletionDetails(){
+      return true
+      return false
+    }
+    function editDataDetails(){
+      var dataID =  $(this).attr('id')
+      if (dataID.includes('num') || dataID.includes('date'))
+        return ;
+      var orderID = getID(dataID)
+      console.log(orderID)
+      var currentData = $(this).text()
+      var inputElement = $('<input type="text" class="form-control">').val(currentData)
+      $(this).empty().append(inputElement);
+      inputElement.focus();
+      var beforeInput = currentData
+      console.log("before", beforeInput)
+      var originalElement = $(this);
+      inputElement.blur(function() {
+        var newData = $(this).val();
+        $(this).parent().text(newData);
+
+        if (newData !== currentData) {
+          Swal.fire({
+            title: 'Changes Confirmation',
+            text: 'Are you sure to save these changes?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            cancelButtonText: 'Cancel'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              console.log("orderID, new Data: ", orderID, newData)
+              Swal.fire('Success', 'Changes saved', 'success');
+            } else {
+              // console.log("after", beforeInput)
+              originalElement.text(beforeInput)
+            }
+          });
+        }
+      });
+
+      $(`input`).on('keyup', function(event) {
+        if (event.keyCode === 13) {
+          $(this).blur();
+        }
+      });
+      // call api change data
     }
 
-  // Form Appear after click add button
+
+
+    // Form Appear after click add button
   $("#addData").on("click", function () {
     $("#formAdd").addClass("show");
     $("#dataTable").css({
