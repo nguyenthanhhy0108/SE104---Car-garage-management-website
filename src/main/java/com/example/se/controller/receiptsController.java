@@ -24,7 +24,9 @@ public class receiptsController {
     private  final carsService carsService;
 
     @Autowired
-    public receiptsController(receiptsService receiptsService, ownersService ownersService, carsService carsService) {
+    public receiptsController(receiptsService receiptsService,
+                              ownersService ownersService,
+                              carsService carsService) {
         this.receiptsService = receiptsService;
         this.ownersService = ownersService;
         this.carsService = carsService;
@@ -33,6 +35,7 @@ public class receiptsController {
     /**
      * Get all payments method
      * @return
+     * Json object to client
      */
     @ResponseBody
     @GetMapping("/get-all-payment")
