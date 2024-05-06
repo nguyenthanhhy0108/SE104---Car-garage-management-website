@@ -179,7 +179,7 @@ async function fetchData() {
         confirmDeletion.call(this);
       });
 
-      $('.cancel-button[data-vehicle-license-number]').off('click').on('click', cancelDeletion);
+      // $('.cancel-button[data-vehicle-license-number]').off('click').on('click', cancelDeletion);
       $('[id^="data-"]').off('click').on('click', function(){
         editDataForm1.call(this);
       })
@@ -221,7 +221,7 @@ async function fetchData() {
                     <div class = "row col-sm-2 show" id = "change-del-btn-${data.Cars[i].licenseNumber}">
                         <span style="cursor: pointer; color:green"  class="material-symbols-outlined details-button" data-id"="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}" data-toggle="tooltip" title="click for details">info</span>
                         <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
-                      </div>
+                      </div> 
                     <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Cars[i].licenseNumber}">
                         <button class="btn btn-sm btn-danger confirm-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Confirm</button>
                         <button class="btn btn-sm btn-success cancel-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Cancel</button>
@@ -338,53 +338,46 @@ async function fetchData() {
     }
 
     closeForm('#formAdd', '#closeForm_1', '#dataTable', 'click');
+
+
     // Delete data fucntion
     // ---------------- Delete data fucntion
     function deleteData() {
       var vehicleID = $(this).attr('data-vehicle-license-number');
 
-      // Kiểm tra xem vehicleID có giá trị không
       if (vehicleID) {
-        console.log("deldata called");
-        var change_del_Btn = $(`#change-del-btn-${vehicleID.replace(/\./g, "\\.")}`);
-        var cancel_confirm_Btn = $(`#cancel-confirm-btn-${vehicleID.replace(/\./g, "\\.")}`);
-
-        change_del_Btn.addClass('hidden');
-        change_del_Btn.removeClass('show');
-        cancel_confirm_Btn.addClass('show');
-        cancel_confirm_Btn.removeClass('hidden');
+        Swal.fire({
+          title: 'Delete Confirmation',
+          text: 'Are you sure to delete this data?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if (confirmDeletion(vehicleID))
+              Swal.fire('Success', 'Deleted ', 'success');
+            setTimeout(function () {
+              console.log("Waiting 5 seconds")
+              window.location.reload();
+            }, 3000);
+          } else
+            Swal.fire('Cancel', 'Cancel Deletion', 'info')
+        });
       } else {
         console.log("vehicleID is undefined or empty");
       }
     }
 
-
-    function cancelDeletion() {
-      var vehicleID = $(this).data('vehicle-license-number')
-      var change_del_Btn = $(`#change-del-btn-${vehicleID.replace(/\./g, "\\.")}`);
-      var cancel_confirm_Btn = $(`#cancel-confirm-btn-${vehicleID.replace(/\./g, "\\.")}`);
-
-      change_del_Btn.addClass('show')
-      change_del_Btn.removeClass('hidden')
-      cancel_confirm_Btn.addClass('hidden')
-      cancel_confirm_Btn.removeClass('show')
-    };
-
-    // 1/5
-    async function confirmDeletion(dataID) {
-      var vehicleID = $(this).data('vehicle-license-number')
+    async function confirmDeletion(vehicleID) {
+      console.log(vehicleID)
+      // var vehicleID = $(this).data('vehicle-license-number')
       let response = await deleteForm1(vehicleID);
-      if (response.success) {
-        popupDialog("Success", "Data deleted")
-        setTimeout(function () {
-          console.log("Waiting 5 seconds")
-          window.location.reload();
-        }, 3000);
-      }
-      else {
-        alert("Error !!!");
-      }
-    };
+      if (response.success)
+          return true;
+      else
+        return false;
+    }
 
 
     // Table 2
