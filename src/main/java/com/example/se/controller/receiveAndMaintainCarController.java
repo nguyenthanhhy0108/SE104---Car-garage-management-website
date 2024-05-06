@@ -50,48 +50,6 @@ public class receiveAndMaintainCarController {
     }
 
     /**
-     * Get all record
-     * @return
-     * A map containing all maintenance records
-     */
-    @ResponseBody
-    @GetMapping("/get-all-records")
-    public ResponseEntity<List<Map<String, Object>>> getAllMaintenanceRecords() {
-
-        List<Map<String, Object>> response = new ArrayList<>();
-
-        List<owners> owners = new ArrayList<>();
-
-        List<maintenanceRecords> maintenanceRecords = this.maintenanceService.findAllRecords();
-        for (maintenanceRecords maintenanceRecord : maintenanceRecords) {
-            owners foundOwner = this.ownersService
-                    .findByOwnerID(
-                            this.carsService
-                                    .findByCarID(maintenanceRecord.getCarID())
-                                    .getOwnerID());
-            if(!owners.contains(foundOwner)) {
-                owners.add(foundOwner);
-            }
-        }
-
-        for(owners owner : owners) {
-            Map<String, Object> record = new HashMap<>();
-            record.put("ID", owner.getOwnerID());
-            record.put("Name", owner.getOwnerName());
-            record.put("Phone", owner.getOwnerPhoneNumber());
-            record.put("Email", owner.getOwnerEmail());
-            record.put("Address", owner.getOwnerAddress());
-            List<CarDTO> carDTOS = this.carsService.toDTO(
-                    this.carsService.findByOwnerID(owner.getOwnerID())
-            );
-            record.put("Cars", carDTOS);
-            response.add(record);
-        }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
      * Process when submit add form 1
      * @param request: HttpServletRequest object
      * @return
