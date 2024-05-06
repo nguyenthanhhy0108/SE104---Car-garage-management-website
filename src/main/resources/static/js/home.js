@@ -202,10 +202,6 @@ async function fetchData() {
                      <span style="cursor: pointer; color:green"  class="material-symbols-outlined details-button" data-id"="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}" data-toggle="tooltip" title="click for details">info</span>
                      <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
                  </div>
-                 <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Cars[0].licenseNumber}">
-                     <button class="btn btn-sm btn-danger confirm-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Confirm</button>
-                     <button class="btn btn-sm btn-success cancel-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[0].licenseNumber}">Cancel</button>
-                 </div>
               </td>`;
 
       $('#myTable').append(row)
@@ -222,10 +218,6 @@ async function fetchData() {
                         <span style="cursor: pointer; color:green"  class="material-symbols-outlined details-button" data-id"="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}" data-toggle="tooltip" title="click for details">info</span>
                         <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
                       </div> 
-                    <div class="row col-sm-2 hidden" id = "cancel-confirm-btn-${data.Cars[i].licenseNumber}">
-                        <button class="btn btn-sm btn-danger confirm-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Confirm</button>
-                        <button class="btn btn-sm btn-success cancel-button" data-id="${data.ID}" data-vehicle-license-number="${data.Cars[i].licenseNumber}">Cancel</button>
-                    </div>
                 </td>
             </tr>`
         $('#myTable').append(subRow)
@@ -246,8 +238,28 @@ async function fetchData() {
     buildTable(test);
 
     // ----------------- edit form1 function
+    function getID(id){
+      var idArray = id.split("-");
+      return idArray[idArray.length - 1];
+    }
+    function getPhoneNumber(dataID) {
+      var phoneNumber = "";
+
+      $('table tr').each(function() {
+        var phoneCell = $(this).find(`td[id^="data-phone-${dataID}"]`);
+        if (phoneCell.length > 0) {
+          phoneNumber = phoneCell.text();
+          return false;
+        }
+      });
+      return phoneNumber;
+    }
     function editDataForm1(){
       var dataID =  $(this).attr('id')
+      var rowID = getID(dataID)
+      console.log(rowID)
+      var oldPhone = getPhoneNumber(rowID)
+      console.log(oldPhone)
       if (dataID.includes('data-order-')){
         return ;
       }
@@ -273,6 +285,7 @@ async function fetchData() {
             cancelButtonText: 'Cancel'
           }).then((result) => {
             if (result.isConfirmed) {
+              console.log("old Phone, new Data: ", oldPhone, newData)
               Swal.fire('Success', 'Changes saved', 'success');
             } else {
               // console.log("after", beforeInput)
@@ -373,6 +386,7 @@ async function fetchData() {
       console.log(vehicleID)
       // var vehicleID = $(this).data('vehicle-license-number')
       let response = await deleteForm1(vehicleID);
+      // return !!response.success;
       if (response.success)
           return true;
       else
