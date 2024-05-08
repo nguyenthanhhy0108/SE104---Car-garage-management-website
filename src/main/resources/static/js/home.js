@@ -1,4 +1,4 @@
-var test;
+var test, equipList, serviceList;
 
 // Menu handler
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -121,9 +121,13 @@ async function fetchData() {
       method: "GET",
       dataType: "json",
     });
-    console.log(test);
+    // console.log(test);
     checkLicensePlate();
-
+    equipList = await $.ajax({
+      url: "/get-all-parts",
+      method: "GET",
+      dataType: "json",
+    })
 
     // Sort table function
     $("th").on("click", function () {
@@ -176,7 +180,6 @@ async function fetchData() {
       var data = searchTable(value, test);
       buildTable(data);
     });
-
     function searchTable(value, data) {
       var filteredData = [];
       for (var i = 0; i < data.length; i++) {
@@ -189,7 +192,6 @@ async function fetchData() {
       }
       return filteredData;
     }
-
     function getDataFromServer() {
       $.ajax({
         method: "GET",
@@ -225,8 +227,6 @@ async function fetchData() {
         editDataForm1.call(this);
       })
     }
-
-
     function addRow(data){
       var numOrders = data.Cars.length
       // console.log(numOrders)
@@ -265,7 +265,6 @@ async function fetchData() {
         buttonEvent(data.Cars[i].licenseNumber, data.ID)
       }
     }
-
     function buildTable(data) {
       console.log("build table called")
       var table = document.getElementById('myTable')
@@ -275,7 +274,6 @@ async function fetchData() {
         addRow(data[i])
       }
     }
-
     buildTable(test);
 
     // ----------------- edit form1 function
@@ -363,7 +361,6 @@ async function fetchData() {
 
       // call api change data
     }
-
     //Add data functions
     // ------------------ Form Appear after click add button
     $('#addData').on('click', function () {
@@ -395,7 +392,6 @@ async function fetchData() {
         }
       });
     });
-
     function closeForm(idForm, idClose, tableBackground, event) {
       // ---Example use:
       // closeForm('#formAdd_1', '#closeForm_1', '#dataTable', 'click');
@@ -409,7 +405,6 @@ async function fetchData() {
         });
       });
     }
-
     closeForm('#formAdd', '#closeForm_1', '#dataTable', 'click');
 
 
@@ -441,7 +436,6 @@ async function fetchData() {
         console.log("vehicleID is undefined or empty");
       }
     }
-
     async function confirmDeletion(vehicleID) {
       console.log(vehicleID)
       // var vehicleID = $(this).data('vehicle-license-number')
@@ -452,11 +446,13 @@ async function fetchData() {
       else
         return false;
     }
-
+    
+    
     // ------------ FORM 2 ---------------
 
     // Right Table
     function addRowDetails(data) {
+
       let numVehicle = 0;
 
       // Tính tổng số lượng chi tiết
@@ -468,6 +464,7 @@ async function fetchData() {
         dateData.Details.forEach(function(detail, detailIndex) {
           var orderNumber = detail.OrderNumber;
           var row = '';
+
           if (detailIndex === 0) {
             row += `<tr>`;
             if (dateIndex === 0)
@@ -475,10 +472,11 @@ async function fetchData() {
             row += `<td id="data-order-date-${data.Dates.length}" rowspan="${data.Dates.length}">${dateData.Date}</td>`;
           }
           row += `<td data-order-id="${orderNumber}" id="data-order-note-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.notes}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-equip-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.equip}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-equip-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.partName}</td>
                         <td data-order-id="${orderNumber}" id="data-order-quantity-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.quantity}</td>
                         <td data-order-id="${orderNumber}" id="data-order-price-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.price}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.charge}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.serviceName}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.serviceCost}</td>
                         <td data-order-id="${orderNumber}" id="data-order-total-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
                         <td>
                             <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order="${detail.OrderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
@@ -498,7 +496,7 @@ async function fetchData() {
     function detailsData() {
       $(`#detailsTable`).empty()
       var vehicleID = $(this).data('vehicle-license-number');
-      console.log(vehicleID);
+      // console.log(vehicleID);
 
       var firstData = {
         "licenseNumber": vehicleID,
@@ -507,20 +505,22 @@ async function fetchData() {
           'Details': [{
             'OrderNumber':'1',
             'notes': 'aaaa',
-            'equip': 'wheels',
+            'partName': 'Spark Plug',
             'quantity': '2',
-            'price': '10',
-            'charge': '4',
-            'total': '24'
+            'price': 5.99,
+            'serviceName':'Oil Change',
+            'serviceCost': 29.99,
+            'total': 41.97
           },
             {
               'OrderNumber':'2',
               'notes': 'bbbbb',
-              'equip': 'big wheels',
+              'partName': 'Oil Filter',
               'quantity': '2',
-              'price': '20',
-              'charge': '4',
-              'total': '24'
+              'price': 8.49,
+              'serviceName':'Tire Rotation',
+              'serviceCost': 19.99,
+              'total': 36.97
             }
           ]
         },
@@ -529,20 +529,22 @@ async function fetchData() {
             'Details': [{
               'OrderNumber':'3',
               'notes': 'bbbbb',
-              'equip': 'small wheels',
+              'partName': 'Air Filter',
               'quantity': '2',
-              'price': '8',
-              'charge': '4',
-              'total': '24'
+              'price': 12.99,
+              'serviceName':'Air Filter Replacement',
+              'serviceCost': 15.99,
+              'total': 41.97
             },
               {
                 'OrderNumber':'4',
                 'notes': 'bbbbb',
-                'equip': 'big glass',
+                'partName': 'Brake Pads',
                 'quantity': '2',
-                'price': '10',
-                'charge': '4',
-                'total': '24'
+                'price': 35.99,
+                'serviceName':'Brake Inspection',
+                'serviceCost':  49.99,
+                'total': 121.97
               }
             ]
           }
@@ -555,8 +557,9 @@ async function fetchData() {
         'opacity': '0.5',
         'pointer-events': 'none'
       });
-
+      addEquipServiceSelection()
       addRowDetails(firstData);
+      form2Interaction()
     }
     function deleteDetails(){
       var orderID = $(this).data('order-id')
@@ -632,26 +635,56 @@ async function fetchData() {
       // call api change data
     }
 
+  // Left form interaction
+    function addEquipServiceSelection(){
+      equipList.forEach(function(option) {
+        $('#addEquip').append('<option>' + option['partName'] + '</option>');
+      });
+      $('#addEquip').select2();
+      serviceList.forEach(function(option){
+        $('#addService').append('<option>' + option['ServiceName'] + '</option>');
+      })
+      $('#addService').select2();
+    }
+    function getPriceService(name, type) {
+      console.log(name)
+      var price = null
+      if (type === 'equip') {
+        equipList.forEach(function(eq) {
+          if (eq['partName'] === name) {
+            price =  eq['price'];
+            return false;
+          }
+        });
+      }
+      else if (type === 'service'){
+        serviceList.forEach(function(eq) {
+          if (eq['ServiceName'] === name) {
+            price =  eq['ServiceCost'];
+            return false;
+          }
+        });
+      }
+      return price
+    }
+
+    function form2Interaction(){
+      $('#addEquip').on('change', function () {
+        var equipVal = $(this).val()
+        var equipPrice = getPriceService(equipVal, 'equip')
+        // console.log(price)
+        $('#price').val(equipPrice);
+      })
+      $('#addService').on('change', function() {
+        var serVal = $(this).val()
+        var serPrice = getPriceService(serVal, 'service')
+        $('#charge').val(serPrice)
+      })
+
+    }
 
 
-    // Form Appear after click add button
-  $("#addData").on("click", function () {
-    $("#formAdd").addClass("show");
-    $("#dataTable").css({
-      opacity: "0.5",
-      "pointer-events": "none",
-    });
-  });
-
-  $("#closeForm_1").on("click", function () {
-    $("#formAdd").addClass("hidden");
-    $("#formAdd").removeClass("show");
-    $("body").css("overflow", "auto");
-    $("#dataTable").css({
-      opacity: "",
-      "pointer-events": "",
-    });
-  });
+ 
 
   function checkLicensePlate() {
     var urlParams = new URLSearchParams(window.location.search);
