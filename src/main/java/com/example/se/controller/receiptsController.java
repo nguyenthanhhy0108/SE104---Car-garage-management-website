@@ -1,17 +1,17 @@
 package com.example.se.controller;
-import com.example.se.model.cars;
-import com.example.se.model.owners;
-import com.example.se.model.receipts;
-import com.example.se.service.receiptsService;
+import com.example.se.model.*;
+import com.example.se.model.dataDTO.Form2InformationDTO;
+import com.example.se.model.dataDTO.OrderDetailsDTO;
+import com.example.se.model.dataDTO.OrderInDayDTO;
+import com.example.se.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import com.example.se.service.carsService;
-import com.example.se.service.ownersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,16 +20,28 @@ import java.util.Map;
 @Controller
 public class receiptsController {
     private final receiptsService receiptsService;
-    private  final ownersService ownersService;
-    private  final carsService carsService;
+    private final ownersService ownersService;
+    private final carsService carsService;
+    private final partsService partsService;
+    private final repairOrdersPartsServices repairOrdersPartsService;
+    private final repairOrderServicesService repairOrderServicesService;
+    private final servicesServices servicesServices;
 
     @Autowired
     public receiptsController(receiptsService receiptsService,
                               ownersService ownersService,
-                              carsService carsService) {
+                              carsService carsService,
+                              repairOrdersPartsServices repairOrdersPartsService,
+                              partsService partsService,
+                              repairOrderServicesService repairOrderServicesService,
+                              servicesServices servicesService) {
         this.receiptsService = receiptsService;
         this.ownersService = ownersService;
         this.carsService = carsService;
+        this.repairOrdersPartsService = repairOrdersPartsService;
+        this.partsService = partsService;
+        this.repairOrderServicesService = repairOrderServicesService;
+        this.servicesServices = servicesService;
     }
 
     /**
@@ -69,5 +81,59 @@ public class receiptsController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @ResponseBody
+    @GetMapping("get-all-receipt")
+    public ResponseEntity<List<Form2InformationDTO>> getAllReceipt() {
+        List<Form2InformationDTO> response = new ArrayList<>();
+        List<Integer> listCarID = receiptsService.findAllCarID();
+        for (int carID : listCarID) {
+            Form2InformationDTO form2InformationDTO = new Form2InformationDTO();
+            form2InformationDTO.setLicenseNumber(this.carsService
+                    .findByCarID(carID).getLicensePlate());
 
+            List<OrderInDayDTO> orderInDayDTOList = new ArrayList<>();
+
+            List<LocalDate> allDates = receiptsService.findAllDatesByCarId(carID);
+
+            for (LocalDate date : allDates) {
+                OrderInDayDTO orderInDayDTO = new OrderInDayDTO();
+                orderInDayDTO.setOrderDate(date);
+
+                List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
+
+                List<Integer> allOrderNumberInDay = this.receiptsService.findAllOrderIDByCarIdAndDate(carID, date);
+
+                for (Integer orderNumber : allOrderNumberInDay) {
+                    OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+                    repairOrdersParts repairOrdersParts = this.repairOrdersPartsService.findByOrderNumber(orderNumber);
+
+                    orderDetailsDTO.setQuantity(repairOrdersParts.getQuantity());
+                    orderDetailsDTO.setPart(this.partsService
+                            .findByPartID(repairOrdersParts.getPartID())
+                            .toDTO());
+
+                    repairOrderServices repairOrderServices = this.repairOrderServicesService
+                            .findByOrderNumber(orderNumber);
+
+                    orderDetailsDTO.setService(
+                            this.servicesServices
+                                    .findByServicesID(repairOrderServices.getServiceID())
+                                    .toDTO());
+
+                    orderDetailsDTO.setTotal(
+                            orderDetailsDTO.getQuantity() * orderDetailsDTO.getPart().getPrice()
+                                    + orderDetailsDTO.getService().getServiceCost());
+
+                    orderDetailsList.add(orderDetailsDTO);
+                    orderInDayDTO.setOrderDetails(orderDetailsList);
+                    orderInDayDTOList.add(orderInDayDTO);
+                }
+                orderInDayDTO.setOrderDetails(orderDetailsList);
+            }
+
+            form2InformationDTO.setDates(orderInDayDTOList);
+            response.add(form2InformationDTO);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

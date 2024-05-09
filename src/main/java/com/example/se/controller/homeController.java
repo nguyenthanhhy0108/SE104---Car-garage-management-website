@@ -2,9 +2,11 @@ package com.example.se.controller;
 
 import com.example.se.model.dataDTO.CarDTO;
 import com.example.se.model.dataDTO.PartDTO;
+import com.example.se.model.dataDTO.ServiceDTO;
 import com.example.se.model.maintenanceRecords;
 import com.example.se.model.owners;
 import com.example.se.model.parts;
+import com.example.se.model.services;
 import com.example.se.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,6 +35,8 @@ public class homeController {
     private final carsService carsService;
     private final brandsService brandsService;
     private final partsService partsService;
+    private final servicesServices servicesServices;
+    private final receiptsService receiptsService;
 
     /**
      * Dependency Injection
@@ -46,7 +50,9 @@ public class homeController {
                           ownersService ownersService,
                           carsService carsService,
                           brandsService brandsService,
-                          partsService partsService) {
+                          partsService partsService,
+                          servicesServices servicesService,
+                          receiptsService receiptsService) {
         this.userDetailsService = userDetailsService;
         this.userService = userService;
         this.maintenanceService = maintenanceService;
@@ -54,6 +60,8 @@ public class homeController {
         this.carsService = carsService;
         this.brandsService = brandsService;
         this.partsService = partsService;
+        this.servicesServices = servicesService;
+        this.receiptsService = receiptsService;
     }
 
     /**
@@ -128,6 +136,18 @@ public class homeController {
         List<parts> parts = this.partsService.findAll();
         for (parts part : parts) {
             response.add(part.toDTO());
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping("/get-all-services")
+    public ResponseEntity<List<ServiceDTO>> getAllServices() {
+        List<ServiceDTO> response = new ArrayList<>();
+        List<services> servicesList = this.servicesServices.findAll();
+        for (services service : servicesList) {
+            response.add(service.toDTO());
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
