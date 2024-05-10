@@ -1,5 +1,4 @@
-var test, equipList, serviceList;
-
+var mainData, equipList, serviceList;
 // Menu handler
 document.addEventListener("DOMContentLoaded", function (event) {
   const showNavbar = (toggleId, navId, bodyId, headerId) => {
@@ -8,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         bodypd = document.getElementById(bodyId),
         headerpd = document.getElementById(headerId),
         menuOpen = document.getElementById("menu-open");
+    let menuClose;
     menuClose = document.getElementById("menu-close");
 
     // Validate that all variables exist
@@ -62,12 +62,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 async function deleteForm1(vehicleLicensePlate) {
   try {
-    const test = await $.ajax({
+    const mainData = await $.ajax({
       url: `/delete-row-form1?license_plate=${vehicleLicensePlate}`,
       method: 'DELETE',
       dataType: 'json'
     });
-    return test;
+    return mainData;
   } catch (error) {
     alert(error);
   }
@@ -116,19 +116,26 @@ async function callAPIChangeForm1(oldPhoneNumber, newData, type) {
 
 async function fetchData() {
   try {
-    test = await $.ajax({
+    mainData = await $.ajax({
       url: "/get-all-records",
       method: "GET",
       dataType: "json",
     });
-    // console.log(test);
-    checkLicensePlate();
     equipList = await $.ajax({
       url: "/get-all-parts",
       method: "GET",
       dataType: "json",
-    })
+    });
+    serviceList = await $.ajax({
+      url: "/get-all-services",
+      method: "GET",
+      dataType: "json",
+    });
 
+
+    // console.log(mainData);
+    checkLicensePlate()
+    console.log("maindata, equip, service", mainData, equipList, serviceList)
     // Sort table function
     $("th").on("click", function () {
       var column = $(this).data("column");
@@ -136,18 +143,18 @@ async function fetchData() {
       var text = $(this).html();
       if (order !== undefined) {
         text = text.substring(0, text.length - 1);
-        if (order == "desc") {
+        if (order === "desc") {
           $(this).data("order", "asc");
-          test = test.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+          mainData = mainData.sort((a, b) => (a[column] > b[column] ? 1 : -1));
           text += "&#9660";
-        } else if (order == "asc") {
+        } else if (order === "asc") {
           $(this).data("order", "desc");
-          test = test.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+          mainData = mainData.sort((a, b) => (a[column] < b[column] ? 1 : -1));
           text += "&#9650";
         }
       } else text = text;
       $(this).html(text);
-      buildTable(test);
+      buildTable(mainData);
     });
 
     document.getElementById("addDate").addEventListener("input", function () {
@@ -177,7 +184,7 @@ async function fetchData() {
       //// get Table Data from database
       // tableData = getDataFromServer()
       // var data = searchTable(value, tableData)
-      var data = searchTable(value, test);
+      var data = searchTable(value, mainData);
       buildTable(data);
     });
     function searchTable(value, data) {
@@ -274,7 +281,7 @@ async function fetchData() {
         addRow(data[i])
       }
     }
-    buildTable(test);
+    buildTable(mainData);
 
     // ----------------- edit form1 function
     function getID(id){
@@ -493,63 +500,25 @@ async function fetchData() {
         })
       });
     }
+    async function getAllReceipts(){
+      var allReceipts = await $.ajax({
+        url: "/get-all-receipt",
+        method: "GET",
+        dataType: "json",
+      })
+      return allReceipts
+    }
     function detailsData() {
-      $(`#detailsTable`).empty()
+      $('#detailsTable').empty()
       var vehicleID = $(this).data('vehicle-license-number');
-      // console.log(vehicleID);
+      var date = new Date()
+      var daysofWeek =  ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      var today = daysofWeek[date.getDay()]
+      var month = date.getMonth()
+      var day = date.getDate()
+      var year = date.getFullYear()
 
-      var firstData = {
-        "licenseNumber": vehicleID,
-        "Dates": [{
-          'Date': '01/05/2024',
-          'Details': [{
-            'OrderNumber':'1',
-            'notes': 'aaaa',
-            'partName': 'Spark Plug',
-            'quantity': '2',
-            'price': 5.99,
-            'serviceName':'Oil Change',
-            'serviceCost': 29.99,
-            'total': 41.97
-          },
-            {
-              'OrderNumber':'2',
-              'notes': 'bbbbb',
-              'partName': 'Oil Filter',
-              'quantity': '2',
-              'price': 8.49,
-              'serviceName':'Tire Rotation',
-              'serviceCost': 19.99,
-              'total': 36.97
-            }
-          ]
-        },
-          {
-            'Date': '1/1/2005',
-            'Details': [{
-              'OrderNumber':'3',
-              'notes': 'bbbbb',
-              'partName': 'Air Filter',
-              'quantity': '2',
-              'price': 12.99,
-              'serviceName':'Air Filter Replacement',
-              'serviceCost': 15.99,
-              'total': 41.97
-            },
-              {
-                'OrderNumber':'4',
-                'notes': 'bbbbb',
-                'partName': 'Brake Pads',
-                'quantity': '2',
-                'price': 35.99,
-                'serviceName':'Brake Inspection',
-                'serviceCost':  49.99,
-                'total': 121.97
-              }
-            ]
-          }
-        ]
-      };
+      var allReceipts = getAllReceipts()
 
       closeForm('#formDetails', '#closeForm', '#dataTable', 'click');
       $('#formDetails').addClass('show').removeClass('hidden');
@@ -557,9 +526,12 @@ async function fetchData() {
         'opacity': '0.5',
         'pointer-events': 'none'
       });
+
+      $('#addDate').text(`${today},  ${day} - ${month} - ${year}`)
       addEquipServiceSelection()
-      addRowDetails(firstData);
       form2Interaction()
+      if (allReceipts.length === 0) return ;
+      addRowDetails(allReceipts);
     }
     function deleteDetails(){
       var orderID = $(this).data('order-id')
@@ -591,47 +563,128 @@ async function fetchData() {
       return false
     }
     function editDataDetails(){
+      $(this).addClass('sub-input')
       var dataID =  $(this).attr('id')
-      if (dataID.includes('num') || dataID.includes('date'))
+      if (dataID.includes('num') || dataID.includes('date') || dataID.includes('price') || dataID.includes('charge') || dataID.includes('total'))
         return ;
       var orderID = getID(dataID)
-      console.log(orderID)
-      var currentData = $(this).text()
-      var inputElement = $('<input type="text" class="form-control">').val(currentData)
-      $(this).empty().append(inputElement);
-      inputElement.focus();
-      var beforeInput = currentData
-      console.log("before", beforeInput)
       var originalElement = $(this);
-      inputElement.blur(function() {
-        var newData = $(this).val();
-        $(this).parent().text(newData);
-
-        if (newData !== currentData) {
-          Swal.fire({
-            title: 'Changes Confirmation',
-            text: 'Are you sure to save these changes?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-            cancelButtonText: 'Cancel'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              console.log("orderID, new Data: ", orderID, newData)
-              Swal.fire('Success', 'Changes saved', 'success');
-            } else {
-              // console.log("after", beforeInput)
-              originalElement.text(beforeInput)
+      var currentData = $(this).text()
+      var beforeInput = currentData
+      var inputElement = null
+      console.log("curr", currentData)
+      if (dataID.includes('note') || dataID.includes('quantity')){
+        if (dataID.includes('note')){
+          inputElement = $('<input type="text" class="form-control">').val(currentData);
+          $(this).empty().append(inputElement);
+          inputElement.focus();
+          inputElement.blur(function() {
+            var newData = $(this).val();
+            $(this).parent().text(newData);
+            if (newData !== currentData) {
+              Swal.fire({
+                title: 'Changes Confirmation',
+                text: 'Are you sure to save these changes?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                cancelButtonText: 'Cancel'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  console.log("orderID, new Data: ", orderID, newData)
+                  Swal.fire('Success', 'Changes saved', 'success');
+                } else {
+                  // console.log("after", beforeInput)
+                  originalElement.text(beforeInput)
+                }
+              });
+            }
+            originalElement.removeClass('sub-input')
+          });
+          $(`input`).on('keyup', function(event) {
+            if (event.keyCode === 13) {
+              $(this).blur();
             }
           });
         }
-      });
+        else if (dataID.includes('quantity')){
+          inputElement = $('<input type="number" class="form-control">').val(currentData)
+          $(this).empty().append(inputElement);
+          inputElement.on("keyup", function(event) {
+            var newData = $(this).val();
+            $(this).parent().text(newData);
+            if (event.keyCode === 13){
+              if (newData !== currentData) {
+                Swal.fire({
+                  title: 'Changes Confirmation',
+                  text: 'Are you sure to save these changes?',
+                  icon: 'question',
+                  showCancelButton: true,
+                  confirmButtonText: 'Save',
+                  cancelButtonText: 'Cancel'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    console.log("orderID, new Data: ", orderID, newData)
+                    Swal.fire('Success', 'Changes saved', 'success');
+                  } else {
+                    // console.log("after", beforeInput)
+                    originalElement.text(beforeInput)
+                  }
+                });
+              }
+              originalElement.removeClass('sub-input')
+            }
+          });
 
-      $(`input`).on('keyup', function(event) {
-        if (event.keyCode === 13) {
-          $(this).blur();
         }
-      });
+      }
+      else if (dataID.includes('equip') || dataID.includes('service')) {
+        var selectElement = $('<select id="subSelect" class="form-control">');
+        selectElement.append('<option selected> Choose </option>' )
+
+        originalElement.empty().append(selectElement);
+        var dataList = dataID.includes('equip') ? equipList : serviceList;
+        console.log(dataList)
+        // selectElement.append('<option selected>' + currentData + '</option>');
+        dataList.forEach(function (option) {
+          if (dataID.includes('equip'))
+            selectElement.append('<option>' + option['partName'] + '</option>');
+          else selectElement.append('<option>' + option['ServiceName'] + '</option>');
+        });
+        var parent = selectElement.closest('td');
+        selectElement.select2({
+              dropdownParent: $(parent)
+            }
+        );
+        selectElement.on('select2:select', function () {
+
+          originalElement.removeClass('sub-input')
+          var newData = $(this).val(); // Update inputElement with the selected value
+          console.log("newdata", newData)
+          originalElement.text(newData);
+          selectElement.remove();
+
+          if (newData !== currentData) {
+            Swal.fire({
+              title: 'Changes Confirmation',
+              text: 'Are you sure to save these changes?',
+              icon: 'question',
+              showCancelButton: true,
+              confirmButtonText: 'Save',
+              cancelButtonText: 'Cancel'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                console.log("orderID, new Data: ", orderID, newData)
+                Swal.fire('Success', 'Changes saved', 'success');
+              } else {
+                // console.log("after", beforeInput)
+                originalElement.text(beforeInput)
+              }
+            });
+          }
+
+        });
+      }
       // call api change data
     }
 
@@ -642,7 +695,7 @@ async function fetchData() {
       });
       $('#addEquip').select2();
       serviceList.forEach(function(option){
-        $('#addService').append('<option>' + option['ServiceName'] + '</option>');
+        $('#addService').append('<option>' + option['serviceName'] + '</option>');
       })
       $('#addService').select2();
     }
@@ -659,8 +712,8 @@ async function fetchData() {
       }
       else if (type === 'service'){
         serviceList.forEach(function(eq) {
-          if (eq['ServiceName'] === name) {
-            price =  eq['ServiceCost'];
+          if (eq['serviceName'] === name) {
+            price =  eq['serviceCost'];
             return false;
           }
         });
