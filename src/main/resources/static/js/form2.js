@@ -44,7 +44,7 @@ getAllServices().then(services => {
 });
 
 
-async function getAllServices() {
+async function getAllReceipts() {
     try {
         const response = await $.ajax({
             url: '/get-all-receipt',
@@ -59,9 +59,8 @@ async function getAllServices() {
     }
 }
 
-getAllServices().then(services => {
-    console.log(services);
-    console.log(services[0])
+getAllReceipts().then(receipts => {
+    console.log(receipts);
 }).catch(error => {
     console.error('Error:', error);
 });
