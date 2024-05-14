@@ -469,10 +469,10 @@ async function fetchData() {
 
       data.dates.forEach(function(dateData, dateIndex) {
         dateData.orderDetails.forEach(function(detail, detailIndex) {
-          // var orderNumber = detail.OrderNumber;
+          var orderNumber = detail.OrderNumber;
           var numDetail = dateData.orderDetails.length
           var row = '';
-          console.log("detailIdx", detail)
+          // console.log("detailIdx", detail)
           if (detailIndex === 0) {
             row += `<tr>`;
             if (dateIndex === 0)
@@ -480,14 +480,14 @@ async function fetchData() {
             row += `<td id="data-order-date-${data.dates.length}" rowspan="${numDetail}">${dateData.orderDate}</td>`;
           }
           row += `
-                        <td data-order-id="${detailIndex}" id="data-order-equip-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.part["partName"]}</td>
-                        <td data-order-id="${detailIndex}" id="data-order-quantity-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.quantity}</td>
-                        <td data-order-id="${detailIndex}" id="data-order-price-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.part["price"]}</td>
-                        <td data-order-id="${detailIndex}" id="data-order-service-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.service["serviceName"]}</td>
-                        <td data-order-id="${detailIndex}" id="data-order-charge-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.service["serviceCost"]}</td>
-                        <td data-order-id="${detailIndex}" id="data-order-total-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-equip-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.part["partName"]}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-quantity-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.quantity}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-price-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.part["price"]}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-service-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.service["serviceName"]}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.service["serviceCost"]}</td>
+                        <td data-order-id="${orderNumber}" id="data-order-total-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
                         <td>
-<!--                            <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order="${detail.OrderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>-->
+                            <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order="${detail.OrderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
                         </td>
                     </tr>`;
 
