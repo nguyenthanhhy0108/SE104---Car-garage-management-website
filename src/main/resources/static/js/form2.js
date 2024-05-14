@@ -44,23 +44,3 @@ getAllServices().then(services => {
 });
 
 
-async function getAllReceipts() {
-    try {
-        const response = await $.ajax({
-            url: '/get-all-receipt',
-            method: 'GET',
-            dataType: 'json'
-        });
-        $('#response').html(response);
-        return response;
-    } catch (error) {
-        console.error('Error:', error);
-        throw new Error('Error: ' + error);
-    }
-}
-
-getAllReceipts().then(receipts => {
-    console.log(receipts);
-}).catch(error => {
-    console.error('Error:', error);
-});
