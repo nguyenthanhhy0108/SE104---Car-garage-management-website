@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.w3.org/1999/xhtml"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="csrf-token" content="${_csrf.token}" />
+    <meta name="csrf-param" content="${_csrf.parameterName}" />
+    <title>Home - Pocket Garage</title>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <style>
+      th {
+        color: #fff;
+        background-color: #6fa9f5;
+        cursor: pointer;
+      }
+      .hidden {
+        display: none;
+      }
+      .show {
+        display: block;
+      }
+      #DataTables_Table_1 {
+        width: 100% !important;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap4.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="home.css" />
+
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.datatables.net/2.0.7/js/dataTables.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap4.js"
+    ></script>
+  </head>
+
+  <body id="body-pd">
+    <div class="container-lg p-0">
+      <!-- <div class="row no-gutters p-5"> -->
+      <header class="header" id="header">
+        <div
+          id="main-screen-header"
+          class="col"
+          style="
+            margin: 0;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin: 0;
+          "
+        >
+          <div class="row align-items-center">
+            <div class="header_toggle" style="padding: 1rem">
+              <i class="bx bx-menu" id="header-toggle">
+                <span id="menu-open" class="material-symbols-outlined show"
+                  >menu</span
+                >
+                <span id="menu-close" class="material-symbols-outlined hidden"
+                  >close</span
+                >
+              </i>
+            </div>
+            <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
+
+            <div
+              class="col text-center"
+              style="font-size: 2rem; padding: 1rem; font-weight: bolder"
+            >
+              Order Management
+            </div>
+            <div class="col-lg-2 d-flex align-items-center">
+              <i class="material-symbols-outlined" style="font-size: 2rem"
+                >settings_heart</i
+              >
+              <div style="width: 1vw"></div>
+              <span
+                >Hello
+                <span style="color: royalblue" th:text="${session.name}"></span
+              ></span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+          <div>
+            <a href="#" class="nav_logo">
+              <img
+                class="bx bx-layer nav_logo-icon"
+                th:src="@{/images/logo-house.png}"
+                height="50"
+                alt="logo"
+              />
+              <span class="nav_logo-name">Pocket Garage</span>
+            </a>
+            <div class="nav_list">
+              <a href="#" class="nav_link">
+                <i class="bx bx-order-alt nav_icon">
+                  <span class="material-symbols-outlined show">list_alt</span>
+                </i>
+                <span class="nav_name">Order Management</span>
+              </a>
+              <a href="#" class="nav_link">
+                <i class="bx bx-user nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Users</span>
+              </a>
+              <a href="#" class="nav_link">
+                <i class="bx bx-message-square-detail nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Messages</span>
+              </a>
+              <a href="#" class="nav_link">
+                <i class="bx bx-bookmark nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Bookmark</span>
+              </a>
+              <a href="#" class="nav_link">
+                <i class="bx bx-folder nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Files</span>
+              </a>
+              <a href="#" class="nav_link">
+                <i class="bx bx-bar-chart-alt-2 nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Stats</span>
+              </a>
+            </div>
+          </div>
+          <a href="/logout" class="nav_link">
+            <span class="material-symbols-outlined">logout</span>
+            <span class="nav_name">SignOut</span>
+          </a>
+        </nav>
+      </div>
+
+      <div id="main-screen" class="col-lg height-100 bg-light">
+        <dialog id="dialog">
+          <h2 id="dialogTitle"></h2>
+          <p id="dialogContent"></p>
+        </dialog>
+        <!-- Tạo Button cho 2 bảng  -->
+        <div id="toggle-btn">
+          <div class="container">
+            <div class="card-body">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-target="#form-51"
+              >
+                Table 1
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-target="#form-52"
+              >
+                Table 2
+              </button>
+            </div>
+          </div>
+        </div>
+        <!--Biểu mẫu 5.1-->
+        <div id="form-51" class="main-screen-content-order">
+          <div class="container-fluid" id="dataTable" style="z-index: 0">
+            <div class="row month">
+              <div class="col">
+                <div class="card-body">
+                  Month:
+                  <input type="month" onchange="handleMonthChange51()" />
+                </div>
+              </div>
+            </div>
+            <div class="row revenue">
+              <div class="col">
+                <div class="card-body">
+                  <h5>Total revenue:</h5>
+                  <h5 id="numericRevernue"></h5>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" style="overflow-x: auto">
+                <table class="table table-border table-striped">
+                  <thead>
+                    <tr>
+                      <th data-column="ID" data-order="asc">#</th>
+                      <th data-column="Vehicle brand" data-order="asc">
+                        Vehicle brand
+                      </th>
+                      <th data-column="Number of repairs" data-order="asc">
+                        Number of Repairs
+                      </th>
+                      <th data-column="Revernue" data-order="asc">Revernue</th>
+                      <th data-column="Percentage" data-order="asc">
+                        Percentage
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="myTable-f5.1"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Form 5.2 -->
+        <div id="form-52" class="main-screen-content-order">
+          <div class="container-fluid" id="dataTalbe" style="z-index: 0">
+            <div class="row month">
+              <div class="col">
+                <div class="card-body">
+                  Month: <input type="month" onchange="handleMonthChange52()" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" style="overflow-x: auto">
+                <table class="table table-border table-striped">
+                  <thead>
+                    <tr>
+                      <th data-column="ID" data-order="asc">#</th>
+                      <th data-column="Supplies name" data-order="asc">
+                        Supplies
+                      </th>
+                      <th data-column="Initial amout" data-order="asc">
+                        Initial amount
+                      </th>
+                      <th data-column="Generated amount" data-order="asc">
+                        Amount generated
+                      </th>
+                      <th data-column="Final amount" data-order="asc">
+                        Final amount
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="myTable-f5.2"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script -->
+    <script type="text/javascript" th:src="@{/js/form5.js}"></script>
+    <script type="text/javascript" th:src="@{/js/all.js}"></script>
+  </body>
+</html>
