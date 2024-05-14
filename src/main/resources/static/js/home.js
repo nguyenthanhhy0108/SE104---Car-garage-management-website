@@ -135,7 +135,7 @@ async function fetchData() {
 
     // console.log(mainData);
     checkLicensePlate()
-    console.log("maindata, equip, service", mainData, equipList, serviceList)
+    // console.log("maindata, equip, service", mainData, equipList, serviceList)
     // Sort table function
     $("th").on("click", function () {
       var column = $(this).data("column");
@@ -216,7 +216,6 @@ async function fetchData() {
     }
 
     // Build Table function
-    // Build Table function
     function buttonEvent() {
       // Gỡ bỏ sự kiện click trước khi gán lại
       $('.details-button[data-vehicle-license-number]').off('click').on('click', function() {
@@ -273,7 +272,7 @@ async function fetchData() {
       }
     }
     function buildTable(data) {
-      console.log("build table called")
+      // console.log("build table called")
       var table = document.getElementById('myTable')
       table.innerHTML = ''
       for (var i in data) {
@@ -416,7 +415,7 @@ async function fetchData() {
 
 
     // Delete data fucntion
-    // ---------------- Delete data fucntion
+    // ---------------- Delete data function
     function deleteData() {
       var vehicleID = $(this).attr('data-vehicle-license-number');
 
@@ -456,37 +455,39 @@ async function fetchData() {
     
     
     // ------------ FORM 2 ---------------
-
     // Right Table
-    function addRowDetails(data) {
-
+    function addRowDetails(dataArray) {
+      var numDetails = 0
+      var data = dataArray[0]
+      console.log("data",data)
       let numVehicle = 0;
-
+      // console.log("date", data[0]['dates'])
       // Tính tổng số lượng chi tiết
-      data.Dates.forEach(function(date) {
-        numVehicle += date.Details.length;
+      data.dates.forEach(function(date) {
+        numDetails += date.orderDetails.length;
       });
 
-      data.Dates.forEach(function(dateData, dateIndex) {
-        dateData.Details.forEach(function(detail, detailIndex) {
-          var orderNumber = detail.OrderNumber;
+      data.dates.forEach(function(dateData, dateIndex) {
+        dateData.orderDetails.forEach(function(detail, detailIndex) {
+          // var orderNumber = detail.OrderNumber;
+          var numDetail = dateData.orderDetails.length
           var row = '';
-
+          console.log("detailIdx", detail)
           if (detailIndex === 0) {
             row += `<tr>`;
             if (dateIndex === 0)
-              row += `<td id="data-order-num-${data.licenseNumber}" rowspan="${numVehicle}">${data.licenseNumber}</td>`;
-            row += `<td id="data-order-date-${data.Dates.length}" rowspan="${data.Dates.length}">${dateData.Date}</td>`;
+              row += `<td id="data-order-num-${data.licenseNumber}" rowspan="${numDetails}">${data.licenseNumber}</td>`;
+            row += `<td id="data-order-date-${data.dates.length}" rowspan="${numDetail}">${dateData.orderDate}</td>`;
           }
-          row += `<td data-order-id="${orderNumber}" id="data-order-note-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.notes}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-equip-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.partName}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-quantity-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.quantity}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-price-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.price}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.serviceName}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.serviceCost}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-total-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
+          row += `
+                        <td data-order-id="${detailIndex}" id="data-order-equip-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.part["partName"]}</td>
+                        <td data-order-id="${detailIndex}" id="data-order-quantity-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.quantity}</td>
+                        <td data-order-id="${detailIndex}" id="data-order-price-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.part["price"]}</td>
+                        <td data-order-id="${detailIndex}" id="data-order-service-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.service["serviceName"]}</td>
+                        <td data-order-id="${detailIndex}" id="data-order-charge-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.service["serviceCost"]}</td>
+                        <td data-order-id="${detailIndex}" id="data-order-total-${detailIndex}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
                         <td>
-                            <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order="${detail.OrderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
+<!--                            <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order="${detail.OrderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>-->
                         </td>
                     </tr>`;
 
@@ -500,26 +501,39 @@ async function fetchData() {
         })
       });
     }
-    async function getAllReceipts(){
-      var allReceipts = await $.ajax({
-        url: "/get-all-receipt",
-        method: "GET",
-        dataType: "json",
-      })
-      return allReceipts
+    async function getAllReceipts() {
+      try {
+        const response = await $.ajax({
+          url: "/get-all-receipt",
+          method: "GET",
+          dataType: "json",
+        });
+        return response;
+      } catch (error) {
+        console.error("Error fetching receipts:", error);
+        throw error;
+      }
     }
-    function detailsData() {
-      $('#detailsTable').empty()
-      var vehicleID = $(this).data('vehicle-license-number');
+    function getDate(getDay= false){
       var date = new Date()
       var daysofWeek =  ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       var today = daysofWeek[date.getDay()]
       var month = date.getMonth()
       var day = date.getDate()
       var year = date.getFullYear()
+      if (getDay) {
+        return today + ', ' + day + ' / ' + month + ' / ' + year
+      }
+      return day + '/' + month + '/' + year
+    }
+    async function detailsData() {
+      $('#detailsTable').empty()
+      var vehicleID = $(this).data('vehicle-license-number');
+      var date = getDate(true)
 
-      var allReceipts = getAllReceipts()
-
+      var allReceipts = await getAllReceipts()
+      // console.log("all receipts: ", allReceipts)
+      var idVehicle = allReceipts['licenseNumber']
       closeForm('#formDetails', '#closeForm', '#dataTable', 'click');
       $('#formDetails').addClass('show').removeClass('hidden');
       $('#dataTable').css({
@@ -527,11 +541,13 @@ async function fetchData() {
         'pointer-events': 'none'
       });
 
-      $('#addDate').text(`${today},  ${day} - ${month} - ${year}`)
+      $('#addDate').text(date)
+      if (allReceipts.length === 0) return;
       addEquipServiceSelection()
       form2Interaction()
-      if (allReceipts.length === 0) return ;
-      addRowDetails(allReceipts);
+      addRowDetails(allReceipts)
+      addOrder(idVehicle)
+
     }
     function deleteDetails(){
       var orderID = $(this).data('order-id')
@@ -573,14 +589,13 @@ async function fetchData() {
       var beforeInput = currentData
       var inputElement = null
       console.log("curr", currentData)
-      if (dataID.includes('note') || dataID.includes('quantity')){
-        if (dataID.includes('note')){
-          inputElement = $('<input type="text" class="form-control">').val(currentData);
-          $(this).empty().append(inputElement);
-          inputElement.focus();
-          inputElement.blur(function() {
-            var newData = $(this).val();
-            $(this).parent().text(newData);
+      if (dataID.includes('quantity')){
+        inputElement = $('<input type="number" class="form-control">').val(currentData)
+        $(this).empty().append(inputElement);
+        inputElement.on("keyup", function(event) {
+          var newData = $(this).val();
+          $(this).parent().text(newData);
+          if (event.keyCode === 13){
             if (newData !== currentData) {
               Swal.fire({
                 title: 'Changes Confirmation',
@@ -600,56 +615,22 @@ async function fetchData() {
               });
             }
             originalElement.removeClass('sub-input')
-          });
-          $(`input`).on('keyup', function(event) {
-            if (event.keyCode === 13) {
-              $(this).blur();
-            }
-          });
-        }
-        else if (dataID.includes('quantity')){
-          inputElement = $('<input type="number" class="form-control">').val(currentData)
-          $(this).empty().append(inputElement);
-          inputElement.on("keyup", function(event) {
-            var newData = $(this).val();
-            $(this).parent().text(newData);
-            if (event.keyCode === 13){
-              if (newData !== currentData) {
-                Swal.fire({
-                  title: 'Changes Confirmation',
-                  text: 'Are you sure to save these changes?',
-                  icon: 'question',
-                  showCancelButton: true,
-                  confirmButtonText: 'Save',
-                  cancelButtonText: 'Cancel'
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    console.log("orderID, new Data: ", orderID, newData)
-                    Swal.fire('Success', 'Changes saved', 'success');
-                  } else {
-                    // console.log("after", beforeInput)
-                    originalElement.text(beforeInput)
-                  }
-                });
-              }
-              originalElement.removeClass('sub-input')
-            }
-          });
-
-        }
+          }
+        });
       }
+
       else if (dataID.includes('equip') || dataID.includes('service')) {
         var selectElement = $('<select id="subSelect" class="form-control">');
         selectElement.append('<option selected> Choose </option>' )
 
         originalElement.empty().append(selectElement);
         var dataList = dataID.includes('equip') ? equipList : serviceList;
-        console.log(dataList)
+        // console.log(dataList)
         // selectElement.append('<option selected>' + currentData + '</option>');
         dataList.forEach(function (option) {
           if (dataID.includes('equip'))
             selectElement.append('<option>' + option['partName'] + '</option>');
-          else selectElement.append('<option>' + option['ServiceName'] + '</option>');
+          else selectElement.append('<option>' + option['serviceName'] + '</option>');
         });
         var parent = selectElement.closest('td');
         selectElement.select2({
@@ -689,11 +670,23 @@ async function fetchData() {
     }
 
   // Left form interaction
+    async function sendtoBackEnd(data) {
+      await $.ajax({
+        url: "",
+        data: JSON.stringify(data),
+        method: "POST",
+        dataType: "json",
+        success: function (response) {
+          console.log("sendtoBackEnd success")
+        }
+      })
+    }
     function addEquipServiceSelection(){
       equipList.forEach(function(option) {
         $('#addEquip').append('<option>' + option['partName'] + '</option>');
       });
       $('#addEquip').select2();
+      console.log(serviceList)
       serviceList.forEach(function(option){
         $('#addService').append('<option>' + option['serviceName'] + '</option>');
       })
@@ -720,7 +713,6 @@ async function fetchData() {
       }
       return price
     }
-
     function form2Interaction(){
       $('#addEquip').on('change', function () {
         var equipVal = $(this).val()
@@ -733,13 +725,54 @@ async function fetchData() {
         var serPrice = getPriceService(serVal, 'service')
         $('#charge').val(serPrice)
       })
+      $('#quantity, #addEquip, #addService').on('input change', function(){
+        if ($('#price').val() && $('#charge').val() && $('#quantity').val())
+          $('#totalPrice').val(calculateTotalPrice)
+      });
 
+
+    }
+    function calculateTotalPrice(){
+      var quantity = parseFloat($('#quantity').val())
+      var price = parseFloat($('#price').val())
+      var charge = parseFloat($('#charge').val())
+      return (quantity*price) + charge
+    }
+    function addOrder(idVehicle){
+      $('#buttonEquip').on('click', function(event){
+        event.preventDefault()
+        var newData = {
+          'licenseNumber': idVehicle,
+          'dates': [
+            {
+              'orderDate': getDate(),
+              'orderDetails': [
+                {
+                  'part': {
+                    'partName': $('#addEquip').val(),
+                    'price': $('#price').val()
+                  },
+                  'quantity': $('#quantity').val(),
+                  'service': {
+                    'serviceName':$('#addService').val(),
+                    'serviceCost': $('#charge').val()
+                  },
+                  'total': $('#totalPrice').val()
+                }
+              ]
+            }
+          ]
+        }
+        console.log(newData)
+        sendtoBackEnd(newData)
+      })
     }
 
 
- 
 
-  function checkLicensePlate() {
+
+
+    function checkLicensePlate() {
     var urlParams = new URLSearchParams(window.location.search);
     var check = urlParams.get("exist");
     if (check) {
