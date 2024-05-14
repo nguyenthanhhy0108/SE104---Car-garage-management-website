@@ -469,7 +469,8 @@ async function fetchData() {
 
       data.dates.forEach(function(dateData, dateIndex) {
         dateData.orderDetails.forEach(function(detail, detailIndex) {
-          var orderNumber = detail.OrderNumber;
+          console.log(detail)
+          var orderNumber = detail["orderNumber"];
           var numDetail = dateData.orderDetails.length
           var row = '';
           // console.log("detailIdx", detail)
@@ -496,6 +497,8 @@ async function fetchData() {
             deleteDetails.call(this)
           })
           $('[id^="data-order-"]').off('click').on('click', function(){
+            if ($(this).hasClass('sub-input'))
+              return;
             editDataDetails.call(this);
           })
         })
@@ -508,6 +511,7 @@ async function fetchData() {
           method: "GET",
           dataType: "json",
         });
+        console.log("all receipts: ", response)
         return response;
       } catch (error) {
         console.error("Error fetching receipts:", error);
@@ -617,15 +621,15 @@ async function fetchData() {
             originalElement.removeClass('sub-input')
           }
         });
-      }
 
+      }
       else if (dataID.includes('equip') || dataID.includes('service')) {
         var selectElement = $('<select id="subSelect" class="form-control">');
         selectElement.append('<option selected> Choose </option>' )
 
         originalElement.empty().append(selectElement);
         var dataList = dataID.includes('equip') ? equipList : serviceList;
-        // console.log(dataList)
+        console.log(dataList)
         // selectElement.append('<option selected>' + currentData + '</option>');
         dataList.forEach(function (option) {
           if (dataID.includes('equip'))
@@ -736,7 +740,8 @@ async function fetchData() {
       var quantity = parseFloat($('#quantity').val())
       var price = parseFloat($('#price').val())
       var charge = parseFloat($('#charge').val())
-      return (quantity*price) + charge
+      var totalPrice = (quantity * price) + charge;
+      return totalPrice.toFixed(2);
     }
     function addOrder(idVehicle){
       $('#buttonEquip').on('click', function(event){
@@ -763,7 +768,7 @@ async function fetchData() {
             }
           ]
         }
-        console.log(newData)
+        console.log("new", newData)
         sendtoBackEnd(newData)
       })
     }
