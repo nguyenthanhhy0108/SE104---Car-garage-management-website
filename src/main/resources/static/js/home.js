@@ -533,6 +533,20 @@ async function fetchData() {
     async function detailsData() {
       $('#detailsTable').empty()
       var vehicleID = $(this).data('vehicle-license-number');
+      console.log(vehicleID);
+
+      $.ajax({
+        url: '/get-license-number?license_number=' + vehicleID,
+        type: 'GET',
+        success: function(response) {
+          $('#response').html(response);
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', error);
+        }
+      });
+
+
       var date = getDate(true)
 
       var allReceipts = await getAllReceipts()
