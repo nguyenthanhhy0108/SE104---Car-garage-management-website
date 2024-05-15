@@ -19,4 +19,6 @@ public interface servicesServices {
      * Services object
      */
     services findByServicesID(int id);
+
+    services findByServiceName(String name);
 }

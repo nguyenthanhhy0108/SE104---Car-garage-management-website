@@ -87,7 +87,6 @@ public class receiptsController {
         List<Form2InformationDTO> response = new ArrayList<>();
         List<Integer> listCarID = receiptsService.findAllCarID();
         for (int carID : listCarID) {
-            System.out.println(carID);
             Form2InformationDTO form2InformationDTO = new Form2InformationDTO();
             form2InformationDTO.setLicenseNumber(this.carsService
                     .findByCarID(carID).getLicensePlate());

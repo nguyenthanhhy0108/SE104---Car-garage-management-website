@@ -43,4 +43,9 @@ public class servicesServicesImpl implements servicesServices {
     public services findByServicesID(int id) {
         return this.servicesRepository.findByServicesID(id);
     }
+
+    @Override
+    public services findByServiceName(String name) {
+        return this.servicesRepository.findByServiceName(name);
+    }
 }
