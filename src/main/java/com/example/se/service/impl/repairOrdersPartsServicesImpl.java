@@ -3,6 +3,7 @@ package com.example.se.service.impl;
 import com.example.se.model.repairOrdersParts;
 import com.example.se.repository.repairOrdersPartsRepository;
 import com.example.se.service.repairOrdersPartsServices;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,11 @@ public class repairOrdersPartsServicesImpl implements repairOrdersPartsServices 
     @Override
     public repairOrdersParts findByOrderNumber(int orderNumber) {
         return this.repairOrdersPartsRepository.findByOrderNumber(orderNumber);
+    }
+
+    @Transactional
+    @Override
+    public repairOrdersParts save(repairOrdersParts repairOrdersParts) {
+        return this.repairOrdersPartsRepository.save(repairOrdersParts);
     }
 }

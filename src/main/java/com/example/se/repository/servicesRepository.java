@@ -13,4 +13,6 @@ public interface servicesRepository extends JpaRepository<services, Integer> {
      * services object
      */
     services findByServicesID(int id);
+
+    services findByServiceName(String name);
 }
