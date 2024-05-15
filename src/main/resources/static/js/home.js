@@ -549,7 +549,7 @@ async function fetchData() {
       var date = getDate(true)
 
       var allReceipts = await getAllReceipts()
-      var thisReceipts = allReceipts.filter(receipt => receipt.licenseNumber === vehicleID)
+      var thisReceipts = allReceipts.filter(receipt => receipt['licenseNumber'] === vehicleID)
       console.log("this receipt: ", thisReceipts)
       // console.log("all receipts: ", allReceipts)
       // var idVehicle = allReceipts['licenseNumber']
