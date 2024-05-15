@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Entity(name = "REPAIR_ORDERS")
 public class receipts {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "OrderNumber")
     private int ordernumber;
 
@@ -28,12 +29,14 @@ public class receipts {
     @Column(name = "AmountPaid")
     private double amountpaid;
 
+    @Column(name = "Note")
+    private String note;
+
     @OneToOne
     @JoinColumn(name = "CarID", insertable = false, updatable = false)
     private cars cars;
 
-    public receipts(int ordernumber, int carId, LocalDate date, double amountOwed, LocalDate paymentdate, double amountpaid) {
-        this.ordernumber = ordernumber;
+    public receipts(int carId, LocalDate date, double amountOwed, LocalDate paymentdate, double amountpaid) {
         this.carId = carId;
         this.date = date;
         this.amountOwed = amountOwed;

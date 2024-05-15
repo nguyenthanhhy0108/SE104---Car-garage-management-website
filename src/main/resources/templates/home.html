@@ -236,31 +236,31 @@
                             </form>
 
                             <!-- Sub form 2: Equipment -->
-                            <form class="fixObjectForm">
+                            <form class="fixObjectForm" method="post" action="/add-repair-order">
                                 <div class="form-group">
                                     <label for="addDetails" class="form-label">Notes</label>
-                                    <input type="text" class="form-control" id="addDetails">
+                                    <input type="text" name="note" class="form-control" id="addDetails">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="addEquip" class="form-label">Equipment</label>
-                                        <select class="form-control" id="addEquip" required>
+                                        <select class="form-control" name="equipment" id="addEquip" required>
                                             <option selected>Choose</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="quantity">Quantity</label>
-                                        <input type="number" class="form-control" id="quantity" required min="1">
+                                        <input type="number" name="quantity" class="form-control" id="quantity" required min="1">
                                     </div>
                                     <div class="form-group col-md-4 ">
-                                        <label for="price">Price</label>
+                                        <label for="price">Price For One</label>
                                         <input type="text" class="form-control" id="price" disabled>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="addService">Service Name</label>
-                                        <select class="form-control" id="addService" required>
+                                        <select name="service" class="form-control" id="addService" required>
                                             <option selected>Choose</option>
                                         </select>
                                     </div>

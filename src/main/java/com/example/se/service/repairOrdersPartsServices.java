@@ -10,4 +10,6 @@ public interface repairOrdersPartsServices {
      * repairOrdersParts object
      */
     repairOrdersParts findByOrderNumber(int orderNumber);
+
+    repairOrdersParts save(repairOrdersParts repairOrdersParts);
 }
