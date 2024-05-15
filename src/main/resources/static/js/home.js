@@ -456,9 +456,9 @@ async function fetchData() {
     
     // ------------ FORM 2 ---------------
     // Right Table
-    function addRowDetails(dataArray) {
+    function addRowDetails(data) {
       var numDetails = 0
-      var data = dataArray[0]
+      data = data[0]
       console.log("data",data)
       let numVehicle = 0;
       // console.log("date", data[0]['dates'])
@@ -532,12 +532,15 @@ async function fetchData() {
     }
     async function detailsData() {
       $('#detailsTable').empty()
-      var vehicleID = $(this).data('vehicle-license-number');
+      var vehicleID = $(this).data('vehicle-license-number')
+      console.log("vehicle this ID", vehicleID)
       var date = getDate(true)
 
       var allReceipts = await getAllReceipts()
+      var thisReceipts = allReceipts.filter(receipt => receipt.licenseNumber === vehicleID)
+      console.log("this receipt: ", thisReceipts)
       // console.log("all receipts: ", allReceipts)
-      var idVehicle = allReceipts['licenseNumber']
+      // var idVehicle = allReceipts['licenseNumber']
       closeForm('#formDetails', '#closeForm', '#dataTable', 'click');
       $('#formDetails').addClass('show').removeClass('hidden');
       $('#dataTable').css({
@@ -549,8 +552,8 @@ async function fetchData() {
       if (allReceipts.length === 0) return;
       addEquipServiceSelection()
       form2Interaction()
-      addRowDetails(allReceipts)
-      addOrder(idVehicle)
+      addRowDetails(thisReceipts)
+      addOrder(vehicleID)
 
     }
     function deleteDetails(){
@@ -730,16 +733,17 @@ async function fetchData() {
         $('#charge').val(serPrice)
       })
       $('#quantity, #addEquip, #addService').on('input change', function(){
-        if ($('#price').val() && $('#charge').val() && $('#quantity').val())
-          $('#totalPrice').val(calculateTotalPrice)
+        if ($('#price').val() && $('#charge').val() && $('#quantity').val()){
+          var quantity = parseFloat($('#quantity').val())
+          var price = parseFloat($('#price').val())
+          var charge = parseFloat($('#charge').val())
+          $('#totalPrice').val(calculateTotalPrice(quantity, price, charge))
+        }
+
+
       });
-
-
     }
-    function calculateTotalPrice(){
-      var quantity = parseFloat($('#quantity').val())
-      var price = parseFloat($('#price').val())
-      var charge = parseFloat($('#charge').val())
+    function calculateTotalPrice(quantity, price, charge){
       var totalPrice = (quantity * price) + charge;
       return totalPrice.toFixed(2);
     }
