@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class receiptsController {
@@ -93,7 +90,9 @@ public class receiptsController {
 
             List<OrderInDayDTO> orderInDayDTOList = new ArrayList<>();
 
-            List<LocalDate> allDates = receiptsService.findAllDatesByCarId(carID);
+            List<LocalDate> allDatesRaw = receiptsService.findAllDatesByCarId(carID);
+
+            Set<LocalDate> allDates = new HashSet<>(allDatesRaw);
 
             for (LocalDate date : allDates) {
                 OrderInDayDTO orderInDayDTO = new OrderInDayDTO();
@@ -127,8 +126,9 @@ public class receiptsController {
 
                     orderDetailsList.add(orderDetailsDTO);
                     orderInDayDTO.setOrderDetails(orderDetailsList);
-                    orderInDayDTOList.add(orderInDayDTO);
+
                 }
+                orderInDayDTOList.add(orderInDayDTO);
                 orderInDayDTO.setOrderDetails(orderDetailsList);
             }
 
