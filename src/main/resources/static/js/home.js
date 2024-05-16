@@ -603,22 +603,40 @@ async function fetchData() {
       return true
       return false
     }
-    function editDataDetails(){
+
+    function createJSONformat (orderID, partName, price, serviceName, serviceCost, quantity) {
+      return {
+        "orderNumber":orderID,
+        "notes": "aaaa",
+        "part": {
+          "partName" : partName,
+          "price": price
+        },
+        "quantity": quantity,
+        "service": {
+          "serviceName":serviceName,
+          "serviceCost": serviceCost
+        }
+      }
+    }
+    function editDataDetails(data){
       $(this).addClass('sub-input')
       var dataID =  $(this).attr('id')
       if (dataID.includes('num') || dataID.includes('date') || dataID.includes('price') || dataID.includes('charge') || dataID.includes('total'))
         return ;
       var orderID = getID(dataID)
+      console.log(dataID, orderID)
       var originalElement = $(this);
       var currentData = $(this).text()
       var beforeInput = currentData
       var inputElement = null
-      console.log("curr", currentData)
+      // console.log("curr", currentData)
       if (dataID.includes('quantity')){
         inputElement = $('<input type="number" class="form-control">').val(currentData)
         $(this).empty().append(inputElement);
         inputElement.on("keyup", function(event) {
           var newData = $(this).val();
+          var newdata = newData
           $(this).parent().text(newData);
           if (event.keyCode === 13){
             if (newData !== currentData) {
@@ -631,8 +649,18 @@ async function fetchData() {
                 cancelButtonText: 'Cancel'
               }).then((result) => {
                 if (result.isConfirmed) {
-                  console.log("orderID, new Data: ", orderID, newData)
+                  // console.log("orderID, new Data: ", orderID, newData)
                   Swal.fire('Success', 'Changes saved', 'success');
+                  var price = parseFloat($('#data-order-price-' + orderID).text())
+                  var charge = parseFloat($('#data-order-charge-' + orderID).text())
+                  var quantity = parseFloat(newdata)
+                  var newTotal = calculateTotalPrice(quantity, price, charge)
+                  var equipName =  $('#data-order-equip-'+orderID).text()
+                  var serviceName = $('#data-order-service-'+orderID).text()
+                  // console.log(equipName, serviceName)
+                  $('#data-order-total-' + orderID).text(newTotal.toString())
+                  var returnData = createJSONformat(orderID, equipName ,price, serviceName,charge,quantity)
+                  console.log(returnData)
                 } else {
                   // console.log("after", beforeInput)
                   originalElement.text(beforeInput)
@@ -650,7 +678,7 @@ async function fetchData() {
 
         originalElement.empty().append(selectElement);
         var dataList = dataID.includes('equip') ? equipList : serviceList;
-        console.log(dataList)
+        // console.log(dataList)
         // selectElement.append('<option selected>' + currentData + '</option>');
         dataList.forEach(function (option) {
           if (dataID.includes('equip'))
@@ -661,15 +689,14 @@ async function fetchData() {
         selectElement.select2({
               dropdownParent: $(parent)
             }
-        );
+        )
         selectElement.on('select2:select', function () {
-
           originalElement.removeClass('sub-input')
           var newData = $(this).val(); // Update inputElement with the selected value
-          console.log("newdata", newData)
+          var newdata = newData
+          // console.log("newdata", newData)
           originalElement.text(newData);
           selectElement.remove();
-
           if (newData !== currentData) {
             Swal.fire({
               title: 'Changes Confirmation',
@@ -680,7 +707,24 @@ async function fetchData() {
               cancelButtonText: 'Cancel'
             }).then((result) => {
               if (result.isConfirmed) {
-                console.log("orderID, new Data: ", orderID, newData)
+                if (dataID.includes('equip')) {
+                  var textNewdata = getPriceService(newdata, "equip")
+                  $('#data-order-price-' + orderID).text(textNewdata)
+                }
+                else if (dataID.includes('service')) {
+                  var textNewdata = getPriceService(newdata, "service")
+                  $('#data-order-charge-' + orderID).text(textNewdata)
+                }
+                var price = parseFloat($('#data-order-price-' + orderID).text())
+                var charge = parseFloat($('#data-order-charge-' + orderID).text())
+                var quantity = parseFloat($('#data-order-quantity-' + orderID).text())
+                var newTotal = calculateTotalPrice(quantity, price, charge)
+                var equipName =  $('#data-order-equip-'+orderID).text()
+                var serviceName = $('#data-order-service-'+orderID).text()
+                // console.log(equipName, serviceName)
+                $('#data-order-total-' + orderID).text(newTotal.toString())
+                var returnData = createJSONformat(orderID, equipName, price, serviceName, charge, quantity)
+                console.log(returnData)
                 Swal.fire('Success', 'Changes saved', 'success');
               } else {
                 // console.log("after", beforeInput)
