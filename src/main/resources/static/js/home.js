@@ -67,6 +67,12 @@ async function deleteForm1(vehicleLicensePlate) {
       method: 'DELETE',
       dataType: 'json'
     });
+    if (mainData.success == false) {
+      popupDialog(
+          "Error",
+      "You must delete all receipts first !!!"
+      )
+    }
     return mainData;
   } catch (error) {
     alert(error);
@@ -416,7 +422,7 @@ async function fetchData() {
 
     // Delete data fucntion
     // ---------------- Delete data function
-    function deleteData() {
+    async function deleteData() {
       var vehicleID = $(this).attr('data-vehicle-license-number');
 
       if (vehicleID) {
@@ -427,10 +433,13 @@ async function fetchData() {
           showCancelButton: true,
           confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel'
-        }).then((result) => {
+        }).then(async (result) => {
           if (result.isConfirmed) {
-            if (confirmDeletion(vehicleID))
+            if (await confirmDeletion(vehicleID))
               Swal.fire('Success', 'Deleted ', 'success');
+            else {
+              return;
+            }
             setTimeout(function () {
               console.log("Waiting 5 seconds")
               window.location.reload();
@@ -447,10 +456,7 @@ async function fetchData() {
       // var vehicleID = $(this).data('vehicle-license-number')
       let response = await deleteForm1(vehicleID);
       // return !!response.success;
-      if (response.success)
-          return true;
-      else
-        return false;
+      return response.success;
     }
     
     
