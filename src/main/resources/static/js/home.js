@@ -539,7 +539,7 @@ async function fetchData() {
         url: '/get-license-number?license_number=' + vehicleID,
         type: 'GET',
         success: function(response) {
-          $('#response').html(response);
+          $('#response').html(response)
         },
         error: function(xhr, status, error) {
           console.error('Error:', error);
