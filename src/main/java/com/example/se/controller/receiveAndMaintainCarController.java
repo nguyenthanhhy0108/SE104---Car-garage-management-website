@@ -164,8 +164,15 @@ public class receiveAndMaintainCarController {
             cars toRemove = carsList.get(0);
             maintenanceRecords maintenanceRecord = this.maintenanceService.findByCarID(toRemove.getCarID());
 
-            this.maintenanceService.deleteByRecordID(maintenanceRecord.getRecordID());
-            this.carsService.deleteByCarID(toRemove.getCarID());
+            try {
+                this.maintenanceService.deleteByRecordID(maintenanceRecord.getRecordID());
+                this.carsService.deleteByCarID(toRemove.getCarID());
+            } catch (Exception e) {
+                success = false;
+                response.put("success", success);
+                e.printStackTrace();
+                return ResponseEntity.ok(response);
+            }
 
             success = true;
         } catch (Exception e) {
