@@ -538,7 +538,7 @@ async function fetchData() {
     }
     async function detailsData() {
       $('#detailsTable').empty()
-      var vehicleID = $(this).data('vehicle-license-number');
+      var vehicleID = $(this).data('vehicle-license-number')
       console.log(vehicleID);
 
       $.ajax({
@@ -555,7 +555,7 @@ async function fetchData() {
       var date = getDate(true)
 
       var allReceipts = await getAllReceipts()
-      var thisReceipts = allReceipts.filter(receipt => receipt.licenseNumber === vehicleID)
+      var thisReceipts = allReceipts.filter(receipt => receipt['licenseNumber'] === vehicleID)
       console.log("this receipt: ", thisReceipts)
       // console.log("all receipts: ", allReceipts)
       // var idVehicle = allReceipts['licenseNumber']
