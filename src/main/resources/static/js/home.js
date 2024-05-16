@@ -70,7 +70,7 @@ async function deleteForm1(vehicleLicensePlate) {
     if (mainData.success == false) {
       popupDialog(
           "Error",
-      "You must delete all receipts first !!!"
+          "You must delete all receipts first !!!"
       )
     }
     return mainData;
@@ -458,8 +458,8 @@ async function fetchData() {
       // return !!response.success;
       return response.success;
     }
-    
-    
+
+
     // ------------ FORM 2 ---------------
     // Right Table
     function addRowDetails(data) {
@@ -545,7 +545,7 @@ async function fetchData() {
         url: '/get-license-number?license_number=' + vehicleID,
         type: 'GET',
         success: function(response) {
-          $('#response').html(response);
+          $('#response').html(response)
         },
         error: function(xhr, status, error) {
           console.error('Error:', error);
@@ -694,7 +694,7 @@ async function fetchData() {
       // call api change data
     }
 
-  // Left form interaction
+    // Left form interaction
     async function sendtoBackEnd(data) {
       await $.ajax({
         url: "",
@@ -800,14 +800,14 @@ async function fetchData() {
 
 
     function checkLicensePlate() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var check = urlParams.get("exist");
-    if (check) {
-      popupDialog("Error", "This car is fixing !!!");
+      var urlParams = new URLSearchParams(window.location.search);
+      var check = urlParams.get("exist");
+      if (check) {
+        popupDialog("Error", "This car is fixing !!!");
+      }
     }
   }
-}
-catch (error) {
+  catch (error) {
     alert("Error: " + error);
   }
 }
