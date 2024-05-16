@@ -532,7 +532,7 @@ async function fetchData() {
     }
     async function detailsData() {
       $('#detailsTable').empty()
-      var vehicleID = $(this).data('vehicle-license-number');
+      var vehicleID = $(this).data('vehicle-license-number')
       console.log(vehicleID);
 
       $.ajax({
