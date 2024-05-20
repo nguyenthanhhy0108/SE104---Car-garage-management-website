@@ -1,6 +1,7 @@
 package com.example.se.controller;
 
 import com.example.se.model.*;
+import com.example.se.model.dataDTO.ChangeOrderDTO;
 import com.example.se.model.receipts;
 import com.example.se.service.*;
 import com.example.se.service.receiptsService;
@@ -9,13 +10,13 @@ import com.example.se.service.repairOrderServicesService;
 import com.example.se.service.carsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class repairRecordController {
@@ -82,6 +83,35 @@ public class repairRecordController {
         this.repairOrderServicesService.save(repairOrderServices);
 
         return "home";
+    }
+
+    @ResponseBody
+    @PostMapping("/change-order")
+    ResponseEntity<Map<String, Object>> changeOrder(@RequestBody ChangeOrderDTO changeOrderDTO) {
+        System.out.println(changeOrderDTO.getQuantity());
+        Map<String, Object> response = new HashMap<>();
+
+        repairOrderServices repairOrderServices = this.repairOrderServicesService.findByOrderNumber(changeOrderDTO.getOrderNumber());
+        repairOrdersParts repairOrdersParts = this.repairPartsService.findByOrderNumber(changeOrderDTO.getOrderNumber());
+
+        repairOrderServices newRepairOrderService = this.repairOrderServicesService.copy(repairOrderServices);
+        repairOrdersParts newRepairOrdersParts = this.repairPartsService.copy(repairOrdersParts);
+
+        this.repairOrderServicesService.delete(repairOrderServices);
+        this.repairPartsService.delete(repairOrdersParts);
+
+        services services = this.servicesServices.findByServiceName(changeOrderDTO.getService().getServiceName());
+        parts parts = this.partsService.findByName(changeOrderDTO.getPart().getPartName());
+
+        newRepairOrderService.setServiceID(services.getServicesID());
+        newRepairOrdersParts.setPartID(parts.getPartID());
+        newRepairOrdersParts.setQuantity(changeOrderDTO.getQuantity());
+
+        this.repairPartsService.save(newRepairOrdersParts);
+        this.repairOrderServicesService.save(newRepairOrderService);
+
+        response.put("status", "success");
+        return ResponseEntity.ok(response);
     }
 
 }
