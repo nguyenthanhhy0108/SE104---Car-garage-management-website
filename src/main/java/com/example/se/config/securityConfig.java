@@ -103,6 +103,7 @@ public class securityConfig {
                         .requestMatchers("/get-all-parts/**").permitAll()
                         .requestMatchers("/get-all-payment").permitAll()
                         .requestMatchers("/register").permitAll()
+                        .requestMatchers("/get-brands-records").permitAll()
 //                        .requestMatchers("/login").anonymous()
                         .anyRequest()
                             .authenticated());

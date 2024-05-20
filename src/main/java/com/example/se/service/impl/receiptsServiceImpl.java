@@ -1,5 +1,6 @@
 package com.example.se.service.impl;
 
+import com.example.se.model.dataDTO.BrandIncomeDTO;
 import com.example.se.model.receipts;
 import com.example.se.repository.receiptsRepository;
 import com.example.se.service.receiptsService;
@@ -8,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class receiptsServiceImpl implements receiptsService {
@@ -70,5 +73,21 @@ public class receiptsServiceImpl implements receiptsService {
     @Override
     public List<Integer> findAllOrderIDByCarIdAndDate(int carId, LocalDate date) {
         return this.receiptsRepository.findAllOrderIDByCarIdAndDate(carId, date);
+    }
+
+
+    @Override
+    public List<BrandIncomeDTO> findTotalIncomeByBrandForMonth(int month) {
+        List<BrandIncomeDTO> results = receiptsRepository.findTotalIncomeByBrandForMonth(month);
+        return results.stream()
+                .map(result -> new BrandIncomeDTO(result.getBrand(), result.getTotalIncome()))
+                .collect(Collectors.toList());
+    }
+
+
+
+    @Override
+    public List<Integer> findAllCarIDByMonth(int month) {
+        return this.receiptsRepository.findAllCarIDByMonth(month);
     }
 }
