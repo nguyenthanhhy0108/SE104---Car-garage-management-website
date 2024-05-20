@@ -33,4 +33,19 @@ public class repairOrdersPartsServicesImpl implements repairOrdersPartsServices 
     public repairOrdersParts save(repairOrdersParts repairOrdersParts) {
         return this.repairOrdersPartsRepository.save(repairOrdersParts);
     }
+
+    @Override
+    public repairOrdersParts copy(repairOrdersParts repairOrdersParts) {
+        repairOrdersParts newRepairOrdersParts = new repairOrdersParts();
+        newRepairOrdersParts.setOrderNumber(repairOrdersParts.getOrderNumber());
+        newRepairOrdersParts.setQuantity(repairOrdersParts.getQuantity());
+        newRepairOrdersParts.setPartID(repairOrdersParts.getPartID());
+
+        return newRepairOrdersParts;
+    }
+
+    @Override
+    public void delete(repairOrdersParts repairOrdersParts) {
+        this.repairOrdersPartsRepository.delete(repairOrdersParts);
+    }
 }

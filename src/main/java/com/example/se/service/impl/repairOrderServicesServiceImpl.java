@@ -27,4 +27,18 @@ public class repairOrderServicesServiceImpl implements repairOrderServicesServic
     public repairOrderServices save(repairOrderServices repairOrderServices) {
         return this.serviceRepository.save(repairOrderServices);
     }
+
+    @Override
+    public repairOrderServices copy(repairOrderServices repairOrderServices) {
+        repairOrderServices newRepairOrderServices = new repairOrderServices();
+        newRepairOrderServices.setOrderNumber(repairOrderServices.getOrderNumber());
+        newRepairOrderServices.setServiceID(repairOrderServices.getServiceID());
+
+        return newRepairOrderServices;
+    }
+
+    @Override
+    public void delete(repairOrderServices repairOrderServices) {
+        this.serviceRepository.delete(repairOrderServices);
+    }
 }
