@@ -82,13 +82,19 @@ public class repairRecordController {
 
         this.repairOrderServicesService.save(repairOrderServices);
 
+        receipts oldReceipts = this.receiptsService.findByOrdernumber(receipts.getOrdernumber());
+        oldReceipts.setAmountOwed(repairParts.getQuantity() * partsService.findByName(equipment).getPrice()
+                + servicesServices.findByServiceName(service).getServiceCost());
+
+        this.receiptsService.save(oldReceipts);
+
         return "home";
     }
 
     @ResponseBody
     @PostMapping("/change-order")
     ResponseEntity<Map<String, Object>> changeOrder(@RequestBody ChangeOrderDTO changeOrderDTO) {
-        System.out.println(changeOrderDTO.getQuantity());
+//        System.out.println(changeOrderDTO.getQuantity());
         Map<String, Object> response = new HashMap<>();
 
         repairOrderServices repairOrderServices = this.repairOrderServicesService.findByOrderNumber(changeOrderDTO.getOrderNumber());
@@ -109,6 +115,12 @@ public class repairRecordController {
 
         this.repairPartsService.save(newRepairOrdersParts);
         this.repairOrderServicesService.save(newRepairOrderService);
+
+        receipts receipts = this.receiptsService.findByOrdernumber(changeOrderDTO.getOrderNumber());
+        receipts.setAmountOwed(changeOrderDTO.getQuantity() * changeOrderDTO.getPart().getPrice()
+                + changeOrderDTO.getService().getServiceCost());
+
+        this.receiptsService.save(receipts);
 
         response.put("status", "success");
         return ResponseEntity.ok(response);
