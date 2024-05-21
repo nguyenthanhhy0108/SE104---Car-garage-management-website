@@ -839,10 +839,6 @@ async function fetchData() {
       })
     }
 
-
-
-
-
     function checkLicensePlate() {
     var urlParams = new URLSearchParams(window.location.search);
     var check = urlParams.get("exist");
