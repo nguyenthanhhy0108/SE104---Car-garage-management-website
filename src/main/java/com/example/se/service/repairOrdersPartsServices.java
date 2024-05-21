@@ -12,4 +12,8 @@ public interface repairOrdersPartsServices {
     repairOrdersParts findByOrderNumber(int orderNumber);
 
     repairOrdersParts save(repairOrdersParts repairOrdersParts);
+
+    repairOrdersParts copy(repairOrdersParts repairOrdersParts);
+
+    void delete(repairOrdersParts repairOrdersParts);
 }
