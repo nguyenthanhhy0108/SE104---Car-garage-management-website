@@ -463,6 +463,8 @@ async function fetchData() {
     // ------------ FORM 2 ---------------
     // Right Table
     function addRowDetails(data) {
+      if (data.length === 0)
+        return ;
       var numDetails = 0
       data = data[0]
       console.log("data",data)
@@ -494,12 +496,12 @@ async function fetchData() {
                         <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.service["serviceCost"]}</td>
                         <td data-order-id="${orderNumber}" id="data-order-total-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
                         <td>
-                            <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order="${detail.OrderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
+                            <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order-id="${orderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
                         </td>
                     </tr>`;
 
           $('#detailsTable').append(row);
-          $('.delete-button[data-order-]').off('click').on('click', function(){
+          $('.delete-button[data-order-id]').off('click').on('click', function(){
             deleteDetails.call(this)
           })
           $('[id^="data-order-"]').off('click').on('click', function(){
@@ -859,10 +861,6 @@ async function fetchData() {
         sendtoBackEnd(newData)
       })
     }
-
-
-
-
 
     function checkLicensePlate() {
       var urlParams = new URLSearchParams(window.location.search);
