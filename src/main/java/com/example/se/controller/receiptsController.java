@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
@@ -23,6 +24,8 @@ public class receiptsController {
     private final repairOrdersPartsServices repairOrdersPartsService;
     private final repairOrderServicesService repairOrderServicesService;
     private final servicesServices servicesServices;
+
+    private String licenseNumber;
 
     @Autowired
     public receiptsController(receiptsService receiptsService,
@@ -65,12 +68,50 @@ public class receiptsController {
                         .getOwnerID();
                 owners owner = ownersService.findByOwnerID(ownerId);
                 if (owner != null) {
-                    map.put("Owner Name", owner.getOwnerName());
-                    map.put("License Plate", car.getLicensePlate());
-                    map.put("Phone Number", owner.getOwnerPhoneNumber());
+                    map.put("Name", owner.getOwnerName());
+                    map.put("licenseNumber", car.getLicensePlate());
+                    map.put("phoneNumber", owner.getOwnerPhoneNumber());
                     map.put("Email", owner.getOwnerEmail());
-                    map.put("Payment Date", receipt.getPaymentdate());
-                    map.put("Amount Paid", receipt.getAmountpaid());
+                    map.put("orderNumber", receipt.getOrdernumber());
+                    map.put("paymentDate", receipt.getPaymentdate());
+                    map.put("amountPaid", receipt.getAmountpaid());
+                    map.put("amountOwned", receipt.getAmountOwed());
+                    response.add(map);
+                }
+            }
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping("/get-all-payment-by-VeID")
+    public ResponseEntity<List<Map<String, Object>>> getAllReceiptsByVeID(@RequestParam(name = "license_number") String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+
+        List<Map<String, Object>> response = new ArrayList<>();
+        List<cars> carID = carsService.findByLicensePlate(this.licenseNumber);
+        List<receipts> allReceiptsByVeID = receiptsService.findAllReceiptsByVeID(carID.get(0).getCarID());
+
+        for (receipts receipt : allReceiptsByVeID) {
+            Map<String, Object> map = new HashMap<>();
+
+            int carId = receipt.getCarId();
+            cars car = carsService.findByCarID(carId);
+            if (car != null) {
+                int ownerId = this.carsService
+                        .findByCarID(
+                                receipt.getCarId())
+                        .getOwnerID();
+                owners owner = ownersService.findByOwnerID(ownerId);
+                if (owner != null) {
+                    map.put("Name", owner.getOwnerName());
+                    map.put("licenseNumber", car.getLicensePlate());
+                    map.put("phoneNumber", owner.getOwnerPhoneNumber());
+                    map.put("Email", owner.getOwnerEmail());
+                    map.put("orderNumber", receipt.getOrdernumber());
+                    map.put("paymentDate", receipt.getPaymentdate());
+                    map.put("amountPaid", receipt.getAmountpaid());
+                    map.put("amountOwned", receipt.getAmountOwed());
                     response.add(map);
                 }
             }
