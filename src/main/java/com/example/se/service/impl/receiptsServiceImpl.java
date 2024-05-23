@@ -71,4 +71,9 @@ public class receiptsServiceImpl implements receiptsService {
     public List<Integer> findAllOrderIDByCarIdAndDate(int carId, LocalDate date) {
         return this.receiptsRepository.findAllOrderIDByCarIdAndDate(carId, date);
     }
+
+    @Override
+    public List<receipts> findAllReceiptsByVeID(int carId) {
+        return this.receiptsRepository.findAllReceiptsByVeID(carId);
+    }
 }

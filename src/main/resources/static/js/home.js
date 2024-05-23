@@ -462,23 +462,19 @@ async function fetchData() {
 
     // ------------ FORM 2 ---------------
     // Right Table
-    function addRowDetails(data) {
-      if (data.length === 0)
-        return ;
+    function addRowDetails(data, paymentDetails) {
       var numDetails = 0
-      data = data[0]
-      console.log("data",data)
-      let numVehicle = 0;
-      // console.log("date", data[0]['dates'])
-      // Tính tổng số lượng chi tiết
+      var data = data[0]
       data.dates.forEach(function(date) {
         numDetails += date.orderDetails.length;
-      });
+      })
+
 
       data.dates.forEach(function(dateData, dateIndex) {
         dateData.orderDetails.forEach(function(detail, detailIndex) {
-          console.log(detail)
+          // console.log(detail)
           var orderNumber = detail["orderNumber"];
+
           var numDetail = dateData.orderDetails.length
           var row = '';
           // console.log("detailIdx", detail)
@@ -489,19 +485,31 @@ async function fetchData() {
             row += `<td id="data-order-date-${data.dates.length}" rowspan="${numDetail}">${dateData.orderDate}</td>`;
           }
           row += `
-                        <td data-order-id="${orderNumber}" id="data-order-equip-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.part["partName"]}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-quantity-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.quantity}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-price-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.part["price"]}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-service-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.service["serviceName"]}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.service["serviceCost"]}</td>
-                        <td data-order-id="${orderNumber}" id="data-order-total-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
-                        <td>
-                            <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order-id="${orderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
-                        </td>
-                    </tr>`;
+            <td data-order-id="${orderNumber}" id="data-order-equip-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.part["partName"]}</td>
+            <td data-order-id="${orderNumber}" id="data-order-quantity-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.quantity}</td>
+            <td data-order-id="${orderNumber}" id="data-order-price-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.part["price"]}</td>
+            <td data-order-id="${orderNumber}" id="data-order-service-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.service["serviceName"]}</td>
+            <td data-order-id="${orderNumber}" id="data-order-charge-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.service["serviceCost"]}</td>
+            <td data-order-id="${orderNumber}" id="data-order-total-${orderNumber}" data-toggle="tooltip" title="click for edit">${detail.total}</td>
+            <td>
+                
+                <span style="cursor: pointer; color:red" class="material-symbols-outlined delete-button" data-order-id="${orderNumber}" data-vehicle-license-number="${data.licenseNumber}" data-toggle="tooltip" title="click for delete">delete</span>
+                <div class="input-group-prepend">
+                <span style="color:green" class="form-check-label material-symbols-outlined">attach_money</span>
+                <input type="checkbox" id="checkbox_${orderNumber}" name="checkbox_${orderNumber}" class="order-checkbox" data-order-id="${orderNumber}"> 
+                
+                </div>
+            </td>   
+        </tr>`;
 
-          $('#detailsTable').append(row);
-          $('.delete-button[data-order-id]').off('click').on('click', function(){
+          $('#detailsTable').append(row)
+
+          var order = paymentDetails.find(order => order['orderNumber'] === orderNumber)
+          if (order && order['amountOwned'] === 0) {
+            $('#checkbox_' + orderNumber).prop('disabled', true)
+          }
+
+          $('.delete-button[data-order-]').off('click').on('click', function(){
             deleteDetails.call(this)
           })
           $('[id^="data-order-"]').off('click').on('click', function(){
@@ -510,21 +518,7 @@ async function fetchData() {
             editDataDetails.call(this);
           })
         })
-      });
-    }
-    async function getAllReceipts() {
-      try {
-        const response = await $.ajax({
-          url: "/get-all-receipt",
-          method: "GET",
-          dataType: "json",
-        });
-        console.log("all receipts: ", response)
-        return response;
-      } catch (error) {
-        console.error("Error fetching receipts:", error);
-        throw error;
-      }
+      })
     }
     function getDate(getDay= false){
       var date = new Date()
@@ -543,20 +537,26 @@ async function fetchData() {
       var vehicleID = $(this).data('vehicle-license-number')
       console.log(vehicleID);
 
-      $.ajax({
-        url: '/get-license-number?license_number=' + vehicleID,
-        type: 'GET',
-        success: function(response) {
-          $('#response').html(response)
-        },
-        error: function(xhr, status, error) {
-          console.error('Error:', error);
-        }
-      });
+      // $.ajax({
+      //   url: '/get-license-number?license_number=' + vehicleID,
+      //   type: 'GET',
+      //   success: function(response) {
+      //     $('#response').html(response)
+      //   },
+      //   error: function(xhr, status, error) {
+      //     console.error('Error:', error);
+      //   }
+      // })
 
+      var paymentDetails = await $.ajax({
+        url: "/get-all-payment-by-VeID?license_number=" + vehicleID,
+        method: "GET",
+        dataType: "json",
+      })
+      console.log("paymentDel", paymentDetails)
       var date = getDate(true)
 
-      var allReceipts = await getAllReceipts()
+      var allReceipts = await getAllDatas("receipt")
       var thisReceipts = allReceipts.filter(receipt => receipt['licenseNumber'] === vehicleID)
       console.log("this receipt: ", thisReceipts)
       // console.log("all receipts: ", allReceipts)
@@ -572,8 +572,9 @@ async function fetchData() {
       if (allReceipts.length === 0) return;
       addEquipServiceSelection()
       form2Interaction()
-      addRowDetails(thisReceipts)
+      addRowDetails(thisReceipts, paymentDetails)
       addOrder(vehicleID)
+      mainCheckout(paymentDetails)
 
     }
     function deleteDetails(){
@@ -596,9 +597,9 @@ async function fetchData() {
               Swal.fire('Cancel', 'Cancel Deletion', 'info')
 
           }
-        });
+        })
       } else {
-        console.log("vehicleID is undefined or empty");
+        console.log("vehicleID is undefined or empty")
       }
     }
     function confirmDeletionDetails(){
@@ -762,23 +763,12 @@ async function fetchData() {
 
 
     // Left form interaction
-    async function sendtoBackEnd(data) {
-      await $.ajax({
-        url: "",
-        data: JSON.stringify(data),
-        method: "POST",
-        dataType: "json",
-        success: function (response) {
-          console.log("sendtoBackEnd success")
-        }
-      })
-    }
     function addEquipServiceSelection(){
       equipList.forEach(function(option) {
         $('#addEquip').append('<option>' + option['partName'] + '</option>');
       });
       $('#addEquip').select2();
-      console.log(serviceList)
+      // console.log(serviceList)
       serviceList.forEach(function(option){
         $('#addService').append('<option>' + option['serviceName'] + '</option>');
       })
@@ -868,6 +858,82 @@ async function fetchData() {
       if (check) {
         popupDialog("Error", "This car is fixing !!!");
       }
+    }
+
+    // ---------- FORM 4 -------------
+    async function getAllDatas(type="receipt") {
+      try {
+        if (type === "payment") {
+          const response = await $.ajax({
+            url: "/get-all-payment",
+            method: "GET",
+            dataType: "json",
+          })
+          console.log("all payments: ", response)
+          return response
+        }
+        else if (type==="receipt"){
+          const response = await $.ajax({
+            url: "/get-all-receipt",
+            method: "GET",
+            dataType: "json",
+          });
+          console.log("all payments: ", response)
+          return response
+        }
+
+      } catch (error) {
+        console.error("Error fetching receipts:", error)
+        throw error;
+      }
+    }
+    //------------ FORM 4 ----------------
+    function mainCheckout(data){
+      $(document).ready(function() {
+        $('#checkoutButton').click(function() {
+          $('#subForm2').removeClass('show').addClass('hidden')
+          $('#formCheckout').removeClass('hidden').addClass('show')
+          $('.order-checkbox').attr('disabled', true)
+          $('#checkoutButton').attr('disabled', true)
+
+          var selectedOrders = []
+          $('.order-checkbox:checked').each(function() {
+            var orderId = $(this).data('order-id')
+            selectedOrders.push(orderId)
+          })
+          console.log(selectedOrders)
+          var customerInfo = data[0]
+          $('#checkoutName').val(customerInfo['Name'])
+          $('#checkoutLicense').val(customerInfo['licenseNumber'])
+          $('#checkoutPhone').val(customerInfo['phoneNumber'])
+          $('#checkoutMail').val(customerInfo['Email'])
+          $('#checkoutDate').val(getDate(false))
+
+          var checkoutTotal = 0
+
+          selectedOrders.forEach(function(orderId) {
+            var element =  data.filter((item, value) => item.orderNumber === orderId)
+            // console.log(element)
+            checkoutTotal += parseFloat(element[0]['amountOwned'])
+          })
+          $('#checkoutTotal').val(checkoutTotal)
+
+        })
+        $('#backtoSubForm2').click(function() {
+          $('#subForm2').addClass('show').removeClass('hidden')
+          $('#formCheckout').addClass('hidden').removeClass('show')
+          $('.order-checkbox').attr('disabled', false)
+          $('#checkoutButton').attr('disabled', false)
+
+          var noOwned = data.filter((item) => item['amountOwned'] === 0)
+
+          noOwned.forEach(function(order) {
+            $('#checkbox_' + order.orderNumber).prop('disabled', true);
+          });
+
+        })
+      })
+      $
     }
   }
   catch (error) {

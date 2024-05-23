@@ -32,4 +32,7 @@ public interface receiptsRepository extends JpaRepository<receipts, Integer> {
 
     @Query("SELECT R.ordernumber FROM REPAIR_ORDERS R WHERE R.carId = :carId AND R.date = :date")
     List<Integer> findAllOrderIDByCarIdAndDate(int carId, LocalDate date);
+
+    @Query("SELECT R FROM REPAIR_ORDERS R WHERE R.carId = :carId ")
+    List<receipts> findAllReceiptsByVeID(int carId);
 }
