@@ -226,64 +226,113 @@
                 <div class="card-body row" style="padding-bottom: 1rem;">
                     <!-- Left Form -->
                     <div class="col-md-5">
-                        <form>
-                            <!-- Sub form 1: Vehicle and Date -->
-                            <form class="vehicle">
-                                <div class="form-group">
-                                    <label for="addDate" class="form-label">Date</label>
-                                    <span class="input-group-text" id="addDate"></span>
-                                </div>
-                            </form>
+                        <div id="subForm2">
+                            <form>
+                                <!-- Sub form 1: Vehicle and Date -->
+                                <form class="vehicle">
+                                    <div class="form-group">
+                                        <label for="addDate" class="form-label">Date</label>
+                                        <span class="input-group-text" id="addDate"></span>
+                                    </div>
+                                </form>
 
-                            <!-- Sub form 2: Equipment -->
-                            <form class="fixObjectForm" method="post" action="/add-repair-order">
-                                <div class="form-group">
-                                    <label for="addDetails" class="form-label">Notes</label>
-                                    <input type="text" name="note" class="form-control" id="addDetails">
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                        <label for="addEquip" class="form-label">Equipment</label>
-                                        <select class="form-control" name="equipment" id="addEquip" required>
-                                            <option selected>Choose</option>
-                                        </select>
+                                <!-- Sub form 2: Equipment -->
+                                <form class="fixObjectForm" method="post" action="/add-repair-order">
+                                    <div class="form-group">
+                                        <label for="addDetails" class="form-label">Notes</label>
+                                        <input type="text" name="note" class="form-control" id="addDetails">
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="quantity">Quantity</label>
-                                        <input type="number" name="quantity" class="form-control" id="quantity" required min="1">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="addEquip" class="form-label">Equipment</label>
+                                            <select class="form-control" name="equipment" id="addEquip" required>
+                                                <option selected>Choose</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="quantity">Quantity</label>
+                                            <input type="number" name="quantity" class="form-control" id="quantity" required min="1">
+                                        </div>
+                                        <div class="form-group col-md-4 ">
+                                            <label for="price">Price For One</label>
+                                            <input type="text" class="form-control" id="price" disabled>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-4 ">
-                                        <label for="price">Price For One</label>
-                                        <input type="text" class="form-control" id="price" disabled>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="addService">Service Name</label>
+                                            <select name="service" class="form-control" id="addService" required>
+                                                <option selected>Choose</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="charge">Charge price</label>
+                                            <input type="text" class="form-control" id="charge" disabled>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="addService">Service Name</label>
-                                        <select name="service" class="form-control" id="addService" required>
-                                            <option selected>Choose</option>
-                                        </select>
+                                    <div class="form-group">
+                                        <label for="totalPrice"> Total Price</label>
+                                        <input type="text" class="form-control" id="totalPrice" disabled>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="charge">Charge price</label>
-                                        <input type="text" class="form-control" id="charge" disabled>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="totalPrice"> Total Price</label>
-                                    <input type="text" class="form-control" id="totalPrice" disabled>
-                                </div>
 
-                                <!-- -------------Add equipment button------- -->
-                                <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                                    <button class="btn btn-md btn-primary btn-success" type="submit">Add Equipment</button>
-                                </div>
+                                    <!-- -------------Add equipment button------- -->
+                                    <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
+                                        <button class="btn btn-md btn-primary btn-success" type="submit">Add Equipment</button>
+                                    </div>
+                                </form>
                             </form>
-                        </form>
+                        </div>
+                        <!-- ------------Checkout form---------------- -->
+                        <div class="card hidden" id="formCheckout">
+                            <div class="card-header d-flex justify-content-between">
+                                <span class="header-text">Payment Order</span>
+                            </div>
+                            <div class="card-body">
+                                <form class="checkoutForm">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="checkoutName" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="checkoutName" disabled>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="checkoutLicense" class="form-label">License Number</label>
+                                            <input type="text" class="form-control" id="checkoutLicense" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="checkoutPhone" class="form-label">Phone Number</label>
+                                            <input type="tel" class="form-control" id="checkoutPhone" disabled>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="checkoutMail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="checkoutMail" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="checkoutDate" class="form-label">Date</label>
+                                            <input type="text" class="form-control" id="checkoutDate" disabled>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="checkoutTotal" class="form-label">Total</label>
+                                            <input type="text" class="form-control" id="checkoutTotal" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
+                                        <button class="btn btn-md btn-primary btn-success" id="checkoutConfirm">Confirm</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end align-items-center">
+                                <span class="material-symbols-outlined" style="color: #006eff;">keyboard_return</span>
+                                <button type="button" class="btn btn-link" id="backtoSubForm2">Back</button>
+                            </div>
+                        </div>
                     </div>
                     <!-- ---------Right interactive table-------- -->
                     <div class="col-md-7">
-                        <div class="table-responsive custom-table">
+                        <div class="table-responsive custom-table" style="margin-bottom: 1rem">
                             <table class="table table-striped table-bordered">
                                 <thead class="table-header">
                                 <tr>
@@ -309,7 +358,14 @@
                                 <tbody id="detailsTable"></tbody>
                             </table>
                         </div>
+                        <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
+                            <button type="button" class="btn btn-success" id="checkoutButton">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>
+                                Checkout
+                            </button>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
