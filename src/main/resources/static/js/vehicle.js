@@ -67,7 +67,7 @@ function addRow(data) {
   let row = `
       <tr scope="row" class="data-row-${data.ID}" data-id=${data.ID}>
         <td rowspan="${numOrder} id=data-name-${data["Name"]} data-toggle="tooltip">${data["Name"]}</td>
-        <td rowspan="${numOrder} id=data-name-${data["Debt"]} data-toggle="tooltip">${data["Debt"]}</td>
+        <td id=data-order-brand-${data.Cars[0]["debt"]} data-toggle="tooltip">${data.Cars[0]["debt"]}</td>
         <td id=data-order-brand-${data.Cars[0]["brand"]} data-toggle="tooltip">${data.Cars[0]["brand"]}</td>
         <td id=data-order-license-${data.Cars[0]["license-number"]} data-toggle="tooltip">${data.Cars[0]["license-number"]}</td>
       </tr>`;
@@ -77,6 +77,7 @@ function addRow(data) {
   for (let i = 1; i < numOrder; i++) {
     let subRow = `
         <tr>
+          <td id=data-order-brand-${data.Cars[i]["debt"]} data-toggle="tooltip">${data.Cars[i]["debt"]}</td>
           <td id=data-order-brand-${data.Cars[i]["brand"]} data-toggle="tooltip">${data.Cars[i]["brand"]}</td>
           <td id=data-order-license-${data.Cars[i]["license-number"]} data-toggle="tooltip">${data.Cars[i]["license-number"]}</td>
           </tr>`;

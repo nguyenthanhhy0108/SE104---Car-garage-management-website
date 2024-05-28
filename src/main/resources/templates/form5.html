@@ -13,13 +13,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" href="../static/css/home.css" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap4.css" -->
+    <!-- /> -->
     <style>
       th {
         color: #fff;
@@ -36,34 +42,6 @@
         width: 100% !important;
       }
     </style>
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap4.css"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="home.css" />
-
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdn.datatables.net/2.0.7/js/dataTables.js"
-    ></script>
-    <script
-      defer
-      src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap4.js"
-    ></script>
   </head>
 
   <body id="body-pd">
@@ -124,13 +102,13 @@
               <span class="nav_logo-name">Pocket Garage</span>
             </a>
             <div class="nav_list">
-              <a href="#" class="nav_link">
+              <a href="/home" class="nav_link">
                 <i class="bx bx-order-alt nav_icon">
                   <span class="material-symbols-outlined show">list_alt</span>
                 </i>
                 <span class="nav_name">Order Management</span>
               </a>
-              <a href="#" class="nav_link">
+              <a href="/vehicle" class="nav_link">
                 <i class="bx bx-user nav_icon">
                   <span class="material-symbols-outlined">list_alt</span>
                 </i>
@@ -169,19 +147,35 @@
         </nav>
       </div>
 
-      <div id="main-screen" class="col-lg height-100 bg-light">
+      <div
+        id="main-screen"
+        class="col-lg height-100 bg-light"
+        style="position: fixed"
+      >
         <dialog id="dialog">
           <h2 id="dialogTitle"></h2>
           <p id="dialogContent"></p>
         </dialog>
-        <!-- Tạo Button cho 2 bảng  -->
-        <div id="toggle-btn">
-          <div class="container">
-            <div class="card-body">
+        <div id="main-screen-content-order">
+          <div
+            class="container mt-3"
+            id="controller"
+            style="
+              z-index: 1;
+              width: 800px;
+              position: absolute;
+              top: 0px;
+              left: 50px;
+              background-color: #f8f9fa;
+            "
+          >
+            <!-- Tạo Button cho 2 bảng  -->
+            <div class="row" id="btn-group" style="height: 45px; width: 100%">
               <button
                 type="button"
                 class="btn btn-primary"
                 data-target="#form-51"
+                style="position: absolute; height: 38px; bottom: 0"
               >
                 Table 1
               </button>
@@ -189,87 +183,106 @@
                 type="button"
                 class="btn btn-primary"
                 data-target="#form-52"
+                style="position: absolute; bottom: 0; left: 90px; height: 38px"
               >
                 Table 2
               </button>
             </div>
           </div>
-        </div>
-        <!--Biểu mẫu 5.1-->
-        <div id="form-51" class="main-screen-content-order">
-          <div class="container-fluid" id="dataTable" style="z-index: 0">
-            <div class="row month">
-              <div class="col">
-                <div class="card-body">
-                  Month:
-                  <input type="month" onchange="handleMonthChange51()" />
+          <!-- Form 5.1 -->
+          <div
+            class="container"
+            id="form-51"
+            style="position: absolute; top: 70px"
+          >
+            <!-- Biểu mẫu 5.1 -->
+            <div class="container-fluid" id="dataTable" style="z-index: 0">
+              <div class="row" style="margin-top: 10px; margin-bottom: 10px">
+                <div class="col-5">
+                  Month
+                  <div class="card">
+                    <div class="card-body" style="height: 64px">
+                      <input
+                        id="monthINPUT"
+                        type="month"
+                        onchange="handleMonthChange51()"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5">
+                  Revernue
+                  <div class="card">
+                    <div class="card-body">1000</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row revenue">
-              <div class="col">
-                <div class="card-body">
-                  <h5>Total revenue:</h5>
-                  <h5 id="numericRevernue"></h5>
+              <div class="row">
+                <div class="col" style="overflow-x: auto; height: 700px">
+                  <table class="table table-border table-striped" style="po">
+                    <thead>
+                      <tr>
+                        <th data-column="ID" data-order="asc">#</th>
+                        <th data-column="Vehicle brand" data-order="asc">
+                          Vehicle brand
+                        </th>
+                        <th data-column="Number of repairs" data-order="asc">
+                          Number of Repairs
+                        </th>
+                        <th data-column="Revernue" data-order="asc">
+                          Revernue
+                        </th>
+                        <th data-column="Percentage" data-order="asc">
+                          Percentage
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody id="myTable-f5.1"></tbody>
+                  </table>
                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col" style="overflow-x: auto">
-                <table class="table table-border table-striped">
-                  <thead>
-                    <tr>
-                      <th data-column="ID" data-order="asc">#</th>
-                      <th data-column="Vehicle brand" data-order="asc">
-                        Vehicle brand
-                      </th>
-                      <th data-column="Number of repairs" data-order="asc">
-                        Number of Repairs
-                      </th>
-                      <th data-column="Revernue" data-order="asc">Revernue</th>
-                      <th data-column="Percentage" data-order="asc">
-                        Percentage
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody id="myTable-f5.1"></tbody>
-                </table>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Form 5.2 -->
-        <div id="form-52" class="main-screen-content-order">
-          <div class="container-fluid" id="dataTalbe" style="z-index: 0">
-            <div class="row month">
-              <div class="col">
-                <div class="card-body">
-                  Month: <input type="month" onchange="handleMonthChange52()" />
+          <!-- Form 5.2 -->
+          <div
+            class="container"
+            id="form-52"
+            style="position: absolute; top: 70px"
+          >
+            <div class="container-fluid" id="dataTalbe" style="z-index: 0">
+              <div class="row" style="margin-top: 10px; margin-bottom: 10px">
+                <div class="col">
+                  Month
+                  <div class="card">
+                    <div class="card-body" style="height: 64px">
+                      <input type="month" onchange="handleMonthChange52()" />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col" style="overflow-x: auto">
-                <table class="table table-border table-striped">
-                  <thead>
-                    <tr>
-                      <th data-column="ID" data-order="asc">#</th>
-                      <th data-column="Supplies name" data-order="asc">
-                        Supplies
-                      </th>
-                      <th data-column="Initial amout" data-order="asc">
-                        Initial amount
-                      </th>
-                      <th data-column="Generated amount" data-order="asc">
-                        Amount generated
-                      </th>
-                      <th data-column="Final amount" data-order="asc">
-                        Final amount
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody id="myTable-f5.2"></tbody>
-                </table>
+              <div class="row">
+                <div class="col" style="overflow-x: auto; height: 700px">
+                  <table class="table table-border table-striped">
+                    <thead>
+                      <tr>
+                        <th data-column="ID" data-order="asc">#</th>
+                        <th data-column="Supplies name" data-order="asc">
+                          Supplies
+                        </th>
+                        <th data-column="Initial amout" data-order="asc">
+                          Initial amount
+                        </th>
+                        <th data-column="Generated amount" data-order="asc">
+                          Amount generated
+                        </th>
+                        <th data-column="Final amount" data-order="asc">
+                          Final amount
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody id="myTable-f5.2"></tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -278,6 +291,22 @@
     </div>
 
     <!-- Script -->
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.datatables.net/2.0.7/js/dataTables.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap4.js"
+    ></script>
     <script type="text/javascript" th:src="@{/js/form5.js}"></script>
     <script type="text/javascript" th:src="@{/js/all.js}"></script>
   </body>

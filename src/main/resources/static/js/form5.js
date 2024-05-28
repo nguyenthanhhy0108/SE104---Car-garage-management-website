@@ -1,6 +1,6 @@
 // handle button
 var currentTable = $("#form-51");
-$("#toggle-btn button").on("click", function () {
+$("#btn-group button").on("click", function () {
   var tar = $(this).data("target");
   console.log(tar);
 
