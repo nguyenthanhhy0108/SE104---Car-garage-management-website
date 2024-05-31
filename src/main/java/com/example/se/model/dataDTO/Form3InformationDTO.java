@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OwnerDTO {
-    private String name;
-    private String phoneNumber;
-    private String email;
-    private String address;
+public class Form3InformationDTO {
+    private int ID;
+    private List<CarAndDebtDTO> Cars;
+    private String Name;
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ownersServiceImpl implements ownersService {
 
@@ -80,5 +82,15 @@ public class ownersServiceImpl implements ownersService {
     @Override
     public owners findByOwnerPhoneNumber(String phoneNumber) {
         return this.ownersRepository.findByOwnerPhoneNumber(phoneNumber);
+    }
+
+    /**
+     * Implement find all
+     * @return
+     * List of owner objects
+     */
+    @Override
+    public List<owners> findAll() {
+        return this.ownersRepository.findAll();
     }
 }

@@ -76,4 +76,24 @@ public class receiptsServiceImpl implements receiptsService {
     public List<receipts> findAllReceiptsByVeID(int carId) {
         return this.receiptsRepository.findAllReceiptsByVeID(carId);
     }
+
+    /**
+     * Find receipts by car ID
+     * @param carId: int
+     * @return receipts object
+     */
+    @Override
+    public List<receipts> findByCarId(int carId) {
+        return this.receiptsRepository.findByCarId(carId);
+    }
+
+    @Override
+    public double getTotalDebtOfCarId(int carId) {
+        List<receipts> list = this.findByCarId(carId);
+        double total = 0.0;
+        for (receipts receipt : list) {
+            total += receipt.getAmountOwed();
+        }
+        return total;
+    }
 }

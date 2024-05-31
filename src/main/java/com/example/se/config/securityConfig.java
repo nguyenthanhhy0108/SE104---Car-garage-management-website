@@ -99,6 +99,7 @@ public class securityConfig {
                         .requestMatchers("/get-old-data-change-form1").permitAll()
                         .requestMatchers("/password").permitAll()
                         .requestMatchers("/test").permitAll()
+                        .requestMatchers("/get-all-vehicle").permitAll()
                         .requestMatchers("/get-all-parts").permitAll()
                         .requestMatchers("/get-all-parts/**").permitAll()
                         .requestMatchers("/get-all-payment").permitAll()

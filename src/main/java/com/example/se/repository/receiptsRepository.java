@@ -35,4 +35,12 @@ public interface receiptsRepository extends JpaRepository<receipts, Integer> {
 
     @Query("SELECT R FROM REPAIR_ORDERS R WHERE R.carId = :carId ")
     List<receipts> findAllReceiptsByVeID(int carId);
+
+    /**
+     * Find receipt by car ID
+     * @param carId: int
+     * @return
+     * receipts object
+     */
+    List<receipts> findByCarId(int carId);
 }
