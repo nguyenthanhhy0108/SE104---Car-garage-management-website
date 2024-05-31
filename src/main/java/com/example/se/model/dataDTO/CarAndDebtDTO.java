@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarAndDebtDTO {
-    private CarDTO carDTO;
+    private String licenseNumber;
+    private String brand;
     private double debt;
 }
