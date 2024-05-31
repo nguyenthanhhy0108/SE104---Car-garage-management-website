@@ -2,6 +2,7 @@ package com.example.se.controller;
 
 import com.example.se.model.cars;
 import com.example.se.model.dataDTO.CarAndDebtDTO;
+import com.example.se.model.dataDTO.CarDTO;
 import com.example.se.model.dataDTO.Form3InformationDTO;
 import com.example.se.model.owners;
 import com.example.se.service.carsService;
@@ -66,7 +67,9 @@ public class vehicleController {
             List<cars> cars = carsServices.findByOwnerID(owner.getOwnerID());
             for (cars car : cars) {
                 CarAndDebtDTO carAndDebtDTO = new CarAndDebtDTO();
-                carAndDebtDTO.setCarDTO(this.carsServices.toDTO(car));
+                CarDTO carDTO = this.carsServices.toDTO(car);
+                carAndDebtDTO.setLicenseNumber(carDTO.getLicenseNumber());
+                carAndDebtDTO.setBrand(carDTO.getBrand());
                 carAndDebtDTO.setDebt(this.receiptsService.getTotalDebtOfCarId(car.getCarID()));
                 carAndDebtDTOList.add(carAndDebtDTO);
             }
