@@ -30,4 +30,14 @@ public interface receiptsService {
     List<Integer> findAllOrderIDByCarIdAndDate(int carId, LocalDate date);
 
     List<receipts> findAllReceiptsByVeID(int carId);
+
+    /**
+     * Find receipt by car ID
+     * @param carId: int
+     * @return
+     * receipts object
+     */
+    List<receipts> findByCarId(int carId);
+
+    double getTotalDebtOfCarId(int carId);
 }
