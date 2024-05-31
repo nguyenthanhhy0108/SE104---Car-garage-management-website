@@ -509,7 +509,8 @@ async function fetchData() {
             $('#checkbox_' + orderNumber).prop('disabled', true)
           }
 
-          $('.delete-button[data-order-]').off('click').on('click', function(){
+          $('.delete-button[data-order-id]').off('click').on('click', function(){
+            console.log("delete clicked")
             deleteDetails.call(this)
           })
           $('[id^="data-order-"]').off('click').on('click', function(){
@@ -536,18 +537,6 @@ async function fetchData() {
       $('#detailsTable').empty()
       var vehicleID = $(this).data('vehicle-license-number')
       console.log(vehicleID);
-
-      // $.ajax({
-      //   url: '/get-license-number?license_number=' + vehicleID,
-      //   type: 'GET',
-      //   success: function(response) {
-      //     $('#response').html(response)
-      //   },
-      //   error: function(xhr, status, error) {
-      //     console.error('Error:', error);
-      //   }
-      // })
-
       var paymentDetails = await $.ajax({
         url: "/get-all-payment-by-VeID?license_number=" + vehicleID,
         method: "GET",
@@ -579,7 +568,7 @@ async function fetchData() {
     }
     function deleteDetails(){
       var orderID = $(this).data('order-id')
-      console.log(orderID)
+      console.log("orderID",orderID)
       if (orderID){
         Swal.fire({
           title: 'Delete Confirmation',
@@ -607,7 +596,7 @@ async function fetchData() {
       return false
     }
 
-    function createJSONformat (orderID, partName, price, serviceName, serviceCost, quantity) {
+    function createJSONformatForm2 (orderID, partName, price, serviceName, serviceCost, quantity) {
       return {
         "orderNumber":orderID,
         "notes": "aaaa",
@@ -663,8 +652,8 @@ async function fetchData() {
                   var serviceName = $('#data-order-service-'+orderID).text()
                   // console.log(equipName, serviceName)
                   $('#data-order-total-' + orderID).text(newTotal.toString())
-                  var returnData = createJSONformat(orderID, equipName ,price, serviceName,charge,quantity);
-                  let status = await sendChangeDataForm2(returnData);
+                  var returnData = createJSONformatForm2(orderID, equipName ,price, serviceName,charge,quantity);
+                  let status = await sendChangeData(returnData);
                 } else {
                   // console.log("after", beforeInput)
                   originalElement.text(beforeInput)
@@ -727,8 +716,8 @@ async function fetchData() {
                 var serviceName = $('#data-order-service-'+orderID).text()
                 // console.log(equipName, serviceName)
                 $('#data-order-total-' + orderID).text(newTotal.toString())
-                var returnData = createJSONformat(orderID, equipName, price, serviceName, charge, quantity)
-                let status = await sendChangeDataForm2(returnData);
+                var returnData = createJSONformatForm2 (orderID, equipName, price, serviceName, charge, quantity)
+                let status = await sendChangeData(returnData);
                 Swal.fire('Success', 'Changes saved', 'success');
               } else {
                 // console.log("after", beforeInput)
@@ -739,26 +728,44 @@ async function fetchData() {
 
         });
       }
-      // call api change data
+
     }
 
-    async function sendChangeDataForm2(dataObject) {
+    async function sendChangeData(dataObject, form="2") {
       // alert(dataObject)
       console.log(dataObject)
-      $.ajax({
-        url: '/change-order',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(dataObject),
-        success: function(response) {
-          console.log(response.status);
-          console.log(JSON.stringify(dataObject))
-          return response.status;
-        },
-        error: function(xhr, status, error) {
-          console.error('Error:', error);
-        }
-      });
+      if (form === "2"){
+        $.ajax({
+          url: '/change-order',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(dataObject),
+          success: function (response) {
+            console.log(response.status);
+            console.log(JSON.stringify(dataObject))
+            return response.status;
+          },
+          error: function (xhr, status, error) {
+            console.error('Error:', error);
+          }
+        });
+      }
+      else {
+        $.ajax({
+          url: '/update-owned',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(dataObject),
+          success: function (response) {
+            console.log(response.status);
+            console.log(JSON.stringify(dataObject))
+            return response.status;
+          },
+          error: function (xhr, status, error) {
+            console.error('Error:', error);
+          }
+        });
+      }
     }
 
 
@@ -887,7 +894,6 @@ async function fetchData() {
         throw error;
       }
     }
-    //------------ FORM 4 ----------------
     function mainCheckout(data){
       $(document).ready(function() {
         $('#checkoutButton').click(function() {
@@ -901,7 +907,7 @@ async function fetchData() {
             var orderId = $(this).data('order-id')
             selectedOrders.push(orderId)
           })
-          console.log(selectedOrders)
+          console.log("selected order: ", selectedOrders)
           var customerInfo = data[0]
           $('#checkoutName').val(customerInfo['Name'])
           $('#checkoutLicense').val(customerInfo['licenseNumber'])
@@ -918,7 +924,25 @@ async function fetchData() {
           })
           $('#checkoutTotal').val(checkoutTotal)
 
-        })
+          $('#checkoutConfirm').click(function () {
+            Swal.fire({
+              title: 'Payment Confirmation',
+              text: 'Are you sure confirm this payment?',
+              icon: 'question',
+              showCancelButton: true,
+              confirmButtonText: 'Confirm',
+              cancelButtonText: 'Cancel'
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                let status = await sendChangeData(selectedOrders, form="4");
+                Swal.fire('Success', 'Successfully Paid', 'success');
+
+              } else
+                Swal.fire('Cancel', 'Cancel Deletion', 'info')
+            })
+          })
+          })
+
         $('#backtoSubForm2').click(function() {
           $('#subForm2').addClass('show').removeClass('hidden')
           $('#formCheckout').addClass('hidden').removeClass('show')
@@ -932,8 +956,9 @@ async function fetchData() {
           });
 
         })
+
       })
-      $
+
     }
   }
   catch (error) {
