@@ -95,10 +95,11 @@ function buildTable(data) {
 async function fetchData() {
   try {
     const test = $.ajax({
-      url: "http://localhost:3000/form2",
+      url: "/get-all-vehicles",
       method: "get",
       dataType: "json",
     });
+    console.log(test);
     return test;
   } catch (error) {
     console.error(error);

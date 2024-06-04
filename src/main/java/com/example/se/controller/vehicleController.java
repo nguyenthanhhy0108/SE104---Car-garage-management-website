@@ -53,7 +53,7 @@ public class vehicleController {
      * @return
      * Data
      */
-    @GetMapping("/get-all-vehicle")
+    @GetMapping("/get-all-vehicles")
     @ResponseBody
     ResponseEntity<List<Form3InformationDTO>> getFirstData() {
         List<Form3InformationDTO> data = new ArrayList<>();
