@@ -96,4 +96,26 @@ public class receiptsServiceImpl implements receiptsService {
         }
         return total;
     }
+
+    @Override
+    public String countDistinctByMonthAndYearAndBrandID(int month, int year, int brandID) {
+        return this.receiptsRepository.countDistinctByMonthAndYearAndBrandID(month, year, brandID);
+    }
+
+    @Override
+    public double getValueOfReceipt(int receiptId) {
+        receipts receipt = this.receiptsRepository.findByOrdernumber(receiptId);
+        return receipt.getAmountpaid();
+    }
+
+    @Override
+    public List<receipts> getByMonthAndYearAndBrandID(int month, int year, int brandID) {
+        return this.receiptsRepository.getByMonthAndYearAndBrandID(month, year, brandID);
+    }
+
+    @Override
+    public List<receipts> getByMonthAndYear(int month, int year) {
+        return this.receiptsRepository.getByMonthAndYear(month, year);
+    }
+
 }
