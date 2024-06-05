@@ -6,6 +6,8 @@ import com.example.se.service.brandsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class brandsServiceImpl implements brandsService {
 
@@ -45,5 +47,10 @@ public class brandsServiceImpl implements brandsService {
     @Override
     public brands save(brands brands) {
         return this.brandsRepository.save(brands);
+    }
+
+    @Override
+    public List<brands> findDistinctAll() {
+        return this.brandsRepository.findDistinctAll();
     }
 }
