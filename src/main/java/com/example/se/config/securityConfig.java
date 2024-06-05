@@ -100,6 +100,8 @@ public class securityConfig {
                         .requestMatchers("/password").permitAll()
                         .requestMatchers("/test").permitAll()
                         .requestMatchers("/get-all-vehicles").permitAll()
+                        .requestMatchers("/get-data-form5/**").permitAll()
+                        .requestMatchers("/get-data-form5").permitAll()
                         .requestMatchers("/get-all-parts").permitAll()
                         .requestMatchers("/get-all-parts/**").permitAll()
                         .requestMatchers("/get-all-payment").permitAll()
