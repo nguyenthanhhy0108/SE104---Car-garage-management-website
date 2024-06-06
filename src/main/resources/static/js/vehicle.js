@@ -62,14 +62,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 //---build table---//
 function addRow(data) {
-  let numOrder = data.Cars.length;
+  let numOrder = data.cars.length;
 
   let row = `
-      <tr scope="row" class="data-row-${data.ID}" data-id=${data.ID}>
-        <td rowspan="${numOrder} id=data-name-${data["Name"]} data-toggle="tooltip">${data["Name"]}</td>
-        <td id=data-order-brand-${data.Cars[0]["debt"]} data-toggle="tooltip">${data.Cars[0]["debt"]}</td>
-        <td id=data-order-brand-${data.Cars[0]["brand"]} data-toggle="tooltip">${data.Cars[0]["brand"]}</td>
-        <td id=data-order-license-${data.Cars[0]["license-number"]} data-toggle="tooltip">${data.Cars[0]["license-number"]}</td>
+      <tr scope="row" class="data-row-${data.id}" data-id=${data.id}>
+        <td rowspan="${numOrder} id=data-name-${data["id"]} data-toggle="tooltip">${data["id"]}</td>
+        <td rowspan="${numOrder} id=data-name-${data["name"]} data-toggle="tooltip">${data["name"]}</td>
+        <td id=data-order-brand-${data.cars[0]["brand"]} data-toggle="tooltip">${data.cars[0]["brand"]}</td>
+        <td id=data-order-license-${data.cars[0]["licenseNumber"]} data-toggle="tooltip">${data.cars[0]["licenseNumber"]}</td>
+        <td id=data-order-brand-${data.cars[0]["debt"]} data-toggle="tooltip">${data.cars[0]["debt"]}</td>
       </tr>`;
 
   $("#myTable").append(row);
@@ -77,9 +78,9 @@ function addRow(data) {
   for (let i = 1; i < numOrder; i++) {
     let subRow = `
         <tr>
-          <td id=data-order-brand-${data.Cars[i]["debt"]} data-toggle="tooltip">${data.Cars[i]["debt"]}</td>
-          <td id=data-order-brand-${data.Cars[i]["brand"]} data-toggle="tooltip">${data.Cars[i]["brand"]}</td>
-          <td id=data-order-license-${data.Cars[i]["license-number"]} data-toggle="tooltip">${data.Cars[i]["license-number"]}</td>
+        <td id=data-order-brand-${data.cars[i]["brand"]} data-toggle="tooltip">${data.cars[i]["brand"]}</td>
+        <td id=data-order-license-${data.cars[i]["licenseNumber"]} data-toggle="tooltip">${data.cars[i]["licenseNumber"]}</td>
+        <td id=data-order-brand-${data.cars[i]["debt"]} data-toggle="tooltip">${data.cars[i]["debt"]}</td>
           </tr>`;
     $("#myTable").append(subRow);
   }
