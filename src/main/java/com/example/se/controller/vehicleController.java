@@ -1,21 +1,14 @@
 package com.example.se.controller;
 
-import com.example.se.model.brands;
-import com.example.se.model.cars;
+import com.example.se.model.*;
 import com.example.se.model.dataDTO.*;
-import com.example.se.model.owners;
-import com.example.se.model.receipts;
-import com.example.se.service.brandsService;
-import com.example.se.service.carsService;
-import com.example.se.service.ownersService;
-import com.example.se.service.receiptsService;
+import com.example.se.service.*;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +20,7 @@ public class vehicleController {
     private final carsService carsServices;
     private final receiptsService receiptsService;
     private final brandsService brandsService;
+    private final partsService partsService;
 
     /**
      * Dependency Injection
@@ -37,11 +31,13 @@ public class vehicleController {
     public vehicleController(ownersService ownerService,
                              carsService carsServices,
                              receiptsService receiptsService,
-                             brandsService brandsService) {
+                             brandsService brandsService,
+                             partsService partsService) {
         this.ownerService = ownerService;
         this.carsServices = carsServices;
         this.receiptsService = receiptsService;
         this.brandsService = brandsService;
+        this.partsService = partsService;
     }
 
     /**
@@ -117,5 +113,54 @@ public class vehicleController {
         }
 
         return new ResponseEntity<>(form51DTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-parts-form5")
+    ResponseEntity<Form5_2DTO> getPartsForm5() {
+        List<parts> partsList = partsService.findAll();
+        Form5_2DTO form5_2DTO = new Form5_2DTO();
+        List<PartsForm5DTO> partsForm5DTOList = new ArrayList<>();
+        for (parts part : partsList) {
+            PartsForm5DTO partsForm5DTO = new PartsForm5DTO();
+            partsForm5DTO.setPartName(part.getName());
+            partsForm5DTO.setBefore(part.getBefore());
+            partsForm5DTO.setAfter(part.getAfter());
+            partsForm5DTO.setUsed(part.getAfter() - part.getBefore());
+
+            partsForm5DTOList.add(partsForm5DTO);
+        }
+        form5_2DTO.setPartsForm5List(partsForm5DTOList);
+        return new ResponseEntity<>(form5_2DTO, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/add-number-part")
+    public boolean addNumberPart(
+            @RequestParam("part_name") String partName,
+            @RequestParam("number") String numberPart) {
+
+        boolean response = false;
+
+        try {
+            parts parts = partsService.findByName(partName);
+            if (parts == null) {
+                return response;
+            }
+
+            int numberToAdd;
+            try {
+                numberToAdd = Integer.parseInt(numberPart);
+            } catch (NumberFormatException e) {
+                return response;
+            }
+
+            parts.setBefore(parts.getBefore() + numberToAdd);
+            partsService.save(parts);
+
+            response = true;
+            return response;
+        } catch (Exception e) {
+            return response;
+        }
     }
 }

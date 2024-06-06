@@ -53,4 +53,9 @@ public class partsServiceImpl implements partsService {
     public List<parts> findAll() {
         return this.partsRepository.findAll();
     }
+
+    @Override
+    public parts save(parts parts) {
+        return this.partsRepository.save(parts);
+    }
 }

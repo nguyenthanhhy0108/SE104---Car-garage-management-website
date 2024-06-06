@@ -27,4 +27,6 @@ public interface partsService {
      * List of parts objects
      */
     List<parts> findAll();
+
+    parts save(parts parts);
 }
