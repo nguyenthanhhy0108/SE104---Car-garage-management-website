@@ -75,7 +75,7 @@ public class repairRecordController {
         repairParts.setPartID(partsService.findByName(equipment).getPartID());
 
         parts parts = partsService.findByName(equipment);
-        parts.setAfter(parts.getBefore() - Integer.parseInt(quantity));
+        parts.setUsed(parts.getUsed() + Integer.parseInt(quantity));
         partsService.save(parts);
 
         this.repairPartsService.save(repairParts);

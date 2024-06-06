@@ -23,18 +23,18 @@ public class parts {
     @Column(name = "Before")
     private int before;
 
-    @Column(name = "After")
-    private int after;
+    @Column(name = "Used")
+    private int used;
 
     public parts() {
     }
 
-    public parts(int partID, String name, double price, int before, int after) {
+    public parts(int partID, String name, double price, int before, int used) {
         this.partID = partID;
         this.name = name;
         this.price = price;
         this.before = before;
-        this.after = after;
+        this.used = used;
     }
 
     public PartDTO toDTO() {
