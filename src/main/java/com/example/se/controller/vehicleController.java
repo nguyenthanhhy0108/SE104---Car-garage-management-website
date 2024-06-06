@@ -124,8 +124,8 @@ public class vehicleController {
             PartsForm5DTO partsForm5DTO = new PartsForm5DTO();
             partsForm5DTO.setPartName(part.getName());
             partsForm5DTO.setBefore(part.getBefore());
-            partsForm5DTO.setAfter(part.getAfter());
-            partsForm5DTO.setUsed(part.getAfter() - part.getBefore());
+            partsForm5DTO.setAfter(part.getBefore() - part.getUsed());
+            partsForm5DTO.setUsed(part.getUsed());
 
             partsForm5DTOList.add(partsForm5DTO);
         }
