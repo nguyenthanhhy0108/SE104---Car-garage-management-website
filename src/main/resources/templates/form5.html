@@ -9,23 +9,26 @@
     <meta name="csrf-token" content="${_csrf.token}" />
     <meta name="csrf-param" content="${_csrf.parameterName}" />
     <title>Home - Pocket Garage</title>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <!-- Bootstrap CSS -->
     <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <!-- Bootstrap JS và jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DataTables CSS -->
+    <link
+      href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"
+      rel="stylesheet"
+    />
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="stylesheet" th:href="@{/css/home.css}" />
     <link rel="stylesheet" href="../static/css/home.css" />
     <link rel="stylesheet" href="../static/css/style.css" />
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap4.css" -->
-    <!-- /> -->
     <style>
       th {
         color: #fff;
@@ -38,7 +41,7 @@
       .show {
         display: block;
       }
-      #DataTables_Table_1 {
+      #DataTables_Table_0 {
         width: 100% !important;
       }
     </style>
@@ -46,7 +49,6 @@
 
   <body id="body-pd">
     <div class="container-lg p-0">
-      <!-- <div class="row no-gutters p-5"> -->
       <header class="header" id="header">
         <div
           id="main-screen-header"
@@ -68,7 +70,6 @@
                 >
               </i>
             </div>
-            <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
 
             <div
               class="col text-center"
@@ -199,30 +200,59 @@
             <div class="container-fluid" id="dataTable" style="z-index: 0">
               <div class="row" style="margin-top: 10px; margin-bottom: 10px">
                 <div class="col-5">
-                  Month
                   <div class="card">
+                    <div
+                      class="card-header"
+                      style="
+                        /* border-color: #0051bc; */
+                        /* border-width: 2px; */
+                        /* border: 2px solid #606060; */
+                        padding: 0 0 0 20px;
+                        font-weight: bold;
+                        color: #5e5e5e;
+                        font-size: large;
+                        height: 30px;
+                      "
+                    >
+                      Month
+                    </div>
                     <div class="card-body" style="height: 64px">
-                      <input
-                        id="monthINPUT"
-                        type="month"
-                        onchange="handleMonthChange51()"
-                      />
+                      <input id="monthINPUT" type="month" />
                     </div>
                   </div>
                 </div>
                 <div class="col-5">
-                  Revernue
                   <div class="card">
-                    <div class="card-body">1000</div>
+                    <div
+                      class="card-header"
+                      style="
+                        padding: 0 0 0 20px;
+                        font-weight: bold;
+                        color: #5e5e5e;
+                        font-size: large;
+                        height: 30px;
+                      "
+                    >
+                      Revernue
+                    </div>
+                    <div class="card-body"></div>
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div
+                class="row"
+                style="
+                  margin-top: 20px;
+                  border: 1px solid #c9c9c9;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+              >
                 <div class="col" style="overflow-x: auto; height: 700px">
                   <table class="table table-border table-striped">
                     <thead>
                       <tr>
-                        <th data-column="ID" data-order="asc">#</th>
+                        <!-- <th data-column="ID" data-order="asc">#</th> -->
                         <th data-column="Vehicle brand" data-order="asc">
                           Vehicle brand
                         </th>
@@ -237,7 +267,7 @@
                         </th>
                       </tr>
                     </thead>
-                    <tbody id="myTable-f5.1"></tbody>
+                    <tbody id="myTable-f51"></tbody>
                   </table>
                 </div>
               </div>
@@ -249,23 +279,77 @@
             id="form-52"
             style="position: absolute; top: 70px"
           >
-            <div class="container-fluid" id="dataTalbe" style="z-index: 0">
-              <div class="row" style="margin-top: 10px; margin-bottom: 10px">
-                <div class="col">
-                  Month
-                  <div class="card">
-                    <div class="card-body" style="height: 64px">
-                      <input type="month" onchange="handleMonthChange52()" />
+            <div class="container-fluid" id="dataTable2" style="z-index: 0">
+              <!-- FORM CHANGE-->
+              <div class="form-change container form-up hidden" id="formChange">
+                <div>
+                  <div
+                    class="card form-change"
+                    style="padding-left: 0; padding-right: 0"
+                  >
+                    <div class="card-header d-flex justify-content-between">
+                      <span class="header-text">Form change</span>
+                      <span
+                        class="material-symbols-outlined"
+                        id="closeForm"
+                        style="cursor: pointer"
+                        >close</span
+                      >
+                    </div>
+                    <div class="card-body">
+                      <form
+                        action="/add-number-part"
+                        id="change-form"
+                        method="POST"
+                      >
+                        <div class="form-group">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                              <label for="partName">Part name</label>
+                              <input type="text" id="partName" value="" />
+                            </div>
+                            <div class="col-md-6">
+                              <label for="numberChange">Number to add</label>
+                              <input
+                                type="text"
+                                id="numberChange"
+                                placeholder="Amount"
+                                required
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="row justify-content-end"
+                          style="width: 100%; padding-bottom: 1rem"
+                        >
+                          <input
+                            id="submitBtn"
+                            type="submit"
+                            class="btn btn-primary btn-md"
+                            value="Submit"
+                          />
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="row">
+
+              <!-- Talbe 2 -->
+              <div
+                class="row"
+                style="
+                  margin-top: 20px;
+                  border: 1px solid #c9c9c9;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+              >
                 <div class="col" style="overflow-x: auto; height: 700px">
                   <table class="table table-border table-striped">
                     <thead>
                       <tr>
-                        <th data-column="ID" data-order="asc">#</th>
                         <th data-column="Supplies name" data-order="asc">
                           Supplies
                         </th>
@@ -278,9 +362,10 @@
                         <th data-column="Final amount" data-order="asc">
                           Final amount
                         </th>
+                        <th data-column="change">Change</th>
                       </tr>
                     </thead>
-                    <tbody id="myTable-f5.2"></tbody>
+                    <tbody id="myTable-f52"></tbody>
                   </table>
                 </div>
               </div>
@@ -291,6 +376,7 @@
     </div>
 
     <!-- Script -->
+
     <script
       defer
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
@@ -301,13 +387,15 @@
     ></script>
     <script
       defer
-      src="https://cdn.datatables.net/2.0.7/js/dataTables.js"
+      src="//cdn.datatables.net/2.0.8/js/dataTables.min.js"
     ></script>
     <script
       defer
       src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap4.js"
     ></script>
-    <script type="text/javascript" th:src="@{/js/form5.js}"></script>
+    <script type="text/javascript" th:src="@{/js/newform5.js}"></script>
+    <!-- <script src="../static/js/newform5.js"></script> -->
     <script type="text/javascript" th:src="@{/js/all.js}"></script>
+    <!-- <script type="text/javascript" src="../static/js/form5.js"></script> -->
   </body>
 </html>
