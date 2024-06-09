@@ -26,6 +26,9 @@
         .show{
             display: block;
         }
+        .table-responsive{
+            max-height: 1000px;
+        }
     </style>
 </head>
 
@@ -91,7 +94,7 @@
                         </i>
                         <span class="nav_name">Files</span>
                     </a>
-                    <a href="#" class="nav_link">
+                    <a href="/form6" class="nav_link">
                         <i class='bx bx-bar-chart-alt-2 nav_icon'>
                             <span class="material-symbols-outlined">list_alt</span>
                         </i>
@@ -106,14 +109,14 @@
         </nav>
     </div>
 
-    <div id="main-screen" class="col-lg height-100 bg-light">
+    <div id="main-screen" class="col-lg height-100 bg-light" style="position: fixed">
         <dialog id="dialog">
             <h2 id="dialogTitle"></h2>
             <p id="dialogContent"></p>
         </dialog>
         <!--Biểu mẫu 2-->
         <div id="main-screen-content-order">
-            <div class="container" id="dataTable" style="z-index: 0;">
+            <div class="container" id="dataTable" style="z-index: 0; position: absolute;">
                 <div class="row">
                     <div class="col">
                         <div class="card-body">
@@ -122,13 +125,32 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col" style="overflow-x: auto;">
-                        <div class="table-responsive">
+                    <div 
+                        class="col" 
+                        style="
+                            overflow-x: auto; 
+                            height: 1000px; 
+                            border: 1px solid #c9c9c9;
+                            border-radius: 5px;
+                            padding: 5px;
+                            "
+                    >
+                        <div style="display: flex; margin: 5px 0 5px 0">
+                            Show
+                            <select id="number-entry" name="quantity" class="form-control" style="width: 10%; margin: 0 5px 0 5px; padding: 4px; height: 30.5px; width: 57px;">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            entry
+                        </div>
+                        <div class="table-responsive" style="overflow-x: auto; height: 700px">
                         <table class="table table-bordered">
                             <thead class="table-header">
                                 <!-- <th data-column="ID" data-order="asc"># &#9650</th> -->
-                                <th data-column="ID">ID </th>
-                                <th data-column="Name">Name </th>
+                                <th data-column="ID" data-order="asc">ID &#9650</th>
+                                <th data-column="Name" data-order="asc">Name &#9650</th>
                                 <th data-column="Vehicle brand">Brand </th>
                                 <th data-column="Vehicle license number">License Number </th>
                                 <th data-column="Debt" data-order="asc">Debt &#9650</th>
@@ -136,6 +158,9 @@
                             <tbody id="myTable"></tbody>
                         </table>
                         </div>
+                        <div class="pagination" id="pagination" style="display: flex; justify-content: flex-start;">
+                             <!-- Pagination buttons will be inserted here by JavaScript -->
+                         </div>
                     </div>
                 </div>
             </div>
@@ -143,8 +168,8 @@
     </div>
 </div>
 
-<script src="../static/js/vehicle.js"></script>
-<script type="text/javascript" th:src="@{/js/vehicle.js}"></script>
+<!-- <script src="../static/js/new_vehicle.js"></script> -->
+<script type="text/javascript" th:src="@{/js/new_vehicle.js}"></script>
 <script type="text/javascript" th:src="@{/js/all.js}"></script>
 </body>
 
