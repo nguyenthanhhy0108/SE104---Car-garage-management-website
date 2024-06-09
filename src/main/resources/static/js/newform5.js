@@ -102,7 +102,7 @@ function fetch_build() {
   async function build_Form52() {
     try {
       const list_form5_2 = await fetchDataform52();
-      console.log(list_form5_2.partsForm5List);
+      // console.log(list_form5_2.partsForm5List);
       // Tạo bảng
       buildTable(list_form5_2.partsForm5List);
       // Hàm tạo bảng
@@ -185,6 +185,7 @@ function fetch_build() {
       ).value;
       const result = await fetchAddPart(name, amount.toString());
       close_form(document.querySelector("#form-52 #formChange"));
+      build_Form52();
     });
   });
   // AIP cho hành động thêm số lượng
