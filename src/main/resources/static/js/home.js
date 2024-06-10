@@ -1,6 +1,7 @@
 var mainData, equipList, serviceList;
 // Menu handler
 document.addEventListener("DOMContentLoaded", function (event) {
+
   const showNavbar = (toggleId, navId, bodyId, headerId) => {
     const toggle = document.getElementById(toggleId),
         nav = document.getElementById(navId),
@@ -871,6 +872,13 @@ async function fetchData() {
       var check = urlParams.get("exist");
       if (check) {
         popupDialog("Error", "This car is fixing !!!");
+      }
+      const full = urlParams.get('full');
+      if (full == 'true') {
+        popupDialog(
+            "Error",
+            "Full cars"
+        )
       }
     }
 

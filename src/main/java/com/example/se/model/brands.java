@@ -1,5 +1,6 @@
 package com.example.se.model;
 
+import com.example.se.model.dataDTO.BrandDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -39,5 +40,11 @@ public class brands {
      * Constructor
      */
     public brands() {
+    }
+
+    public BrandDTO toDTO() {
+        BrandDTO dto = new BrandDTO();
+        dto.setBrandName(this.getBrandName());
+        return dto;
     }
 }

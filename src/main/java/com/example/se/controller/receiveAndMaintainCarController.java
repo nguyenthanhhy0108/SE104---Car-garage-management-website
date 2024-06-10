@@ -56,6 +56,9 @@ public class receiveAndMaintainCarController {
     @PostMapping("/add-form1")
     public String handleFormAdd(HttpServletRequest request) {
 
+        int ownerId = -1;
+        int brandID = -1;
+        int carID = -1;
         try {
             String name = request.getParameter("name");
             String phone = request.getParameter("phone");
@@ -84,7 +87,7 @@ public class receiveAndMaintainCarController {
 
                 newOwner = this.ownersService.save(newOwner);
             }
-            int ownerId = newOwner.getOwnerID();
+            ownerId = newOwner.getOwnerID();
 
             brands newBrand = this.brandsService.findByBrandName(vehicleBrand);
             if(newBrand == null) {
@@ -93,7 +96,7 @@ public class receiveAndMaintainCarController {
                 newBrand = this.brandsService.save(newBrand);
             }
 
-            int brandID = newBrand.getBrandID();
+            brandID = newBrand.getBrandID();
 
             cars newCar = new cars();
             newCar.setLicensePlate(vehicleLicenseNumber);
@@ -102,7 +105,7 @@ public class receiveAndMaintainCarController {
 
             newCar = this.carsService.save(newCar);
 
-            int carID = newCar.getCarID();
+            carID = newCar.getCarID();
 
             maintenanceRecords maintenanceRecord = new maintenanceRecords();
 
@@ -116,6 +119,25 @@ public class receiveAndMaintainCarController {
 
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                carsService.deleteByCarID(carID);
+            } catch (Exception e3) {
+                e3.printStackTrace();
+            }
+
+            try {
+                ownersService.deleteByOwnerID(ownerId);
+                System.out.println(ownerId);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+            try {
+                brandsService.delete(brandsService.findByBrandID(brandID));
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+
             return "redirect:/home?full=true";
         }
     }

@@ -4,6 +4,8 @@ import com.example.se.model.repairOrderServices;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface repairOrderServicesRepository extends JpaRepository<repairOrderServices,Integer> {
 
@@ -14,4 +16,6 @@ public interface repairOrderServicesRepository extends JpaRepository<repairOrder
      * repairOrderServices object
      */
     repairOrderServices findByOrderNumber(int orderNumber);
+
+    List<repairOrderServices> findByServiceID(int serviceID);
 }
