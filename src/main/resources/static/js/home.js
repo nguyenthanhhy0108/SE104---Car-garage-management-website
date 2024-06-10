@@ -587,21 +587,33 @@ async function fetchData() {
           cancelButtonText: 'Cancel'
         }).then((result) => {
           if (result.isConfirmed) {
-            if (confirmDeletionDetails(vehicleID))
+            if (confirmDeletionDetails(orderID))
               Swal.fire('Success', 'Deleted ', 'success');
             // console.log(vehicleID)
             else
               Swal.fire('Cancel', 'Cancel Deletion', 'info')
-
+              setTimeout(function() {
+                window.location.reload();
+              }, 5000);
           }
         })
       } else {
         console.log("vehicleID is undefined or empty")
       }
     }
-    function confirmDeletionDetails(){
-      return true
-      return false
+    async function confirmDeletionDetails(orderID){
+      try {
+        const response = await $.ajax({
+          url: '/delete-repair-order?orderNumber=' + orderID.toString(),
+          method: 'DELETE',
+          dataType: 'json'
+        });
+        $('#response').html(response);
+        return response;
+      } catch (error) {
+        console.error('Error:', error);
+        throw new Error('Error: ' + error);
+      }
     }
 
     function createJSONformatForm2 (orderID, partName, price, serviceName, serviceCost, quantity) {

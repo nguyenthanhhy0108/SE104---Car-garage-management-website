@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -177,5 +178,19 @@ public class receiptsController {
             response.add(form2InformationDTO);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete-repair-order")
+    ResponseEntity<Boolean> deleteRepairOrder(@RequestParam(name = "orderNumber") int orderNumber) {
+        boolean result = false;
+        try {
+            repairOrdersPartsService.delete(repairOrdersPartsService.findByOrderNumber(orderNumber));
+            repairOrderServicesService.delete(repairOrderServicesService.findByOrderNumber(orderNumber));
+            receiptsService.deleteById(orderNumber);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
