@@ -58,4 +58,9 @@ public class partsServiceImpl implements partsService {
     public parts save(parts parts) {
         return this.partsRepository.save(parts);
     }
+
+    @Override
+    public void delete(parts parts) {
+        this.partsRepository.delete(parts);
+    }
 }
