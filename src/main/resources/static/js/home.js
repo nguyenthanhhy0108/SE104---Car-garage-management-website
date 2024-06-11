@@ -594,7 +594,7 @@ async function fetchData() {
               Swal.fire('Cancel', 'Cancel Deletion', 'info')
               setTimeout(function() {
                 window.location.reload();
-              }, 5000);
+              }, 3000);
           }
         })
       } else {
@@ -951,21 +951,27 @@ async function fetchData() {
           })
           $('#checkoutTotal').val(checkoutTotal)
 
-          $('#checkoutConfirm').click(function () {
+          $('#checkoutConfirm').click(async function (event) {
+            event.preventDefault();
+            console.log('Checkout Confirm button clicked');
             Swal.fire({
               title: 'Payment Confirmation',
-              text: 'Are you sure confirm this payment?',
+              text: 'Are you sure you want to confirm this payment?',
               icon: 'question',
               showCancelButton: true,
               confirmButtonText: 'Confirm',
               cancelButtonText: 'Cancel'
             }).then(async (result) => {
+              console.log(result);
               if (result.isConfirmed) {
                 let status = await sendChangeData(selectedOrders, form="4");
                 Swal.fire('Success', 'Successfully Paid', 'success');
-
               } else
                 Swal.fire('Cancel', 'Cancel Deletion', 'info')
+
+              setTimeout(function() {
+                window.location.reload();
+              }, 3000);
             })
           })
           })
