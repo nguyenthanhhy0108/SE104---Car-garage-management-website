@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class form5Controller {
     
-    @GetMapping("/form5")
+    @GetMapping("/report")
     String getForm5Page() {
-        return "form5";
+        return "report";
     }
 }

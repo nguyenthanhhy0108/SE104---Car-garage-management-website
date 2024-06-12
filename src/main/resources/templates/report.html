@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.w3.org/1999/xhtml"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="csrf-token" content="${_csrf.token}" />
+    <meta name="csrf-param" content="${_csrf.parameterName}" />
+    <title>Home - Pocket Garage</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap JS và jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DataTables CSS -->
+    <link
+      href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"
+      rel="stylesheet"
+    />
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" href="../static/css/home.css" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <style>
+      th {
+        color: #fff;
+        background-color: #6fa9f5;
+        cursor: pointer;
+      }
+      .hidden {
+        display: none;
+      }
+      .show {
+        display: block;
+      }
+      #DataTables_Table_0 {
+        width: 100% !important;
+      }
+      .table-responsive {
+        max-height: 1000px;
+      }
+    </style>
+  </head>
+
+  <body id="body-pd">
+    <div class="container-lg p-0">
+      <header class="header" id="header">
+        <div
+          id="main-screen-header"
+          class="col"
+          style="
+            margin: 0;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin: 0;
+          "
+        >
+          <div class="row align-items-center">
+            <div class="header_toggle" style="padding: 1rem">
+              <i class="bx bx-menu" id="header-toggle">
+                <span id="menu-open" class="material-symbols-outlined show"
+                  >menu</span
+                >
+                <span id="menu-close" class="material-symbols-outlined hidden"
+                  >close</span
+                >
+              </i>
+            </div>
+
+            <div
+              class="col text-center"
+              style="font-size: 2rem; padding: 1rem; font-weight: bolder"
+            >
+              Order Management
+            </div>
+            <div class="col-lg-2 d-flex align-items-center">
+              <i class="material-symbols-outlined" style="font-size: 2rem"
+                >settings_heart</i
+              >
+              <div style="width: 1vw"></div>
+              <span
+                >Hello
+                <span style="color: royalblue" th:text="${session.name}"></span
+              ></span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+          <div>
+            <a href="#" class="nav_logo">
+              <img
+                class="bx bx-layer nav_logo-icon"
+                th:src="@{/images/logo-house.png}"
+                height="50"
+                alt="logo"
+              />
+              <span class="nav_logo-name">Pocket Garage</span>
+            </a>
+            <div class="nav_list">
+              <a href="/home" class="nav_link">
+                <i class="bx bx-order-alt nav_icon">
+                  <span class="material-symbols-outlined show">list_alt</span>
+                </i>
+                <span class="nav_name">Order Management</span>
+              </a>
+              <a href="/vehicle" class="nav_link">
+                <i class="bx bx-user nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Users</span>
+              </a>
+              <a href="#" class="nav_link">
+                <i class="bx bx-message-square-detail nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Messages</span>
+              </a>
+              <a href="#" class="nav_link">
+                <i class="bx bx-bookmark nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Bookmark</span>
+              </a>
+              <a href="/report" class="nav_link">
+                <i class="bx bx-folder nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Files</span>
+              </a>
+              <a href="/change_policies" class="nav_link">
+                <i class="bx bx-bar-chart-alt-2 nav_icon">
+                  <span class="material-symbols-outlined">list_alt</span>
+                </i>
+                <span class="nav_name">Stats</span>
+              </a>
+            </div>
+          </div>
+          <a href="/logout" class="nav_link">
+            <span class="material-symbols-outlined">logout</span>
+            <span class="nav_name">SignOut</span>
+          </a>
+        </nav>
+      </div>
+
+      <div
+        id="main-screen"
+        class="col-lg height-100 bg-light"
+        style="position: fixed"
+      >
+        <dialog id="dialog">
+          <h2 id="dialogTitle"></h2>
+          <p id="dialogContent"></p>
+        </dialog>
+        <div id="main-screen-content-order">
+          <div
+            class="container mt-3"
+            id="controller"
+            style="
+              z-index: 1;
+              width: 800px;
+              position: absolute;
+              top: 0px;
+              left: 50px;
+              background-color: #f8f9fa;
+            "
+          >
+            <!-- Tạo Button cho 2 bảng  -->
+            <div class="row" id="btn-group" style="height: 45px; width: 100%">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-target="#form-51"
+                style="position: absolute; height: 38px; bottom: 0"
+              >
+                Table 1
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-target="#form-52"
+                style="position: absolute; bottom: 0; left: 90px; height: 38px"
+              >
+                Table 2
+              </button>
+            </div>
+          </div>
+          <!-- Form 5.1 -->
+          <div
+            class="container"
+            id="form-51"
+            style="position: absolute; top: 70px"
+          >
+            <!-- Biểu mẫu 5.1 -->
+            <div class="container-fluid" id="dataTable" style="z-index: 0">
+              <div class="row" style="margin-top: 10px; margin-bottom: 10px">
+                <div class="col-5">
+                  <div class="card">
+                    <div
+                      class="card-header"
+                      style="
+                        /* border-color: #0051bc; */
+                        /* border-width: 2px; */
+                        /* border: 2px solid #606060; */
+                        padding: 0 0 0 20px;
+                        font-weight: bold;
+                        color: #5e5e5e;
+                        font-size: large;
+                        height: 30px;
+                      "
+                    >
+                      Month
+                    </div>
+                    <div class="card-body" style="height: 64px">
+                      <input id="monthINPUT" type="month" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="card">
+                    <div
+                      class="card-header"
+                      style="
+                        padding: 0 0 0 20px;
+                        font-weight: bold;
+                        color: #5e5e5e;
+                        font-size: large;
+                        height: 30px;
+                      "
+                    >
+                      Revernue
+                    </div>
+                    <div class="card-body"></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+                style="
+                  margin-top: 20px;
+                  border: 1px solid #c9c9c9;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+              >
+                <div class="col" style="overflow-x: auto; height: 700px">
+                  <table class="table table-border table-striped">
+                    <thead>
+                      <tr>
+                        <!-- <th data-column="ID" data-order="asc">#</th> -->
+                        <th data-column="Vehicle brand" data-order="asc">
+                          Vehicle brand
+                        </th>
+                        <th data-column="Number of repairs" data-order="asc">
+                          Number of Repairs
+                        </th>
+                        <th data-column="Revernue" data-order="asc">
+                          Revernue
+                        </th>
+                        <th data-column="Percentage" data-order="asc">
+                          Percentage
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody id="myTable-f51"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Form 5.2 -->
+          <div
+            class="container"
+            id="form-52"
+            style="position: absolute; top: 70px"
+          >
+            <div class="container-fluid" id="dataTable2" style="z-index: 0">
+              <!-- FORM CHANGE-->
+              <div class="form-change container form-up hidden" id="formChange">
+                <div>
+                  <div
+                    class="card form-change"
+                    style="padding-left: 0; padding-right: 0"
+                  >
+                    <div class="card-header d-flex justify-content-between">
+                      <span class="header-text">Form change</span>
+                      <span
+                        class="material-symbols-outlined"
+                        id="closeForm"
+                        style="cursor: pointer"
+                        >close</span
+                      >
+                    </div>
+                    <div class="card-body">
+                      <form
+                        action="/add-number-part"
+                        id="change-form"
+                        method="POST"
+                      >
+                        <div class="form-group">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                              <label for="partName">Part name</label>
+                              <input type="text" id="partName" value="" />
+                            </div>
+                            <div class="col-md-6">
+                              <label for="numberChange">Number to add</label>
+                              <input
+                                type="text"
+                                id="numberChange"
+                                placeholder="Amount"
+                                required
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="row justify-content-end"
+                          style="width: 100%; padding-bottom: 1rem"
+                        >
+                          <input
+                            id="submitBtn"
+                            type="submit"
+                            class="btn btn-primary btn-md"
+                            value="Submit"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Talbe 2 -->
+              <div
+                class="row"
+                style="
+                  margin-top: 20px;
+                  border: 1px solid #c9c9c9;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+              >
+                <div class="col" style="overflow-x: auto; height: 700px">
+                  <table class="table table-border table-striped">
+                    <thead>
+                      <tr>
+                        <th data-column="Supplies name" data-order="asc">
+                          Supplies
+                        </th>
+                        <th data-column="Initial amout" data-order="asc">
+                          Initial amount
+                        </th>
+                        <th data-column="Generated amount" data-order="asc">
+                          Amount generated
+                        </th>
+                        <th data-column="Final amount" data-order="asc">
+                          Final amount
+                        </th>
+                        <th data-column="change">Change</th>
+                      </tr>
+                    </thead>
+                    <tbody id="myTable-f52"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script -->
+
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"
+    ></script>
+    <script
+      defer
+      src="//cdn.datatables.net/2.0.8/js/dataTables.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap4.js"
+    ></script>
+    <script type="text/javascript" th:src="@{/js/newform5.js}"></script>
+    <!-- <script src="../static/js/newform5.js"></script> -->
+    <script type="text/javascript" th:src="@{/js/all.js}"></script>
+    <!-- <script type="text/javascript" src="../static/js/form5.js"></script> -->
+  </body>
+</html>
