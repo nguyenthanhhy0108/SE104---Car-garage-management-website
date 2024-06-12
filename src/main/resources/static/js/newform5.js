@@ -186,8 +186,18 @@ function fetch_build() {
         "#form-52 #formChange #numberChange"
       ).value;
       const result = await fetchAddPart(name, amount.toString());
-      close_form(document.querySelector("#form-52 #formChange"));
-      build_Form52();
+      if (result) {
+        close_form(document.querySelector("#form-52 #formChange"));
+        build_Form52();
+        // Hiển thị form đã thay đổi thành công
+        Swal.fire(
+          "Success",
+          "The item has been added successfully.",
+          "success"
+        );
+      } else {
+        Swal.fire("Error", "There' s something wrong", "error");
+      }
     });
   });
   // AIP cho hành động thêm số lượng

@@ -1,10 +1,10 @@
 // Thông báo hiển thị lỗi
 function showError() {
-  Swal.fire("Error", "Something wrong", "error");
+  Swal.fire("Error", "Something wrong.", "error");
 }
 // Thông báo hiển thị thảnh công
 function showSuccess() {
-  Swal.fire("Success", "Changes saved", "success");
+  Swal.fire("Success", "Changes saved.", "success");
 }
 async function test() {
   try {
@@ -31,11 +31,11 @@ async function test() {
       let result = await fetchDeleteBrand(brandToDelete);
       if (result) {
         console.log("nice");
-        Swal.fire("Success", "Brand deleted", "success");
+        Swal.fire("Success", "Brand deleted.", "success");
         brandList = await fetchAllBrands();
         addToCarsList(brandList);
       } else {
-        Swal.fire("Error", "Brand can not be deleted", "error");
+        Swal.fire("Error", "Brand can not be deleted.", "error");
         console.log("Ko thanh cong");
       }
     });
@@ -135,7 +135,7 @@ async function test() {
               $("#confirmDeletedPartModal").modal("hide");
               // Gỡ sự kiện click hiện tại
               $(this).off("click");
-              Swal.fire("Success", "Part deleted", "success");
+              Swal.fire("Success", "Part deleted.", "success");
             } else {
               console.log("False");
               showError();
@@ -146,6 +146,14 @@ async function test() {
     });
     // Nhận tín hiệu khi nhấn add
     $("#rule-2 #allPartsSection .btn#addPart").on("click", function () {
+      function resetForm() {
+        // Reset name, price, amount
+        $("#rule-2 #allPartsSection #formAddPart .card-body #partName").val("");
+        $("#rule-2 #allPartsSection #formAddPart .card-body #price").val("");
+        $(
+          "#rule-2 #allPartsSection #formAddPart .card-body #number_initialized"
+        ).val("");
+      }
       // Hiển thị form add part
       $("#rule-2 #allPartsSection #formAddPart").removeClass("hidden");
       $("#rule-2 #allPartsSection #formAddPart").addClass("show");
@@ -153,6 +161,7 @@ async function test() {
       function closeForm() {
         $("#rule-2 #allPartsSection #formAddPart").addClass("hidden");
         $("#rule-2 #allPartsSection #formAddPart").removeClass("show");
+        resetForm();
       }
       /// Tương tác
       // Ẩn
@@ -190,7 +199,7 @@ async function test() {
             if (result) {
               Swal.fire(
                 "Success",
-                `Successfully added ${newPart.partName}`,
+                `Successfully added ${newPart.partName}.`,
                 "success"
               );
               closeForm();
@@ -200,7 +209,7 @@ async function test() {
               displayPartTable(allParts);
             } else {
               console.log("Ko thanh cong");
-              Swal.fire("Error", "Part is already added", "error");
+              Swal.fire("Error", "Part is already added.", "error");
               closeForm();
             }
           } catch (error) {
@@ -242,7 +251,7 @@ async function test() {
               $("#confirmDeletedServiceModal").modal("hide");
               // Gỡ hành động click hiện tại
               $(this).off("click");
-              Swal.fire("Success", "Service deleted", "success");
+              Swal.fire("Success", "Service deleted.", "success");
             } else {
               console.log("False");
               showError();
@@ -256,6 +265,15 @@ async function test() {
 
     // Nhận tín hiệu khi nhấn add
     $("#rule-2 #allServiceSection .btn#addService").on("click", function () {
+      function resetForm() {
+        // Reset name, cost
+        $(
+          "#rule-2 #allServiceSection #formAddService .card-body #serviceName"
+        ).val("");
+        $(
+          "#rule-2 #allServiceSection #formAddService .card-body #serviceCost"
+        ).val("");
+      }
       // Hiển thị form add service
       $("#rule-2 #allServiceSection #formAddService").removeClass("hidden");
       $("#rule-2 #allServiceSection #formAddService").addClass("show");
@@ -263,6 +281,7 @@ async function test() {
       function closeForm() {
         $("#rule-2 #allServiceSection #formAddService").addClass("hidden");
         $("#rule-2 #allServiceSection #formAddService").removeClass("show");
+        resetForm();
       }
       /// Tương tác
       // Ẩn
@@ -296,7 +315,7 @@ async function test() {
             if (result) {
               Swal.fire(
                 "Success",
-                `Successfully added ${newService.serviceName}`,
+                `Successfully added ${newService.serviceName}.`,
                 "success"
               );
               closeForm();
@@ -306,7 +325,7 @@ async function test() {
               displayServiceTable(allService);
             } else {
               console.log("Ko thanh cong");
-              Swal.fire("Error", "Service is already added", "error");
+              Swal.fire("Error", "Service is already added.", "error");
               closeForm();
             }
           } catch (error) {
