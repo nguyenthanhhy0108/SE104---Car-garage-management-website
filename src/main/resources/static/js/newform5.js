@@ -20,6 +20,7 @@ function fetch_build() {
   // Lấy ra ngày tháng
   const date = new Date();
   month = date.getMonth() + 1;
+  console.log(typeof month);
   year = date.getFullYear();
   // Thêm vào input của form 5.1
   let input_val;
@@ -96,6 +97,7 @@ function fetch_build() {
 
   // ----- Tạo bảng 5.2
   let table2 = $("#form-52 table").DataTable();
+  // console.log(table2);
   // Tạo bảng 5.2
   build_Form52();
   // Hàm tạo bảng 5.2

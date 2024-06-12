@@ -125,30 +125,32 @@ async function fetch_build() {
 
       const start = (page - 1) * entry;
       const end = entry + start;
-      console.log(start, end);
+      // console.log(start, end);
       const paginatedData = data.slice(start, end);
       for (let i = 0; i < paginatedData.length; i++) {
         // console.log(paginatedData.length);
         // console.log(paginatedData[i]);
         let numOrder = paginatedData[i].cars.length;
         // console.log(numOrder);
-        let row = `<tr scope="row" class="data-row-${paginatedData[i].id}" data-id="${paginatedData[i].id}">
-                      <td rowspan="${numOrder}" id="data-name-${paginatedData[i]["id"]}" >${paginatedData[i]["id"]}</td>
-                      <td rowspan="${numOrder}" id="data-name-${paginatedData[i]["name"]}" >${paginatedData[i]["name"]}</td>
-                      <td id="data-order-brand-${paginatedData[i].cars[0]["brand"]}" >${paginatedData[i].cars[0]["brand"]}</td>
-                      <td id="data-order-license-${paginatedData[i].cars[0]["licenseNumber"]}" >${paginatedData[i].cars[0]["licenseNumber"]}</td>
-                      <td id="data-order-debt-${paginatedData[i].cars[0]["debt"]}" >${paginatedData[i].cars[0]["debt"]}</td>
-                    </tr>`;
+        if (numOrder != 0) {
+          let row = `<tr scope="row" class="data-row-${paginatedData[i].id}" data-id="${paginatedData[i].id}">
+          <td rowspan="${numOrder}" id="data-name-${paginatedData[i]["id"]}" >${paginatedData[i]["id"]}</td>
+          <td rowspan="${numOrder}" id="data-name-${paginatedData[i]["name"]}" >${paginatedData[i]["name"]}</td>
+          <td id="data-order-brand-${paginatedData[i].cars[0]["brand"]}" >${paginatedData[i].cars[0]["brand"]}</td>
+          <td id="data-order-license-${paginatedData[i].cars[0]["licenseNumber"]}" >${paginatedData[i].cars[0]["licenseNumber"]}</td>
+          <td id="data-order-debt-${paginatedData[i].cars[0]["debt"]}" >${paginatedData[i].cars[0]["debt"]}</td>
+          </tr>`;
 
-        tableBody.append(row);
+          tableBody.append(row);
 
-        for (let j = 1; j < numOrder; j++) {
-          let subRow = `<tr>
-                          <td id="data-order-brand-${paginatedData[i].cars[j]["brand"]}" >${paginatedData[i].cars[j]["brand"]}</td>
-                          <td id="data-order-license-${paginatedData[i].cars[j]["licenseNumber"]}" >${paginatedData[i].cars[j]["licenseNumber"]}</td>
-                          <td id="data-order-debt-${paginatedData[i].cars[j]["debt"]}" >${paginatedData[i].cars[j]["debt"]}</td>
-                        </tr>`;
-          tableBody.append(subRow);
+          for (let j = 1; j < numOrder; j++) {
+            let subRow = `<tr>
+            <td id="data-order-brand-${paginatedData[i].cars[j]["brand"]}" >${paginatedData[i].cars[j]["brand"]}</td>
+            <td id="data-order-license-${paginatedData[i].cars[j]["licenseNumber"]}" >${paginatedData[i].cars[j]["licenseNumber"]}</td>
+            <td id="data-order-debt-${paginatedData[i].cars[j]["debt"]}" >${paginatedData[i].cars[j]["debt"]}</td>
+            </tr>`;
+            tableBody.append(subRow);
+          }
         }
       }
     }
