@@ -24,6 +24,11 @@
     />
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <!-- SweetAlert -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="stylesheet" th:href="@{/css/home.css}" />
@@ -78,7 +83,7 @@
               class="col text-center"
               style="font-size: 2rem; padding: 1rem; font-weight: bolder"
             >
-              Order Management
+              Report
             </div>
             <div class="col-lg-2 d-flex align-items-center">
               <i class="material-symbols-outlined" style="font-size: 2rem"
@@ -202,7 +207,7 @@
             <!-- Biểu mẫu 5.1 -->
             <div class="container-fluid" id="dataTable" style="z-index: 0">
               <div class="row" style="margin-top: 10px; margin-bottom: 10px">
-                <div class="col-5">
+                <div class="col-md-6">
                   <div class="card">
                     <div
                       class="card-header"
@@ -224,7 +229,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-5">
+                <div class="col-md-6">
                   <div class="card">
                     <div
                       class="card-header"
@@ -280,7 +285,7 @@
           <div
             class="container"
             id="form-52"
-            style="position: absolute; top: 70px"
+            style="position: absolute; top: 70px; height: 850px"
           >
             <div class="container-fluid" id="dataTable2" style="z-index: 0">
               <!-- FORM CHANGE-->
@@ -347,9 +352,10 @@
                   border: 1px solid #c9c9c9;
                   border-radius: 5px;
                   padding: 5px;
+                  height: 840px;
                 "
               >
-                <div class="col" style="overflow-x: auto; height: 700px">
+                <div class="col" style="overflow-x: auto; height: 100%">
                   <table class="table table-border table-striped">
                     <thead>
                       <tr>
@@ -396,6 +402,9 @@
       defer
       src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap4.js"
     ></script>
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <!-- my Script  -->
     <script type="text/javascript" th:src="@{/js/newform5.js}"></script>
     <!-- <script src="../static/js/newform5.js"></script> -->
     <script type="text/javascript" th:src="@{/js/all.js}"></script>
