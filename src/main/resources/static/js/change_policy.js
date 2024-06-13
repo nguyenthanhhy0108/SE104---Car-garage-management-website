@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
   //   window.location.href = 'vehicle.html';
   // });
 });
-
 // Thông báo hiển thị lỗi
 function showError() {
   Swal.fire("Error", "Something wrong.", "error");
