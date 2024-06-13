@@ -2,6 +2,8 @@ package com.example.se.service;
 
 import com.example.se.model.brands;
 
+import java.util.List;
+
 public interface brandsService {
     /**
      * Find brand by brand ID
@@ -26,4 +28,6 @@ public interface brandsService {
      * brands object which was saved
      */
     brands save(brands brands);
+
+    List<brands> findDistinctAll();
 }
