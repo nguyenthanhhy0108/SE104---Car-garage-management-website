@@ -38,20 +38,23 @@
     <header class="header" id="header">
         <div id="main-screen-header" class="col" style="margin: 0;box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); margin: 0;">
             <div class="row align-items-center">
-
-                <div class="header_toggle" style="padding: 1rem;">
-                    <i class='bx bx-menu' id="header-toggle">
-                        <span id="menu-open" class="material-symbols-outlined show">menu</span>
-                        <span id="menu-close" class="material-symbols-outlined hidden">close</span>
-                    </i>
+                <div class="col-2 d-flex align-items-center">
+                    <div class="header_toggle" style="padding: 1rem;">
+                        <i class="bx bx-menu" id="header-toggle">
+                            <span id="menu-open" class="material-symbols-outlined show">menu</span>
+                            <span id="menu-close" class="material-symbols-outlined hidden">close</span>
+                        </i>
+                    </div>
                 </div>
-                <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
 
-                <div class="col text-center" style="font-size: 2rem; padding: 1rem; font-weight: bolder;">Order Management</div>
-                <div class="col-lg-2 d-flex align-items-center">
+                <div class="col-8 text-center" style="font-size: 2rem; padding: 1rem; font-weight: bolder;">
+                    Customers Orders Management
+                </div>
+
+                <div class="col-2 d-flex align-items-center justify-content-end">
                     <i class="material-symbols-outlined" style="font-size: 2rem;">settings_heart</i>
                     <div style="width: 1vw;"></div>
-                    <span>Hello <span th:text="${session.name}" style="color: #0e4bf1"></span></span>
+                    <span>Hello <span style="color: #0e4bf1"></span></span>
                 </div>
             </div>
         </div>
@@ -68,37 +71,25 @@
                         <i class='bx bx-order-alt nav_icon'>
                             <span class="material-symbols-outlined show">list_alt</span>
                         </i>
-                        <span class="nav_name" id="orderMenu" onclick="">Customers' Ordering</span>
+                        <span class="nav_name" id="orderMenu" onclick="">Customers Orders</span>
                     </a>
                     <a href="/vehicle" class="nav_link">
                         <i class='bx bx-user nav_icon'>
                             <span class="material-symbols-outlined">directions_car</span>
                         </i>
-                        <span class="nav_name" id="vehicleMenu">Vehicles' List</span>
+                        <span class="nav_name" id="vehicleMenu">Vehicles</span>
                     </a>
                     <a href="/" class="nav_link">
                         <i class='bx bx-message-square-detail nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
+                            <span class="material-symbols-outlined">monitoring</span>
                         </i>
-                        <span class="nav_name">Messages</span>
+                        <span class="nav_name" id="statisticalMenu">Statistical Report</span>
                     </a>
                     <a href="#" class="nav_link">
                         <i class='bx bx-bookmark nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
+                            <span class="material-symbols-outlined">policy</span>
                         </i>
-                        <span class="nav_name">Bookmark</span>
-                    </a>
-                    <a href="/report" class="nav_link">
-                        <i class='bx bx-folder nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
-                        </i>
-                        <span class="nav_name">Files</span>
-                    </a>
-                    <a href="/change_policies" class="nav_link">
-                        <i class='bx bx-bar-chart-alt-2 nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
-                        </i>
-                        <span class="nav_name">Stats</span>
+                        <span class="nav_name" id="policyMenu">Policy</span>
                     </a>
                 </div>
             </div>
@@ -198,15 +189,10 @@
                                     <input type="text" name="vehicleLicenseNumber" class="form-control" id="addVeID" placeholder="Vehicle's license number" required>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="addBrand" class="form-label">Vehicle's brand</label>
-                                    <input id="addBrand" name="vehicleBrand" class="form-control" placeholder="Vehicle's brand" required>
-                                    <!--                                        <option value="" disabled selected>Choose...</option>-->
-                                    <!--                                        <option value="Toyota">Toyota</option>-->
-                                    <!--                                        <option value="Suzuki">Suzuki</option>-->
-                                    <!--                                        <option value="Ford">Ford</option>-->
-                                    <!--                                        <option value="Yamaha">Yamaha</option>-->
-                                    <!--                                        <option value="Honda">Honda</option>-->
-                                    <!--                                    </select>-->
+                                    <label for="addEquip" class="form-label">Brand</label>
+                                        <select class="form-control" name="equipment" id="addBrand" required>
+                                        <option selected>Choose</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
@@ -217,7 +203,7 @@
                 </div>
             </div>
         </div>
-            <!-- FORM DETAILS -->
+            <!-- FORM 2 -->
             <div class="formAdd container custom-container form-up hidden" id="formDetails" style="width: 1500px;">
             <div class="card" style=" padding-left:0 ;padding-right: 0;">
                 <div class="card-header d-flex justify-content-between">
@@ -239,10 +225,6 @@
 
                                 <!-- Sub form 2: Equipment -->
                                 <form class="fixObjectForm" method="post" action="/add-repair-order">
-                                    <div class="form-group">
-                                        <label for="addDetails" class="form-label">Notes</label>
-                                        <input type="text" name="note" class="form-control" id="addDetails">
-                                    </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label for="addEquip" class="form-label">Equipment</label>
@@ -278,7 +260,7 @@
 
                                     <!-- -------------Add equipment button------- -->
                                     <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                                        <button class="btn btn-md btn-primary btn-success" type="submit">Add Equipment</button>
+                                        <button class="btn btn-md btn-primary btn-success" type="submit">Add Order</button>
                                     </div>
                                 </form>
                             </form>

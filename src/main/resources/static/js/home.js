@@ -376,35 +376,21 @@ async function fetchData() {
     }
     //Add data functions
     // ------------------ Form Appear after click add button
+    async function formAdd () {
+      return await getAllDatas("brand");
+    }
     $('#addData').on('click', function () {
       $('#formAdd').addClass('show');
       $('#dataTable').css({
         'opacity': '0.5',
         'pointer-events': 'none'
-      });
-      var currForm = 1;
-
-      function showForm(formNum) {
-        console.log("currform", formNum)
-        $(".formAdd").addClass("hidden");
-        $(".formAdd").removeClass("show");
-        $("#formAdd-" + formNum).removeClass("hidden");
-        $("#formAdd-" + formNum).addClass("show");
-      }
-
-      $(".moveRight").click(function () {
-        if (currForm < $(".formAdd").length) {
-          currForm++;
-          showForm(currForm);
-        }
-      });
-      $(".moveLeft").click(function () {
-        if (currForm > 1) {
-          currForm--;
-          showForm(currForm);
-        }
-      });
-    });
+      })
+      var allBrands = formAdd()
+      console.log("brands",allBrands)
+      allBrands.forEach(function(option) {
+        $('#addBrand').append('<option>' + option['brandName'] + '</option>');
+      })
+    })
     function closeForm(idForm, idClose, tableBackground, event) {
       // ---Example use:
       // closeForm('#formAdd_1', '#closeForm_1', '#dataTable', 'click');
@@ -915,7 +901,15 @@ async function fetchData() {
           console.log("all payments: ", response)
           return response
         }
-
+        if (type === "brand") {
+          const response = await $.ajax({
+            url: "/get-all-brands",
+            method: "GET",
+            dataType: "json",
+          });
+          console.log("all payments: ", response)
+          return response
+        }
       } catch (error) {
         console.error("Error fetching receipts:", error)
         throw error;
