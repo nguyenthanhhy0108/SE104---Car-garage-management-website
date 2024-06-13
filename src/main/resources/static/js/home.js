@@ -379,14 +379,14 @@ async function fetchData() {
     async function formAdd () {
       return await getAllDatas("brand");
     }
-    $('#addData').on('click', function () {
+    $('#addData').on('click', async function () {
       $('#formAdd').addClass('show');
       $('#dataTable').css({
         'opacity': '0.5',
         'pointer-events': 'none'
       })
-      var allBrands = formAdd()
-      console.log("brands",allBrands)
+      var allBrands = await formAdd()
+      console.log("brands", allBrands)
       allBrands.forEach(function(option) {
         $('#addBrand').append('<option>' + option['brandName'] + '</option>');
       })
