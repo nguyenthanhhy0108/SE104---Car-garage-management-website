@@ -2,9 +2,7 @@ package com.example.se.controller;
 
 import com.example.se.model.brands;
 import com.example.se.model.cars;
-import com.example.se.model.dataDTO.CarDTO;
-import com.example.se.model.dataDTO.Form1InformationDTO;
-import com.example.se.model.dataDTO.OwnerDTO;
+import com.example.se.model.dataDTO.OwnerDTOForm2;
 import com.example.se.model.maintenanceRecords;
 import com.example.se.model.owners;
 import com.example.se.service.maintenanceRecordsService;
@@ -123,24 +121,24 @@ public class receiveAndMaintainCarController {
     }
 
     @PostMapping("/change-form1")
-    public ResponseEntity<Map<String, Object>> handleFormChange(@RequestBody OwnerDTO ownerDTO) {
+    public ResponseEntity<Map<String, Object>> handleFormChange(@RequestBody OwnerDTOForm2 ownerDTOForm2) {
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");
         response.put("message", "success");
 
-        owners owners = ownersService.findByOwnerPhoneNumber(ownerDTO.getOldPhoneNumber());
+        owners owners = ownersService.findByOwnerPhoneNumber(ownerDTOForm2.getOldPhoneNumber());
 
-        if (ownerDTO.getName() != null) {
-            owners.setOwnerName(ownerDTO.getName());
+        if (ownerDTOForm2.getName() != null) {
+            owners.setOwnerName(ownerDTOForm2.getName());
         }
-        if (ownerDTO.getPhoneNumber() != null) {
-            owners.setOwnerPhoneNumber(ownerDTO.getPhoneNumber());
+        if (ownerDTOForm2.getPhoneNumber() != null) {
+            owners.setOwnerPhoneNumber(ownerDTOForm2.getPhoneNumber());
         }
-        if (ownerDTO.getEmail() != null) {
-            owners.setOwnerEmail(ownerDTO.getEmail());
+        if (ownerDTOForm2.getEmail() != null) {
+            owners.setOwnerEmail(ownerDTOForm2.getEmail());
         }
-        if (ownerDTO.getAddress() != null) {
-            owners.setOwnerAddress(ownerDTO.getAddress());
+        if (ownerDTOForm2.getAddress() != null) {
+            owners.setOwnerAddress(ownerDTOForm2.getAddress());
         }
 
         this.ownersService.save(owners);

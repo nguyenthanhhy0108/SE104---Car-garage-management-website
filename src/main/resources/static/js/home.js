@@ -519,10 +519,17 @@ async function fetchData() {
       }
       return day + '/' + month + '/' + year
     }
+    async function sendLicenseNumber(vehicleID) {
+      await $.ajax({
+        url: "/get-license-number?license_number=" + vehicleID,
+        method: "POST",
+      })
+    }
     async function detailsData() {
       $('#detailsTable').empty()
       var vehicleID = $(this).data('vehicle-license-number')
       console.log(vehicleID);
+      await sendLicenseNumber(vehicleID);
       var paymentDetails = await $.ajax({
         url: "/get-all-payment-by-VeID?license_number=" + vehicleID,
         method: "GET",

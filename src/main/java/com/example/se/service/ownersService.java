@@ -2,6 +2,8 @@ package com.example.se.service;
 
 import com.example.se.model.owners;
 
+import java.util.List;
+
 public interface ownersService {
     /**
      * Find owner by owner ID
@@ -48,5 +50,12 @@ public interface ownersService {
      * owner object
      */
     owners findByOwnerPhoneNumber(String phoneNumber);
+
+    /**
+     * Find all owners
+     * @return
+     * List of owners
+     */
+    List<owners> findAll();
 }
 

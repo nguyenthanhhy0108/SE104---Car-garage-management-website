@@ -1,5 +1,6 @@
 package com.example.se.model;
 
+import com.example.se.model.dataDTO.OwnerDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -73,5 +74,14 @@ public class owners {
      * Constructor
      */
     public owners() {
+    }
+
+    public OwnerDTO toDTO() {
+        OwnerDTO ownerDTO = new OwnerDTO();
+        ownerDTO.setName(this.ownerName);
+        ownerDTO.setAddress(this.ownerAddress);
+        ownerDTO.setPhoneNumber(this.ownerPhoneNumber);
+        ownerDTO.setEmail(this.ownerEmail);
+        return ownerDTO;
     }
 }

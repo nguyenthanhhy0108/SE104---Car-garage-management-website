@@ -46,7 +46,7 @@ public class repairRecordController {
     }
 
     @ResponseBody
-    @GetMapping("/get-license-number")
+    @PostMapping("/get-license-number")
     public void getLicenseNumber(@RequestParam(name = "license_number") String licenseNumber) {
         this.licenseNumber = licenseNumber;
     }
@@ -73,6 +73,10 @@ public class repairRecordController {
         repairParts.setOrderNumber(receipts.getOrdernumber());
         repairParts.setQuantity(Integer.parseInt(quantity));
         repairParts.setPartID(partsService.findByName(equipment).getPartID());
+
+        parts parts = partsService.findByName(equipment);
+        parts.setUsed(parts.getUsed() + Integer.parseInt(quantity));
+        partsService.save(parts);
 
         this.repairPartsService.save(repairParts);
 

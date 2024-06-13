@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OwnerDTO {
-    private String name;
-    private String phoneNumber;
-    private String email;
-    private String address;
+public class Form5_1DTO {
+    private double total;
+    private List<BrandForm5_1DTO> list;
 }
