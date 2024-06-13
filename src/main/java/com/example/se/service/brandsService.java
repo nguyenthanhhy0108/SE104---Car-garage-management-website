@@ -30,4 +30,6 @@ public interface brandsService {
     brands save(brands brands);
 
     List<brands> findDistinctAll();
+
+    void delete(brands brands);
 }

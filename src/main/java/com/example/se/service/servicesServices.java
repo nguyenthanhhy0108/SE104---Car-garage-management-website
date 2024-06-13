@@ -21,4 +21,8 @@ public interface servicesServices {
     services findByServicesID(int id);
 
     services findByServiceName(String name);
+
+    services save(services service);
+
+    void delete(services service);
 }

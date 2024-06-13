@@ -2,6 +2,8 @@ package com.example.se.service;
 
 import com.example.se.model.repairOrdersParts;
 
+import java.util.List;
+
 public interface repairOrdersPartsServices {
     /**
      * Find by order number
@@ -16,4 +18,6 @@ public interface repairOrdersPartsServices {
     repairOrdersParts copy(repairOrdersParts repairOrdersParts);
 
     void delete(repairOrdersParts repairOrdersParts);
+
+    List<repairOrdersParts> findByPartID(int partID);
 }

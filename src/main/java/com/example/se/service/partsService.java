@@ -29,4 +29,6 @@ public interface partsService {
     List<parts> findAll();
 
     parts save(parts parts);
+
+    void delete(parts parts);
 }

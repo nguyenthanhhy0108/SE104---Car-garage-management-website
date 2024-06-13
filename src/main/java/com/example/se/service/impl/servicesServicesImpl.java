@@ -48,4 +48,14 @@ public class servicesServicesImpl implements servicesServices {
     public services findByServiceName(String name) {
         return this.servicesRepository.findByServiceName(name);
     }
+
+    @Override
+    public services save(services service) {
+        return this.servicesRepository.save(service);
+    }
+
+    @Override
+    public void delete(services service) {
+        this.servicesRepository.delete(service);
+    }
 }

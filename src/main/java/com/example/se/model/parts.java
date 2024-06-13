@@ -1,9 +1,7 @@
 package com.example.se.model;
 
 import com.example.se.model.dataDTO.PartDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -12,6 +10,7 @@ public class parts {
 
     @Id
     @Column(name = "PartID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int partID;
 
     @Column(name = "PartName")

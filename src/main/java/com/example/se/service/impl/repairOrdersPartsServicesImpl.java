@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class repairOrdersPartsServicesImpl implements repairOrdersPartsServices {
 
@@ -47,5 +49,10 @@ public class repairOrdersPartsServicesImpl implements repairOrdersPartsServices 
     @Override
     public void delete(repairOrdersParts repairOrdersParts) {
         this.repairOrdersPartsRepository.delete(repairOrdersParts);
+    }
+
+    @Override
+    public List<repairOrdersParts> findByPartID(int partID) {
+        return this.repairOrdersPartsRepository.findByPartID(partID);
     }
 }

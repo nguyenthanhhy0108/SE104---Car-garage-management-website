@@ -1,9 +1,7 @@
 package com.example.se.model;
 
 import com.example.se.model.dataDTO.ServiceDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +14,7 @@ public class services {
 
     @Id
     @Column(name = "ServiceID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int servicesID;
 
     @Column(name = "ServiceName")
