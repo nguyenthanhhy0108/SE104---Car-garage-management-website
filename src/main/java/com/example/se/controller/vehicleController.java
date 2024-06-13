@@ -40,15 +40,6 @@ public class vehicleController {
         this.partsService = partsService;
     }
 
-    /**
-     * Get vehicle page
-     * @return
-     * A HTML
-     */
-    @GetMapping("/vehicle")
-    String getVehiclePage() {
-        return "vehicle";
-    }
 
     /**
      * Get first data to FE

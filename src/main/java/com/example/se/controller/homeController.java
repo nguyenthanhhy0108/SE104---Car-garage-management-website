@@ -65,30 +65,6 @@ public class homeController {
     }
 
     /**
-     * Redirect to home page
-     * @return
-     * home.html
-     */
-    @GetMapping("/home")
-    public String homePage(HttpServletRequest request) {
-
-        HttpSession httpSession = request.getSession();
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getName().equals("anonymousUser")) {
-            return "login";
-        }
-        else {
-            httpSession.setAttribute("name", this.userDetailsService
-                    .findByUsername(authentication.getName())
-                    .get(0)
-                    .getName());
-        }
-
-        return "home";
-    }
-
-    /**
      * Get all record
      * @return
      * A map containing all maintenance records
