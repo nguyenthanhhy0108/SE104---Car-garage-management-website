@@ -1,3 +1,66 @@
+// Xử lý side bar
+var mainData, equipList, serviceList;
+// Menu handler
+document.addEventListener("DOMContentLoaded", function (event) {
+  const showNavbar = (toggleId, navId, bodyId, headerId) => {
+    const toggle = document.getElementById(toggleId),
+      nav = document.getElementById(navId),
+      bodypd = document.getElementById(bodyId),
+      headerpd = document.getElementById(headerId),
+      menuOpen = document.getElementById("menu-open");
+    let menuClose;
+    menuClose = document.getElementById("menu-close");
+
+    // Validate that all variables exist
+    if (toggle && nav && bodypd && headerpd && menuOpen && menuClose) {
+      toggle.addEventListener("click", () => {
+        // show navbar
+        nav.classList.toggle("show-nav");
+
+        // change icon
+        if (menuOpen.classList.contains("show")) {
+          menuOpen.classList.remove("show");
+          menuOpen.classList.add("hidden");
+          menuClose.classList.remove("hidden");
+          menuClose.classList.add("show");
+        } else {
+          menuOpen.classList.remove("hidden");
+          menuOpen.classList.add("show");
+          menuClose.classList.remove("show");
+          menuClose.classList.add("hidden");
+        }
+
+        // add padding to body
+        bodypd.classList.toggle("body-pd");
+
+        // add padding to header
+        headerpd.classList.toggle("body-pd");
+      });
+    }
+  };
+  showNavbar("header-toggle", "nav-bar", "body-pd", "header");
+
+  const linkColor = document.querySelectorAll(".nav_link");
+
+  function colorLink() {
+    if (linkColor) {
+      linkColor.forEach((l) => l.classList.remove("active"));
+      this.classList.add("active");
+    }
+  }
+
+  linkColor.forEach((l) => l.addEventListener("click", colorLink));
+
+  // click event Menu => change html direction
+  // $("#orderMenu").click(function () {
+  //   window.location.href = 'home.html';
+  // });
+  //
+  // $("#vehicleMenu").click(function () {
+  //   window.location.href = 'vehicle.html';
+  // });
+});
+
 // Hiện form 5.1, ẩn form 5.2
 $("#form-51").addClass("show");
 $("#form-52").addClass("hidden");
