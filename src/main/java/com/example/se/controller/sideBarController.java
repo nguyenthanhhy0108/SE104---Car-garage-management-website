@@ -1,5 +1,6 @@
 package com.example.se.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class sideBarController {
      * @param userService: usersService object
      */
     @Autowired
-    public homeController(userDetailsService userDetailsService,
+    public sideBarController(userDetailsService userDetailsService,
                           usersService userService,
                           maintenanceRecordsService maintenanceService,
                           ownersService ownersService,
