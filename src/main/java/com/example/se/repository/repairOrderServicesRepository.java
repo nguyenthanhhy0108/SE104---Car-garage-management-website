@@ -18,4 +18,6 @@ public interface repairOrderServicesRepository extends JpaRepository<repairOrder
     repairOrderServices findByOrderNumber(int orderNumber);
 
     List<repairOrderServices> findByServiceID(int serviceID);
+
+    void deleteByOrderNumber(int orderNumber);
 }

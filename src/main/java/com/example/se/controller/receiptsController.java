@@ -195,6 +195,7 @@ public class receiptsController {
     @PostMapping("/update-owned")
     ResponseEntity<Boolean> updateOwned(@RequestBody(required = true) List<String> listOrderNumber) {
         boolean result = false;
+        List<Integer> delete = new ArrayList<>();
         try {
             for (String orderNumber : listOrderNumber) {
                 receipts receipts = this.receiptsService.findByOrdernumber(Integer.parseInt(orderNumber));

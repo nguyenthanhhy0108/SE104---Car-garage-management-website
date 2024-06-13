@@ -20,4 +20,6 @@ public interface repairOrderServicesService {
     void delete(repairOrderServices repairOrderServices);
 
     List<repairOrderServices> findByServiceID(int serviceID);
+
+    void deleteByOrderNumber(int orderNumber);
 }

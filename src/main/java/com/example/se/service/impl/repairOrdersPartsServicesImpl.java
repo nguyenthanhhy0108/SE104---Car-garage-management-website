@@ -55,4 +55,10 @@ public class repairOrdersPartsServicesImpl implements repairOrdersPartsServices 
     public List<repairOrdersParts> findByPartID(int partID) {
         return this.repairOrdersPartsRepository.findByPartID(partID);
     }
+
+    @Transactional
+    @Override
+    public void deleteByOrderNumber(int orderNumber) {
+        this.repairOrdersPartsRepository.deleteByOrderNumber(orderNumber);
+    }
 }

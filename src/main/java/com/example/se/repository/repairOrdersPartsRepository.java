@@ -15,4 +15,6 @@ public interface repairOrdersPartsRepository extends JpaRepository<repairOrdersP
     repairOrdersParts findByOrderNumber(int orderNumber);
 
     List<repairOrdersParts> findByPartID(int partID);
+
+    void deleteByOrderNumber(int orderNumber);
 }

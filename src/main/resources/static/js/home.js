@@ -492,7 +492,9 @@ async function fetchData() {
           $('#detailsTable').append(row)
 
           var order = paymentDetails.find(order => order['orderNumber'] === orderNumber)
-          if (order && order['amountOwned'] === 0) {
+          // alert(order)
+          // alert(order['amountOwned'] == 0)
+          if (order && order['amountOwned'] == 0) {
             $('#checkbox_' + orderNumber).prop('disabled', true)
           }
 
@@ -917,7 +919,8 @@ async function fetchData() {
     }
     function mainCheckout(data){
       $(document).ready(function() {
-        $('#checkoutButton').click(function() {
+        $('#checkoutButton').click(function(event) {
+          event.preventDefault();
           $('#subForm2').removeClass('show').addClass('hidden')
           $('#formCheckout').removeClass('hidden').addClass('show')
           $('.order-checkbox').attr('disabled', true)
@@ -945,7 +948,7 @@ async function fetchData() {
           })
           $('#checkoutTotal').val(checkoutTotal)
 
-          $('#checkoutConfirm').click(async function (event) {
+          $('#checkoutConfirm').on("click",async function (event) {
             event.preventDefault();
             console.log('Checkout Confirm button clicked');
             Swal.fire({
@@ -964,9 +967,14 @@ async function fetchData() {
                 Swal.fire('Cancel', 'Cancel Deletion', 'info')
 
               setTimeout(function() {
-                window.location.reload();
+                var cc = $("#cc")
+                cc.on("submit", function (event) {
+                  event.preventDefault();
+                })
+                window.location.href = "/home";
               }, 3000);
             })
+
           })
           })
 
