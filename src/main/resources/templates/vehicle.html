@@ -79,7 +79,7 @@
         <nav class="nav">
             <div>
                 <a href="#" class="nav_logo">
-                    <img class='bx bx-layer nav_logo-icon' th:src="@{/images/logo-house.png}" height="50" alt="logo">
+                    <img class='bx bx-layer nav_logo-icon' src="/images/logo-house.png" height="50" alt="logo">
                     <span class="nav_logo-name">Pocket Garage</span>
                 </a>
                 <div class="nav_list">
@@ -87,37 +87,25 @@
                         <i class='bx bx-order-alt nav_icon'>
                             <span class="material-symbols-outlined show">list_alt</span>
                         </i>
-                        <span class="nav_name">Order Management</span>
+                        <span class="nav_name" id="orderMenu" onclick="">Customers Orders</span>
                     </a>
-                    <a href="#" class="nav_link">
+                    <a href="/vehicle" class="nav_link">
                         <i class='bx bx-user nav_icon'>
                             <span class="material-symbols-outlined">directions_car</span>
                         </i>
-                        <span class="nav_name" id="vehicleMenu">Vehicles' List</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-message-square-detail nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
-                        </i>
-                        <span class="nav_name">Messages</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-bookmark nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
-                        </i>
-                        <span class="nav_name">Bookmark</span>
+                        <span class="nav_name" id="vehicleMenu">Vehicles</span>
                     </a>
                     <a href="/report" class="nav_link">
-                        <i class='bx bx-folder nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
+                        <i class='bx bx-message-square-detail nav_icon'>
+                            <span class="material-symbols-outlined">monitoring</span>
                         </i>
-                        <span class="nav_name">Files</span>
+                        <span class="nav_name" id="statisticalMenu">Statistical Report</span>
                     </a>
-                    <a href="/change_policies" class="nav_link">
-                        <i class='bx bx-bar-chart-alt-2 nav_icon'>
-                            <span class="material-symbols-outlined">list_alt</span>
+                    <a href="/policy" class="nav_link">
+                        <i class='bx bx-bookmark nav_icon'>
+                            <span class="material-symbols-outlined">policy</span>
                         </i>
-                        <span class="nav_name">Stats</span>
+                        <span class="nav_name" id="policyMenu">Policy</span>
                     </a>
                 </div>
             </div>
