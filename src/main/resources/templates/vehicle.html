@@ -36,26 +36,45 @@
 <div class="container-lg p-0">
     <!-- <div class="row no-gutters p-5"> -->
     <header class="header" id="header">
-        <div id="main-screen-header" class="col" style="margin: 0;box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); margin: 0;">
-            <div class="row align-items-center">
+        <div
+          id="main-screen-header"
+          class="col d-flex align-items-center justify-content-between"
+          style="
+            margin: 0;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            padding: 0 1rem;
+          "
+        >
+          <div
+            class="header_toggle d-flex align-items-center"
+            style="padding: 1rem"
+          >
+            <i class="bx bx-menu" id="header-toggle">
+              <span id="menu-open" class="material-symbols-outlined show"
+                >menu</span
+              >
+              <span id="menu-close" class="material-symbols-outlined hidden"
+                >close</span
+              >
+            </i>
+          </div>
 
-                <div class="header_toggle" style="padding: 1rem;">
-                    <i class='bx bx-menu' id="header-toggle">
-                        <span id="menu-open" class="material-symbols-outlined show">menu</span>
-                        <span id="menu-close" class="material-symbols-outlined hidden">close</span>
-                    </i>
-                </div>
-                <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
+          <div class="text-center" style="font-size: 2rem; font-weight: bolder">
+            Vehicle
+          </div>
 
-                <div class="col text-center" style="font-size: 2rem; padding: 1rem; font-weight: bolder;">Order Management</div>
-                <div class="col-lg-2 d-flex align-items-center">
-                    <i class="material-symbols-outlined" style="font-size: 2rem;">settings_heart</i>
-                    <div style="width: 1vw;"></div>
-                    <span>Hello <span style="color: royalblue" th:text="${session.name}"></span></span>
-                </div>
-            </div>
+          <div class="d-flex align-items-center">
+            <i class="material-symbols-outlined" style="font-size: 2rem"
+              >settings_heart</i
+            >
+            <div style="width: 1vw"></div>
+            <span
+              >Hello
+              <span style="color: royalblue" th:text="${session.name}"></span
+            ></span>
+          </div>
         </div>
-    </header>
+      </header>
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
             <div>
@@ -158,9 +177,6 @@
                             <tbody id="myTable"></tbody>
                         </table>
                         </div>
-                        <div class="pagination" id="pagination" style="display: flex; justify-content: flex-start;">
-                             <!-- Pagination buttons will be inserted here by JavaScript -->
-                         </div>
                     </div>
                 </div>
             </div>
