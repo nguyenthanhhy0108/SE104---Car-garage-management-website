@@ -1,6 +1,7 @@
 var mainData, equipList, serviceList;
 // Menu handler
 document.addEventListener("DOMContentLoaded", function (event) {
+
   const showNavbar = (toggleId, navId, bodyId, headerId) => {
     const toggle = document.getElementById(toggleId),
         nav = document.getElementById(navId),
@@ -572,21 +573,33 @@ async function fetchData() {
           cancelButtonText: 'Cancel'
         }).then((result) => {
           if (result.isConfirmed) {
-            if (confirmDeletionDetails(vehicleID))
+            if (confirmDeletionDetails(orderID))
               Swal.fire('Success', 'Deleted ', 'success');
             // console.log(vehicleID)
             else
               Swal.fire('Cancel', 'Cancel Deletion', 'info')
-
+              setTimeout(function() {
+                window.location.reload();
+              }, 3000);
           }
         })
       } else {
         console.log("vehicleID is undefined or empty")
       }
     }
-    function confirmDeletionDetails(){
-      return true
-      return false
+    async function confirmDeletionDetails(orderID){
+      try {
+        const response = await $.ajax({
+          url: '/delete-repair-order?orderNumber=' + orderID.toString(),
+          method: 'DELETE',
+          dataType: 'json'
+        });
+        $('#response').html(response);
+        return response;
+      } catch (error) {
+        console.error('Error:', error);
+        throw new Error('Error: ' + error);
+      }
     }
 
     function createJSONformatForm2 (orderID, partName, price, serviceName, serviceCost, quantity) {
@@ -858,6 +871,13 @@ async function fetchData() {
       if (check) {
         popupDialog("Error", "This car is fixing !!!");
       }
+      const full = urlParams.get('full');
+      if (full == 'true') {
+        popupDialog(
+            "Error",
+            "Full cars"
+        )
+      }
     }
 
     // ---------- FORM 4 -------------
@@ -925,21 +945,27 @@ async function fetchData() {
           })
           $('#checkoutTotal').val(checkoutTotal)
 
-          $('#checkoutConfirm').click(function () {
+          $('#checkoutConfirm').click(async function (event) {
+            event.preventDefault();
+            console.log('Checkout Confirm button clicked');
             Swal.fire({
               title: 'Payment Confirmation',
-              text: 'Are you sure confirm this payment?',
+              text: 'Are you sure you want to confirm this payment?',
               icon: 'question',
               showCancelButton: true,
               confirmButtonText: 'Confirm',
               cancelButtonText: 'Cancel'
             }).then(async (result) => {
+              console.log(result);
               if (result.isConfirmed) {
                 let status = await sendChangeData(selectedOrders, form="4");
                 Swal.fire('Success', 'Successfully Paid', 'success');
-
               } else
                 Swal.fire('Cancel', 'Cancel Deletion', 'info')
+
+              setTimeout(function() {
+                window.location.reload();
+              }, 3000);
             })
           })
           })

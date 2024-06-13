@@ -3,6 +3,8 @@ package com.example.se.repository;
 import com.example.se.model.repairOrdersParts;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface repairOrdersPartsRepository extends JpaRepository<repairOrdersParts, Integer> {
     /**
      * Find by order number
@@ -11,4 +13,6 @@ public interface repairOrdersPartsRepository extends JpaRepository<repairOrdersP
      * repairOrdersParts object
      */
     repairOrdersParts findByOrderNumber(int orderNumber);
+
+    List<repairOrdersParts> findByPartID(int partID);
 }

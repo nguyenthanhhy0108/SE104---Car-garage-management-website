@@ -53,4 +53,9 @@ public class brandsServiceImpl implements brandsService {
     public List<brands> findDistinctAll() {
         return this.brandsRepository.findDistinctAll();
     }
+
+    @Override
+    public void delete(brands brands) {
+        this.brandsRepository.delete(brands);
+    }
 }

@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -177,5 +175,37 @@ public class receiptsController {
             response.add(form2InformationDTO);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete-repair-order")
+    ResponseEntity<Boolean> deleteRepairOrder(@RequestParam(name = "orderNumber") int orderNumber) {
+        boolean result = false;
+        try {
+            repairOrdersPartsService.delete(repairOrdersPartsService.findByOrderNumber(orderNumber));
+            repairOrderServicesService.delete(repairOrderServicesService.findByOrderNumber(orderNumber));
+            receiptsService.deleteById(orderNumber);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/update-owned")
+    ResponseEntity<Boolean> updateOwned(@RequestBody(required = true) List<String> listOrderNumber) {
+        boolean result = false;
+        try {
+            for (String orderNumber : listOrderNumber) {
+                receipts receipts = this.receiptsService.findByOrdernumber(Integer.parseInt(orderNumber));
+                receipts.setAmountpaid(receipts.getAmountOwed());
+                receipts.setAmountOwed(0);
+                this.receiptsService.save(receipts);
+            }
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
