@@ -21,9 +21,9 @@ public class datasourceConfig {
         //SQL server password: 123
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        dataSourceBuilder.url("jdbc:sqlserver://se.database.windows.net:1433;databaseName=SE;trustServerCertificate=true;");
-        dataSourceBuilder.username("concat");
-        dataSourceBuilder.password("0941609091Th@");
+        dataSourceBuilder.url("jdbc:sqlserver://localhost:1433;databaseName=SE;trustServerCertificate=true;");
+        dataSourceBuilder.username("sa");
+        dataSourceBuilder.password("123");
         return dataSourceBuilder.build();
     }
 

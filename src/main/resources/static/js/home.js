@@ -139,26 +139,6 @@ async function fetchData() {
 
     checkLicensePlate()
 
-    // Sort table function
-    // $("th").on("click", function () {
-    //   var column = $(this).data("column");
-    //   var order = $(this).data("order");
-    //   var text = $(this).html();
-    //   if (order !== undefined) {
-    //     text = text.substring(0, text.length - 1);
-    //     if (order === "desc") {
-    //       $(this).data("order", "asc");
-    //       mainData = mainData.sort((a, b) => (a[column] > b[column] ? 1 : -1));
-    //       text += "&#9660";
-    //     } else if (order === "asc") {
-    //       $(this).data("order", "desc");
-    //       mainData = mainData.sort((a, b) => (a[column] < b[column] ? 1 : -1));
-    //       text += "&#9650";
-    //     }
-    //   } else text = text;
-    //   $(this).html(text);
-    //   buildTable(mainData);
-    // });
 
     document.getElementById("addDate").addEventListener("input", function () {
       if (this.value.length > 10) {
@@ -540,9 +520,10 @@ async function fetchData() {
       });
 
       $('#addDate').text(date)
-      if (allReceipts.length === 0) return;
+
       addEquipServiceSelection()
       form2Interaction()
+      if (allReceipts.length === 0) return;
       addRowDetails(thisReceipts, paymentDetails)
       addOrder(vehicleID)
       mainCheckout(paymentDetails)
