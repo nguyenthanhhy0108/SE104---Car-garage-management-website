@@ -51,14 +51,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   linkColor.forEach((l) => l.addEventListener("click", colorLink));
 
-  // click event Menu => change html direction
-  // $("#orderMenu").click(function () {
-  //   window.location.href = 'home.html';
-  // });
-  //
-  // $("#vehicleMenu").click(function () {
-  //   window.location.href = 'vehicle.html';
-  // });
+
 });
 
 async function deleteForm1(vehicleLicensePlate) {
@@ -138,31 +131,34 @@ async function fetchData() {
       method: "GET",
       dataType: "json",
     });
+    var allBrands = await getAllDatas("brand");
+    console.log("brands",allBrands)
+    allBrands.forEach(function(option) {
+      $('#addBrand').append('<option>' + option['brandName'] + '</option>');
+    })
 
-
-    // console.log(mainData);
     checkLicensePlate()
-    // console.log("maindata, equip, service", mainData, equipList, serviceList)
+
     // Sort table function
-    $("th").on("click", function () {
-      var column = $(this).data("column");
-      var order = $(this).data("order");
-      var text = $(this).html();
-      if (order !== undefined) {
-        text = text.substring(0, text.length - 1);
-        if (order === "desc") {
-          $(this).data("order", "asc");
-          mainData = mainData.sort((a, b) => (a[column] > b[column] ? 1 : -1));
-          text += "&#9660";
-        } else if (order === "asc") {
-          $(this).data("order", "desc");
-          mainData = mainData.sort((a, b) => (a[column] < b[column] ? 1 : -1));
-          text += "&#9650";
-        }
-      } else text = text;
-      $(this).html(text);
-      buildTable(mainData);
-    });
+    // $("th").on("click", function () {
+    //   var column = $(this).data("column");
+    //   var order = $(this).data("order");
+    //   var text = $(this).html();
+    //   if (order !== undefined) {
+    //     text = text.substring(0, text.length - 1);
+    //     if (order === "desc") {
+    //       $(this).data("order", "asc");
+    //       mainData = mainData.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+    //       text += "&#9660";
+    //     } else if (order === "asc") {
+    //       $(this).data("order", "desc");
+    //       mainData = mainData.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+    //       text += "&#9650";
+    //     }
+    //   } else text = text;
+    //   $(this).html(text);
+    //   buildTable(mainData);
+    // });
 
     document.getElementById("addDate").addEventListener("input", function () {
       if (this.value.length > 10) {
@@ -356,7 +352,7 @@ async function fetchData() {
                 Swal.fire('Success', 'Changes saved', 'success');
               }, 3000);
 
-              window.location.reload();
+              window.location.href="/home";
 
             } else {
               // console.log("after", beforeInput)
@@ -376,20 +372,14 @@ async function fetchData() {
     }
     //Add data functions
     // ------------------ Form Appear after click add button
-    async function formAdd () {
-      return await getAllDatas("brand");
-    }
-    $('#addData').on('click', function () {
+
+    $('#addData').on('click', async function () {
       $('#formAdd').addClass('show');
       $('#dataTable').css({
         'opacity': '0.5',
         'pointer-events': 'none'
       })
-      var allBrands = formAdd()
-      console.log("brands",allBrands)
-      allBrands.forEach(function(option) {
-        $('#addBrand').append('<option>' + option['brandName'] + '</option>');
-      })
+
     })
     function closeForm(idForm, idClose, tableBackground, event) {
       // ---Example use:
@@ -542,8 +532,6 @@ async function fetchData() {
       var allReceipts = await getAllDatas("receipt")
       var thisReceipts = allReceipts.filter(receipt => receipt['licenseNumber'] === vehicleID)
       console.log("this receipt: ", thisReceipts)
-      // console.log("all receipts: ", allReceipts)
-      // var idVehicle = allReceipts['licenseNumber']
       closeForm('#formDetails', '#closeForm', '#dataTable', 'click');
       $('#formDetails').addClass('show').removeClass('hidden');
       $('#dataTable').css({
@@ -860,7 +848,7 @@ async function fetchData() {
             }
           ]
         }
-        console.log("new", newData)
+        // console.log("new", newData)
         sendtoBackEnd(newData)
       })
     }
