@@ -905,7 +905,8 @@ async function fetchData() {
     }
     function mainCheckout(data){
       $(document).ready(function() {
-        $('#checkoutButton').click(function() {
+        $('#checkoutButton').click(function(event) {
+          event.preventDefault();
           $('#subForm2').removeClass('show').addClass('hidden')
           $('#formCheckout').removeClass('hidden').addClass('show')
           $('.order-checkbox').attr('disabled', true)
@@ -933,7 +934,7 @@ async function fetchData() {
           })
           $('#checkoutTotal').val(checkoutTotal)
 
-          $('#checkoutConfirm').click(async function (event) {
+          $('#checkoutConfirm').on("click",async function (event) {
             event.preventDefault();
             console.log('Checkout Confirm button clicked');
             Swal.fire({

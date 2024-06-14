@@ -48,4 +48,10 @@ public class repairOrderServicesServiceImpl implements repairOrderServicesServic
     public List<repairOrderServices> findByServiceID(int serviceID) {
         return this.serviceRepository.findByServiceID(serviceID);
     }
+
+    @Transactional
+    @Override
+    public void deleteByOrderNumber(int orderNumber) {
+        this.serviceRepository.deleteByOrderNumber(orderNumber);
+    }
 }

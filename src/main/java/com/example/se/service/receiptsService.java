@@ -49,4 +49,8 @@ public interface receiptsService {
     List<receipts> getByMonthAndYearAndBrandID(@Param("month") int month, @Param("year") int year, @Param("brandID") int brandID);
 
     List<receipts> getByMonthAndYear(@Param("month") int month, @Param("year") int year);
+
+    receipts update(receipts receipts);
+
+    void delete(receipts receipts);
 }

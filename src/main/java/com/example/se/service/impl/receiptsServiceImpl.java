@@ -3,6 +3,8 @@ package com.example.se.service.impl;
 import com.example.se.model.receipts;
 import com.example.se.repository.receiptsRepository;
 import com.example.se.service.receiptsService;
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +14,12 @@ import java.util.List;
 @Service
 public class receiptsServiceImpl implements receiptsService {
     private final receiptsRepository receiptsRepository;
+    private final EntityManager entityManager;
 
-    public receiptsServiceImpl(receiptsRepository receiptsRepository) {
+    @Autowired
+    public receiptsServiceImpl(receiptsRepository receiptsRepository, EntityManager entityManager) {
         this.receiptsRepository = receiptsRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -116,6 +121,18 @@ public class receiptsServiceImpl implements receiptsService {
     @Override
     public List<receipts> getByMonthAndYear(int month, int year) {
         return this.receiptsRepository.getByMonthAndYear(month, year);
+    }
+
+    @Transactional
+    @Override
+    public receipts update(receipts receipts) {
+        return this.entityManager.merge(receipts);
+    }
+
+    @Transactional
+    @Override
+    public void delete(receipts receipts) {
+        this.receiptsRepository.delete(receipts);
     }
 
 }
