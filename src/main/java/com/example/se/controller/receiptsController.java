@@ -121,58 +121,62 @@ public class receiptsController {
     @GetMapping("get-all-receipt")
     public ResponseEntity<List<Form2InformationDTO>> getAllReceipt() {
         List<Form2InformationDTO> response = new ArrayList<>();
-        List<Integer> listCarID = receiptsService.findAllCarID();
-        for (int carID : listCarID) {
-            Form2InformationDTO form2InformationDTO = new Form2InformationDTO();
-            form2InformationDTO.setLicenseNumber(this.carsService
-                    .findByCarID(carID).getLicensePlate());
+        try {
+            List<Integer> listCarID = receiptsService.findAllCarID();
+            for (int carID : listCarID) {
+                Form2InformationDTO form2InformationDTO = new Form2InformationDTO();
+                form2InformationDTO.setLicenseNumber(this.carsService
+                        .findByCarID(carID).getLicensePlate());
 
-            List<OrderInDayDTO> orderInDayDTOList = new ArrayList<>();
+                List<OrderInDayDTO> orderInDayDTOList = new ArrayList<>();
 
-            List<LocalDate> allDatesRaw = receiptsService.findAllDatesByCarId(carID);
+                List<LocalDate> allDatesRaw = receiptsService.findAllDatesByCarId(carID);
 
-            Set<LocalDate> allDates = new HashSet<>(allDatesRaw);
+                Set<LocalDate> allDates = new HashSet<>(allDatesRaw);
 
-            for (LocalDate date : allDates) {
-                OrderInDayDTO orderInDayDTO = new OrderInDayDTO();
-                orderInDayDTO.setOrderDate(date);
+                for (LocalDate date : allDates) {
+                    OrderInDayDTO orderInDayDTO = new OrderInDayDTO();
+                    orderInDayDTO.setOrderDate(date);
 
-                List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
+                    List<OrderDetailsDTO> orderDetailsList = new ArrayList<>();
 
-                List<Integer> allOrderNumberInDay = this.receiptsService.findAllOrderIDByCarIdAndDate(carID, date);
+                    List<Integer> allOrderNumberInDay = this.receiptsService.findAllOrderIDByCarIdAndDate(carID, date);
 
-                for (Integer orderNumber : allOrderNumberInDay) {
-                    OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
-                    orderDetailsDTO.setOrderNumber(orderNumber);
-                    repairOrdersParts repairOrdersParts = this.repairOrdersPartsService.findByOrderNumber(orderNumber);
+                    for (Integer orderNumber : allOrderNumberInDay) {
+                        OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+                        orderDetailsDTO.setOrderNumber(orderNumber);
+                        repairOrdersParts repairOrdersParts = this.repairOrdersPartsService.findByOrderNumber(orderNumber);
 
-                    orderDetailsDTO.setQuantity(repairOrdersParts.getQuantity());
-                    orderDetailsDTO.setPart(this.partsService
-                            .findByPartID(repairOrdersParts.getPartID())
-                            .toDTO());
+                        orderDetailsDTO.setQuantity(repairOrdersParts.getQuantity());
+                        orderDetailsDTO.setPart(this.partsService
+                                .findByPartID(repairOrdersParts.getPartID())
+                                .toDTO());
 
-                    repairOrderServices repairOrderServices = this.repairOrderServicesService
-                            .findByOrderNumber(orderNumber);
+                        repairOrderServices repairOrderServices = this.repairOrderServicesService
+                                .findByOrderNumber(orderNumber);
 
-                    orderDetailsDTO.setService(
-                            this.servicesServices
-                                    .findByServicesID(repairOrderServices.getServiceID())
-                                    .toDTO());
+                        orderDetailsDTO.setService(
+                                this.servicesServices
+                                        .findByServicesID(repairOrderServices.getServiceID())
+                                        .toDTO());
 
-                    orderDetailsDTO.setTotal(
-                            orderDetailsDTO.getQuantity() * orderDetailsDTO.getPart().getPrice()
-                                    + orderDetailsDTO.getService().getServiceCost());
+                        orderDetailsDTO.setTotal(
+                                orderDetailsDTO.getQuantity() * orderDetailsDTO.getPart().getPrice()
+                                        + orderDetailsDTO.getService().getServiceCost());
 
-                    orderDetailsList.add(orderDetailsDTO);
+                        orderDetailsList.add(orderDetailsDTO);
+                        orderInDayDTO.setOrderDetails(orderDetailsList);
+
+                    }
+                    orderInDayDTOList.add(orderInDayDTO);
                     orderInDayDTO.setOrderDetails(orderDetailsList);
-
                 }
-                orderInDayDTOList.add(orderInDayDTO);
-                orderInDayDTO.setOrderDetails(orderDetailsList);
-            }
 
-            form2InformationDTO.setDates(orderInDayDTOList);
-            response.add(form2InformationDTO);
+                form2InformationDTO.setDates(orderInDayDTOList);
+                response.add(form2InformationDTO);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

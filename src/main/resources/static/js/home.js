@@ -133,12 +133,13 @@ async function fetchData() {
       method: "GET",
       dataType: "json",
     });
+    console.log(equipList);
     serviceList = await $.ajax({
       url: "/get-all-services",
       method: "GET",
       dataType: "json",
     });
-
+    console.log(serviceList);
 
     // console.log(mainData);
     checkLicensePlate()
