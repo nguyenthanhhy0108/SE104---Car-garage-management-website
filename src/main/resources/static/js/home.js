@@ -399,7 +399,7 @@ async function fetchData() {
             }
             setTimeout(function () {
               console.log("Waiting 5 seconds")
-              window.location.reload();
+              window.location.href = "/home";
             }, 3000);
           } else
             Swal.fire('Cancel', 'Cancel Deletion', 'info')
@@ -548,7 +548,7 @@ async function fetchData() {
             else
               Swal.fire('Cancel', 'Cancel Deletion', 'info')
               setTimeout(function() {
-                window.location.reload();
+                window.location.href = "/home";
               }, 3000);
           }
         })
@@ -934,7 +934,7 @@ async function fetchData() {
                 Swal.fire('Cancel', 'Cancel Deletion', 'info')
 
               setTimeout(function() {
-                window.location.reload();
+                window.location.href = "/home";
               }, 3000);
             })
           })
