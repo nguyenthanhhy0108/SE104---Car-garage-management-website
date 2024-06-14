@@ -1,41 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="${_csrf.token}"/>
-    <meta name="csrf-param" content="${_csrf.parameterName}"/>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.w3.org/1999/xhtml"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="csrf-token" content="${_csrf.token}" />
+    <meta name="csrf-param" content="${_csrf.parameterName}" />
     <title>Vehicles - Pocket Garage</title>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <link  rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" th:href="@{/css/home.css}"/>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
     <style>
-        th{
-            color: #FFF;
-            background-color: #6fa9f5;
-            cursor: pointer;
-        }
-        .hidden{
-            display: none;
-        }
-        .show{
-            display: block;
-        }
-        .table-responsive{
-            max-height: 1000px;
-        }
+      th {
+        color: #fff;
+        background-color: #6fa9f5;
+        cursor: pointer;
+      }
+      .hidden {
+        display: none;
+      }
+      .show {
+        display: block;
+      }
+      .table-responsive {
+        max-height: 1000px;
+      }
     </style>
-</head>
+  </head>
 
-<body id="body-pd">
-<div class="container-lg p-0">
-    <!-- <div class="row no-gutters p-5"> -->
-    <header class="header" id="header">
+  <body id="body-pd">
+    <div class="container-lg p-0">
+      <!-- <div class="row no-gutters p-5"> -->
+      <header class="header" id="header">
         <div
           id="main-screen-header"
           class="col d-flex align-items-center justify-content-between"
@@ -75,96 +81,122 @@
           </div>
         </div>
       </header>
-    <div class="l-navbar" id="nav-bar">
+      <div class="l-navbar" id="nav-bar">
         <nav class="nav">
-            <div>
-                <a href="#" class="nav_logo">
-                    <img class='bx bx-layer nav_logo-icon' src="/images/logo-house.png" height="50" alt="logo">
-                    <span class="nav_logo-name">Pocket Garage</span>
-                </a>
-                <div class="nav_list">
-                    <a href="/home" class="nav_link">
-                        <i class='bx bx-order-alt nav_icon'>
-                            <span class="material-symbols-outlined show">list_alt</span>
-                        </i>
-                        <span class="nav_name" id="orderMenu" onclick="">Customers Orders</span>
-                    </a>
-                    <a href="/vehicle" class="nav_link">
-                        <i class='bx bx-user nav_icon'>
-                            <span class="material-symbols-outlined">directions_car</span>
-                        </i>
-                        <span class="nav_name" id="vehicleMenu">Vehicles</span>
-                    </a>
-                    <a href="/report" class="nav_link">
-                        <i class='bx bx-message-square-detail nav_icon'>
-                            <span class="material-symbols-outlined">monitoring</span>
-                        </i>
-                        <span class="nav_name" id="statisticalMenu">Statistical Report</span>
-                    </a>
-                    <a href="/policy" class="nav_link">
-                        <i class='bx bx-bookmark nav_icon'>
-                            <span class="material-symbols-outlined">policy</span>
-                        </i>
-                        <span class="nav_name" id="policyMenu">Policy</span>
-                    </a>
-                </div>
-            </div>
-            <a href="/logout" class="nav_link">
-                <span class="material-symbols-outlined">logout</span>
-                <span class="nav_name">SignOut</span>
+          <div>
+            <a href="#" class="nav_logo">
+              <img
+                class="bx bx-layer nav_logo-icon"
+                src="/images/logo-house.png"
+                height="50"
+                alt="logo"
+              />
+              <span class="nav_logo-name">Pocket Garage</span>
             </a>
+            <div class="nav_list">
+              <a href="/home" class="nav_link">
+                <i class="bx bx-order-alt nav_icon">
+                  <span class="material-symbols-outlined show">list_alt</span>
+                </i>
+                <span class="nav_name" id="orderMenu" onclick=""
+                  >Customers Orders</span
+                >
+              </a>
+              <a href="/vehicle" class="nav_link">
+                <i class="bx bx-user nav_icon">
+                  <span class="material-symbols-outlined">directions_car</span>
+                </i>
+                <span class="nav_name" id="vehicleMenu">Vehicles</span>
+              </a>
+              <a href="/report" class="nav_link">
+                <i class="bx bx-message-square-detail nav_icon">
+                  <span class="material-symbols-outlined">monitoring</span>
+                </i>
+                <span class="nav_name" id="statisticalMenu"
+                  >Statistical Report</span
+                >
+              </a>
+              <a href="/policy" class="nav_link">
+                <i class="bx bx-bookmark nav_icon">
+                  <span class="material-symbols-outlined">policy</span>
+                </i>
+                <span class="nav_name" id="policyMenu">Policy</span>
+              </a>
+            </div>
+          </div>
+          <a href="/logout" class="nav_link">
+            <span class="material-symbols-outlined">logout</span>
+            <span class="nav_name">SignOut</span>
+          </a>
         </nav>
-    </div>
+      </div>
 
-    <div id="main-screen" class="col-lg height-100 bg-light" style="position: fixed">
+      <div
+        id="main-screen"
+        class="col-lg height-100 bg-light"
+        style="position: fixed"
+      >
         <dialog id="dialog">
-            <h2 id="dialogTitle"></h2>
-            <p id="dialogContent"></p>
+          <h2 id="dialogTitle"></h2>
+          <p id="dialogContent"></p>
         </dialog>
         <!--Biểu mẫu 2-->
         <div id="main-screen-content-order">
-            <div class="container" id="dataTable" style="z-index: 0; position: absolute;">
-                <div class="row">
-                    <div class="col">
-                        <div class="card-body">
-                            <input id="search-input" class="form-control" type="text" placeholder="Search by customer's name">
-                        </div>
-                    </div>
+          <div
+            class="container"
+            id="dataTable"
+            style="z-index: 0; position: absolute"
+          >
+            <div class="row">
+              <div class="col">
+                <div class="card-body">
+                  <input
+                    id="search-input"
+                    class="form-control"
+                    type="text"
+                    placeholder="Search by customer's name"
+                  />
                 </div>
-                <div class="row">
-                    <div 
-                        class="col" 
-                        style="
-                            overflow: visible; 
-                            height: auto; 
-                            border: 1px solid #c9c9c9;
-                            border-radius: 5px;
-                            padding: 5px;
-                            "
-                    >
-                        <div class="table-responsive" style="overflow-x: auto; height: 700px">
-                        <table class="table table-bordered">
-                            <thead class="table-header">
-                                <!-- <th data-column="ID" data-order="asc"># &#9650</th> -->
-                                <th data-column="ID" data-order="asc">ID &#9650</th>
-                                <th data-column="Name" data-order="asc">Name &#9650</th>
-                                <th data-column="Vehicle brand">Brand </th>
-                                <th data-column="Vehicle license number">License Number </th>
-                                <th data-column="Debt" data-order="asc">Debt &#9650</th>
-                            </thead>
-                            <tbody id="myTable"></tbody>
-                        </table>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+            <div class="row">
+              <div
+                class="col"
+                style="
+                  overflow: visible;
+                  height: auto;
+                  border: 1px solid #c9c9c9;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+              >
+                <div
+                  class="table-responsive"
+                  style="overflow-x: auto; height: 700px"
+                >
+                  <table class="table table-bordered">
+                    <thead class="table-header">
+                      <!-- <th data-column="ID" data-order="asc"># &#9650</th> -->
+                      <th data-column="ID" data-order="asc">ID</th>
+                      <th data-column="Name" data-order="asc">Name</th>
+                      <th data-column="Vehicle brand">Brand</th>
+                      <th data-column="Vehicle license number">
+                        License Number
+                      </th>
+                      <th data-column="Debt" data-order="asc">Debt</th>
+                    </thead>
+                    <tbody id="myTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- <script src="../static/js/new_vehicle.js"></script> -->
-<script type="text/javascript" th:src="@{/js/new_vehicle.js}"></script>
-<script type="text/javascript" th:src="@{/js/all.js}"></script>
-</body>
-
+    <!-- <script src="../static/js/new_vehicle.js"></script> -->
+    <script type="text/javascript" th:src="@{/js/new_vehicle.js}"></script>
+    <script type="text/javascript" th:src="@{/js/all.js}"></script>
+  </body>
 </html>

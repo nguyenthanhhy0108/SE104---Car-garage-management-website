@@ -102,6 +102,9 @@
       #rule-1 .row {
         margin-top: 45px;
       }
+      label {
+        margin: 0px;
+      }
     </style>
   </head>
   <body id="body-pd">
@@ -212,7 +215,9 @@
                 style="border: 1px solid #c9c9c9; border-radius: 5px"
               >
                 <div class="col">
-                  <label for="brands-list"> BRANDS REMOVE</label>
+                  <label for="brands-list" style="margin: 0px; padding: 2%">
+                    BRANDS REMOVE</label
+                  >
                   <select
                     name="brands"
                     id="brands-list"
@@ -224,7 +229,9 @@
                   </button>
                 </div>
                 <div class="col">
-                  <label for="max-repairs">MAXIMUM REPAIRS PER DAY</label>
+                  <label for="max-repairs" style="margin: 0px; padding: 2%"
+                    >MAXIMUM REPAIRS PER DAY</label
+                  >
                   <input type="number" id="max-repairs" min="0" />
                   <button class="btn btn-primary" id="change-limits">
                     Accept

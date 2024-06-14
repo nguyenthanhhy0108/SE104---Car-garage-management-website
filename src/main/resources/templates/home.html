@@ -1,370 +1,626 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="${_csrf.token}"/>
-    <meta name="csrf-param" content="${_csrf.parameterName}"/>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.w3.org/1999/xhtml"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="csrf-token" content="${_csrf.token}" />
+    <meta name="csrf-param" content="${_csrf.parameterName}" />
     <title>Home - Pocket Garage</title>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <link  rel="stylesheet" th:href="@{/css/style.css}"/><!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.2/dist/sweetalert2.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{/css/home.css}"/>
-       <link rel="stylesheet" href="../static/css/home.css" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.2/dist/sweetalert2.min.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" href="../static/css/home.css" />
     <link rel="stylesheet" href="../static/css/style.css" />
     <style>
-        th{
-            color: #FFF;
-            background-color: #6fa9f5;
-            cursor: pointer;
-        }
-        .hidden{
-            display: none;
-        }
-        .show{
-            display: block;
-        }
+      th {
+        color: #fff;
+        background-color: #6fa9f5;
+        cursor: pointer;
+      }
+      .hidden {
+        display: none;
+      }
+      .show {
+        display: block;
+      }
     </style>
-</head>
+  </head>
 
-<body id="body-pd">
-<div class="container-lg p-0">
-    <!-- <div class="row no-gutters p-5"> -->
-    <header class="header" id="header">
-        <div id="main-screen-header" class="col" style="margin: 0;box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); margin: 0;">
-            <div class="row align-items-center">
-                <div class="col-2 d-flex align-items-center">
-                    <div class="header_toggle" style="padding: 1rem;">
-                        <i class="bx bx-menu" id="header-toggle">
-                            <span id="menu-open" class="material-symbols-outlined show">menu</span>
-                            <span id="menu-close" class="material-symbols-outlined hidden">close</span>
-                        </i>
-                    </div>
-                </div>
-
-                <div class="col-8 text-center" style="font-size: 2rem; padding: 1rem; font-weight: bolder;">
-                    Customers Orders Management
-                </div>
-
-                <div class="col-2 d-flex align-items-center justify-content-end">
-                    <i class="material-symbols-outlined" style="font-size: 2rem;">settings_heart</i>
-                    <div style="width: 1vw;"></div>
-                    <span
-                    >Hello
-                  <span style="color: royalblue" th:text="${session.name}"></span
-                  ></span>
-                </div>
+  <body id="body-pd">
+    <div class="container-lg p-0">
+      <!-- <div class="row no-gutters p-5"> -->
+      <header class="header" id="header">
+        <div
+          id="main-screen-header"
+          class="col"
+          style="
+            margin: 0;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin: 0;
+          "
+        >
+          <div class="row align-items-center">
+            <div class="col-2 d-flex align-items-center">
+              <div class="header_toggle" style="padding: 1rem">
+                <i class="bx bx-menu" id="header-toggle">
+                  <span id="menu-open" class="material-symbols-outlined show"
+                    >menu</span
+                  >
+                  <span id="menu-close" class="material-symbols-outlined hidden"
+                    >close</span
+                  >
+                </i>
+              </div>
             </div>
+
+            <div
+              class="col-8 text-center"
+              style="font-size: 2rem; padding: 1rem; font-weight: bolder"
+            >
+              Customers Orders Management
+            </div>
+
+            <div class="col-2 d-flex align-items-center justify-content-end">
+              <i class="material-symbols-outlined" style="font-size: 2rem"
+                >settings_heart</i
+              >
+              <div style="width: 1vw"></div>
+              <span
+                >Hello
+                <span style="color: royalblue" th:text="${session.name}"></span
+              ></span>
+            </div>
+          </div>
         </div>
-    </header>
-    <div class="l-navbar" id="nav-bar">
+      </header>
+      <div class="l-navbar" id="nav-bar">
         <nav class="nav">
-            <div>
-                <a href="#" class="nav_logo">
-                    <img class='bx bx-layer nav_logo-icon' src="/images/logo-house.png" height="50" alt="logo">
-                    <span class="nav_logo-name">Pocket Garage</span>
-                </a>
-                <div class="nav_list">
-                    <a href="/home" class="nav_link">
-                        <i class='bx bx-order-alt nav_icon'>
-                            <span class="material-symbols-outlined show">list_alt</span>
-                        </i>
-                        <span class="nav_name" id="orderMenu" onclick="">Customers Orders</span>
-                    </a>
-                    <a href="/vehicle" class="nav_link">
-                        <i class='bx bx-user nav_icon'>
-                            <span class="material-symbols-outlined">directions_car</span>
-                        </i>
-                        <span class="nav_name" id="vehicleMenu">Vehicles</span>
-                    </a>
-                    <a href="/report" class="nav_link">
-                        <i class='bx bx-message-square-detail nav_icon'>
-                            <span class="material-symbols-outlined">monitoring</span>
-                        </i>
-                        <span class="nav_name" id="statisticalMenu">Statistical Report</span>
-                    </a>
-                    <a href="/policy" class="nav_link">
-                        <i class='bx bx-bookmark nav_icon'>
-                            <span class="material-symbols-outlined">policy</span>
-                        </i>
-                        <span class="nav_name" id="policyMenu">Policy</span>
-                    </a>
-                </div>
-            </div>
-            <a href="/logout" class="nav_link">
-                <span class="material-symbols-outlined">logout</span>
-                <span class="nav_name">SignOut</span>
+          <div>
+            <a href="#" class="nav_logo">
+              <img
+                class="bx bx-layer nav_logo-icon"
+                src="/images/logo-house.png"
+                height="50"
+                alt="logo"
+              />
+              <span class="nav_logo-name">Pocket Garage</span>
             </a>
+            <div class="nav_list">
+              <a href="/home" class="nav_link">
+                <i class="bx bx-order-alt nav_icon">
+                  <span class="material-symbols-outlined show">list_alt</span>
+                </i>
+                <span class="nav_name" id="orderMenu" onclick=""
+                  >Customers Orders</span
+                >
+              </a>
+              <a href="/vehicle" class="nav_link">
+                <i class="bx bx-user nav_icon">
+                  <span class="material-symbols-outlined">directions_car</span>
+                </i>
+                <span class="nav_name" id="vehicleMenu">Vehicles</span>
+              </a>
+              <a href="/report" class="nav_link">
+                <i class="bx bx-message-square-detail nav_icon">
+                  <span class="material-symbols-outlined">monitoring</span>
+                </i>
+                <span class="nav_name" id="statisticalMenu"
+                  >Statistical Report</span
+                >
+              </a>
+              <a href="/policy" class="nav_link">
+                <i class="bx bx-bookmark nav_icon">
+                  <span class="material-symbols-outlined">policy</span>
+                </i>
+                <span class="nav_name" id="policyMenu">Policy</span>
+              </a>
+            </div>
+          </div>
+          <a href="/logout" class="nav_link">
+            <span class="material-symbols-outlined">logout</span>
+            <span class="nav_name">SignOut</span>
+          </a>
         </nav>
-    </div>
+      </div>
 
-    <div id="main-screen" class="col-lg height-100 bg-light">
+      <div id="main-screen" class="col-lg height-100 bg-light">
         <dialog id="dialog">
-            <h2 id="dialogTitle"></h2>
-            <p id="dialogContent"></p>
+          <h2 id="dialogTitle"></h2>
+          <p id="dialogContent"></p>
         </dialog>
 
         <!-- Biểu mẫu 1 -->
         <div id="main-screen-content-order">
-            <!-- DATA TABLE -->
-            <div class="container" id="dataTable" style="z-index: 0;">
-                <div class="row">
-                    <div class="col">
-                        <div class="card-body">
-                            <input id="search-input" class="form-control" type="text" placeholder="Search by customer's name">
-                        </div>
-                    </div>
+          <!-- DATA TABLE -->
+          <div class="container" id="dataTable" style="z-index: 0">
+            <div class="row">
+              <div class="col">
+                <div class="card-body">
+                  <input
+                    id="search-input"
+                    class="form-control"
+                    type="text"
+                    placeholder="Search by customer's name"
+                  />
                 </div>
-                <div class="row" >
-                    <div class="col" style="overflow-x: auto;">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered">
-                                <thead class="table-header">
-                                <tr>
-                                    <th data-column="Name" data-order="desc" rowspan="3">Name &#9650</th>
-                                    <th data-column="Phone" data-order="desc" rowspan="3">Phone Number &#9650</th>
-                                    <th data-column="Email" data-order="desc" rowspan="3">Email &#9650</th>
-                                    <th data-column="Address" rowspan="3">Address</th>
-                                    <th data-column="Order" data-order="desc" colspan="2">Order details </th>
-                                    <!-- <th data-column="Vehicle brand" data-order="desc">Brand &#9650</th>
-                                    <th data-column="Date" data-order="desc">Date &#9650</th> -->
-                                    <th data-column="Change" rowspan="3">Change</th>
-                                </tr>
-                                <tr>
-                                    <!-- <th></th>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" style="overflow-x: auto">
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
+                    <thead class="table-header">
+                      <tr>
+                        <th data-column="Name" data-order="desc" rowspan="3">
+                          Name
+                        </th>
+                        <th data-column="Phone" data-order="desc" rowspan="3">
+                          Phone Number
+                        </th>
+                        <th data-column="Email" data-order="desc" rowspan="3">
+                          Email
+                        </th>
+                        <th data-column="Address" rowspan="3">Address</th>
+                        <th data-column="Order" data-order="desc" colspan="2">
+                          Order details
+                        </th>
+                        <!-- <th data-column="Vehicle brand" data-order="desc">Brand</th>
+                                    <th data-column="Date" data-order="desc">Date</th> -->
+                        <th data-column="Change" rowspan="3">Change</th>
+                      </tr>
+                      <tr>
+                        <!-- <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th> -->
-                                    <th data-column="Brand">Vehicle's brand</th>
-                                    <th data-column="License">Vehicle's license number</th>
-                                    <!-- <th></th> -->
-                                </tr>
-                                </thead>
-                                <tbody id="myTable"></tbody>
-
-                            </table>
-                        </div>
-                    </div>
+                        <th data-column="Brand">Vehicle's brand</th>
+                        <th data-column="License">Vehicle's license number</th>
+                        <!-- <th></th> -->
+                      </tr>
+                    </thead>
+                    <tbody id="myTable"></tbody>
+                  </table>
                 </div>
-                <div class="row justify-content-end" style="padding: 1rem;">
-                    <div class="col-auto d-grid">
-                        <button id="addData" class="btn btn-success btn-md" style="width: 100px;">Add</button>
-                    </div>
-                </div>
+              </div>
             </div>
-            <!-- FORM ADD -->
-            <div class="formAdd container form-up hidden" id="formAdd">
+            <div class="row justify-content-end" style="padding: 1rem">
+              <div class="col-auto d-grid">
+                <button
+                  id="addData"
+                  class="btn btn-success btn-md"
+                  style="width: 100px"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- FORM ADD -->
+          <div class="formAdd container form-up hidden" id="formAdd">
             <div>
-                <div class="card" style=" padding-left:0 ;padding-right: 0;">
-                    <div class="card-header d-flex justify-content-between">
-                        <span class="header-text">Add Order</span>
-                        <span class="material-symbols-outlined" id="closeForm_1"  style="cursor: pointer;">close</span>
-                    </div>
-                    <div class="card-body" style="padding-bottom: 1rem;">
-                        <form id="add-form" th:action="@{/add-form1}" method="POST">
-                            <div class="form-group">
-                                <label for="addName" class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" id="addName" placeholder="Customer's name" required>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="addPhone" class="form-label">Phone</label>
-                                    <input type="tel" name="phone" class="form-control" id="addPhone" placeholder="Customer's phone number" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="addEmail" class="form-label">Email address</label>
-                                    <input type="email" name="email" class="form-control" id="addEmail" placeholder="Customer's email address" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="addAddress" class="form-label">Address</label>
-                                <input type="text" name="address" class="form-control" id="addAddress" placeholder="Customer's address" required>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="addVeID" class="form-label">Vehicle's license number</label>
-                                    <input type="text" name="vehicleLicenseNumber" class="form-control" id="addVeID" placeholder="Vehicle's license number" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="addEquip" class="form-label">Brand</label>
-                                        <select class="form-control" name="vehicleBrand" id="addBrand" required>
-                                        <option selected>Choose</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                                <input class="btn btn-md btn-primary" type="submit" value="Submit form">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-            <!-- FORM 2 -->
-            <div class="formAdd container custom-container form-up hidden" id="formDetails" style="width: 1500px;">
-            <div class="card" style=" padding-left:0 ;padding-right: 0;">
+              <div class="card" style="padding-left: 0; padding-right: 0">
                 <div class="card-header d-flex justify-content-between">
-                    <span class="header-text">Add Details</span>
-                    <span class="material-symbols-outlined" id="closeForm"  style="cursor: pointer;">close</span>
+                  <span class="header-text">Add Order</span>
+                  <span
+                    class="material-symbols-outlined"
+                    id="closeForm_1"
+                    style="cursor: pointer"
+                    >close</span
+                  >
                 </div>
-                <div class="card-body row" style="padding-bottom: 1rem;">
-                    <!-- Left Form -->
-                    <div class="col-md-5">
-                        <div id="subForm2">
-                            <form>
-                                <!-- Sub form 1: Vehicle and Date -->
-                                <form class="vehicle">
-                                    <div class="form-group">
-                                        <label for="addDate" class="form-label">Date</label>
-                                        <span class="input-group-text" id="addDate"></span>
-                                    </div>
-                                </form>
-
-                                <!-- Sub form 2: Equipment -->
-                                <form class="fixObjectForm" id="cc" method="post" action="/add-repair-order">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-4">
-                                            <label for="addEquip" class="form-label">Equipment</label>
-                                            <select class="form-control" name="equipment" id="addEquip" required>
-                                                <option selected>Choose</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="quantity">Quantity</label>
-                                            <input type="number" name="quantity" class="form-control" id="quantity" required min="1">
-                                        </div>
-                                        <div class="form-group col-md-4 ">
-                                            <label for="price">Price For One</label>
-                                            <input type="text" class="form-control" id="price" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="addService">Service Name</label>
-                                            <select name="service" class="form-control" id="addService" required>
-                                                <option selected>Choose</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="charge">Charge price</label>
-                                            <input type="text" class="form-control" id="charge" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="totalPrice"> Total Price</label>
-                                        <input type="text" class="form-control" id="totalPrice" disabled>
-                                    </div>
-
-                                    <!-- -------------Add equipment button------- -->
-                                    <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                                        <button class="btn btn-md btn-primary btn-success" type="submit">Add Order</button>
-                                    </div>
-                                </form>
-                            </form>
-                        </div>
-                        <!-- ------------Checkout form---------------- -->
-                        <div class="card hidden" id="formCheckout">
-                            <div class="card-header d-flex justify-content-between">
-                                <span class="header-text">Payment Order</span>
-                            </div>
-                            <div class="card-body">
-                                <form class="checkoutForm">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="checkoutName" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="checkoutName" disabled>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="checkoutLicense" class="form-label">License Number</label>
-                                            <input type="text" class="form-control" id="checkoutLicense" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="checkoutPhone" class="form-label">Phone Number</label>
-                                            <input type="tel" class="form-control" id="checkoutPhone" disabled>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="checkoutMail" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="checkoutMail" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="checkoutDate" class="form-label">Date</label>
-                                            <input type="text" class="form-control" id="checkoutDate" disabled>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="checkoutTotal" class="form-label">Total</label>
-                                            <input type="text" class="form-control" id="checkoutTotal" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                                        <button class="btn btn-md btn-primary btn-success" id="checkoutConfirm">Confirm</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="card-footer d-flex justify-content-end align-items-center">
-                                <span class="material-symbols-outlined" style="color: #006eff;">keyboard_return</span>
-                                <button type="button" class="btn btn-link" id="backtoSubForm2">Back</button>
-                            </div>
-                        </div>
+                <div class="card-body" style="padding-bottom: 1rem">
+                  <form id="add-form" th:action="@{/add-form1}" method="POST">
+                    <div class="form-group">
+                      <label for="addName" class="form-label">Name</label>
+                      <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        id="addName"
+                        placeholder="Customer's name"
+                        required
+                      />
                     </div>
-                    <!-- ---------Right interactive table-------- -->
-                    <div class="col-md-7">
-                        <div class="table-responsive custom-table" style="margin-bottom: 1rem">
-                            <table class="table table-striped table-bordered">
-                                <thead class="table-header">
-                                <tr>
-                                    <th data-column="IdVe" data-order="desc" rowspan="4">ID Vehicle &#9650</th>
-                                    <th data-column="Date" data-order="desc" rowspan="4">Date &#9650</th>
-                                    <th data-column="Details" colspan="8">Details</th>
-                                </tr>
-                                <tr>
-                                    <th data-column="Equipment" colspan="3">Equipment</th>
-                                    <th data-column="Service" colspan="2">Service</th>
-                                    <th data-column="totalPrice" rowspan="2" colspan="1">Total Price</th>
-                                    <th data-column="Change" rowspan="2">Change</th>
-                                </tr>
-                                <tr>
-                                    <!-- <th data-column="Notes">Notes</th> -->
-                                    <th data-column="nameEquipment">Equipment Name</th>
-                                    <th data-column="Quantities">Quantities</th>
-                                    <th data-column="priceEquipment">Price</th>
-                                    <th data-column="nameService">Service Name</th>
-                                    <th data-column="Charge">Charge</th>
-                                </tr>
-                                </thead>
-                                <tbody id="detailsTable"></tbody>
-                            </table>
-                        </div>
-                        <div class="row justify-content-end" style="width: 100%; padding-bottom: 1rem;">
-                            <button type="button" class="btn btn-success" id="checkoutButton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>
-                                Checkout
-                            </button>
-                        </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="addPhone" class="form-label">Phone</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          class="form-control"
+                          id="addPhone"
+                          placeholder="Customer's phone number"
+                          required
+                        />
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="addEmail" class="form-label"
+                          >Email address</label
+                        >
+                        <input
+                          type="email"
+                          name="email"
+                          class="form-control"
+                          id="addEmail"
+                          placeholder="Customer's email address"
+                          required
+                        />
+                      </div>
                     </div>
 
+                    <div class="form-group">
+                      <label for="addAddress" class="form-label">Address</label>
+                      <input
+                        type="text"
+                        name="address"
+                        class="form-control"
+                        id="addAddress"
+                        placeholder="Customer's address"
+                        required
+                      />
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="addVeID" class="form-label"
+                          >Vehicle's license number</label
+                        >
+                        <input
+                          type="text"
+                          name="vehicleLicenseNumber"
+                          class="form-control"
+                          id="addVeID"
+                          placeholder="Vehicle's license number"
+                          required
+                        />
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="addEquip" class="form-label">Brand</label>
+                        <select
+                          class="form-control"
+                          name="vehicleBrand"
+                          id="addBrand"
+                          required
+                        >
+                          <option selected>Choose</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      class="row justify-content-end"
+                      style="width: 100%; padding-bottom: 1rem"
+                    >
+                      <input
+                        class="btn btn-md btn-primary"
+                        type="submit"
+                        value="Submit form"
+                      />
+                    </div>
+                  </form>
                 </div>
+              </div>
             </div>
+          </div>
+          <!-- FORM 2 -->
+          <div
+            class="formAdd container custom-container form-up hidden"
+            id="formDetails"
+            style="width: 1500px"
+          >
+            <div class="card" style="padding-left: 0; padding-right: 0">
+              <div class="card-header d-flex justify-content-between">
+                <span class="header-text">Add Details</span>
+                <span
+                  class="material-symbols-outlined"
+                  id="closeForm"
+                  style="cursor: pointer"
+                  >close</span
+                >
+              </div>
+              <div class="card-body row" style="padding-bottom: 1rem">
+                <!-- Left Form -->
+                <div class="col-md-5">
+                  <div id="subForm2">
+                    <form>
+                      <!-- Sub form 1: Vehicle and Date -->
+                      <form class="vehicle">
+                        <div class="form-group">
+                          <label for="addDate" class="form-label">Date</label>
+                          <span class="input-group-text" id="addDate"></span>
+                        </div>
+                      </form>
+
+                      <!-- Sub form 2: Equipment -->
+                      <form
+                        class="fixObjectForm"
+                        id="cc"
+                        method="post"
+                        action="/add-repair-order"
+                      >
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <label for="addEquip" class="form-label"
+                              >Equipment</label
+                            >
+                            <select
+                              class="form-control"
+                              name="equipment"
+                              id="addEquip"
+                              required
+                            >
+                              <option selected>Choose</option>
+                            </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="quantity">Quantity</label>
+                            <input
+                              type="number"
+                              name="quantity"
+                              class="form-control"
+                              id="quantity"
+                              required
+                              min="1"
+                            />
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="price">Price For One</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="price"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="addService">Service Name</label>
+                            <select
+                              name="service"
+                              class="form-control"
+                              id="addService"
+                              required
+                            >
+                              <option selected>Choose</option>
+                            </select>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="charge">Charge price</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="charge"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="totalPrice"> Total Price</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="totalPrice"
+                            disabled
+                          />
+                        </div>
+
+                        <!-- -------------Add equipment button------- -->
+                        <div
+                          class="row justify-content-end"
+                          style="width: 100%; padding-bottom: 1rem"
+                        >
+                          <button
+                            class="btn btn-md btn-primary btn-success"
+                            type="submit"
+                          >
+                            Add Order
+                          </button>
+                        </div>
+                      </form>
+                    </form>
+                  </div>
+                  <!-- ------------Checkout form---------------- -->
+                  <div class="card hidden" id="formCheckout">
+                    <div class="card-header d-flex justify-content-between">
+                      <span class="header-text">Payment Order</span>
+                    </div>
+                    <div class="card-body">
+                      <form class="checkoutForm">
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="checkoutName" class="form-label"
+                              >Name</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="checkoutName"
+                              disabled
+                            />
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="checkoutLicense" class="form-label"
+                              >License Number</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="checkoutLicense"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="checkoutPhone" class="form-label"
+                              >Phone Number</label
+                            >
+                            <input
+                              type="tel"
+                              class="form-control"
+                              id="checkoutPhone"
+                              disabled
+                            />
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="checkoutMail" class="form-label"
+                              >Email</label
+                            >
+                            <input
+                              type="email"
+                              class="form-control"
+                              id="checkoutMail"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="checkoutDate" class="form-label"
+                              >Date</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="checkoutDate"
+                              disabled
+                            />
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="checkoutTotal" class="form-label"
+                              >Total</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="checkoutTotal"
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="row justify-content-end"
+                          style="width: 100%; padding-bottom: 1rem"
+                        >
+                          <button
+                            class="btn btn-md btn-primary btn-success"
+                            id="checkoutConfirm"
+                          >
+                            Confirm
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                    <div
+                      class="card-footer d-flex justify-content-end align-items-center"
+                    >
+                      <span
+                        class="material-symbols-outlined"
+                        style="color: #006eff"
+                        >keyboard_return</span
+                      >
+                      <button
+                        type="button"
+                        class="btn btn-link"
+                        id="backtoSubForm2"
+                      >
+                        Back
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- ---------Right interactive table-------- -->
+                <div class="col-md-7">
+                  <div
+                    class="table-responsive custom-table"
+                    style="margin-bottom: 1rem"
+                  >
+                    <table class="table table-striped table-bordered">
+                      <thead class="table-header">
+                        <tr>
+                          <th data-column="IdVe" data-order="desc" rowspan="4">
+                            ID Vehicle
+                          </th>
+                          <th data-column="Date" data-order="desc" rowspan="4">
+                            Date
+                          </th>
+                          <th data-column="Details" colspan="8">Details</th>
+                        </tr>
+                        <tr>
+                          <th data-column="Equipment" colspan="3">Equipment</th>
+                          <th data-column="Service" colspan="2">Service</th>
+                          <th data-column="totalPrice" rowspan="2" colspan="1">
+                            Total Price
+                          </th>
+                          <th data-column="Change" rowspan="2">Change</th>
+                        </tr>
+                        <tr>
+                          <!-- <th data-column="Notes">Notes</th> -->
+                          <th data-column="nameEquipment">Equipment Name</th>
+                          <th data-column="Quantities">Quantities</th>
+                          <th data-column="priceEquipment">Price</th>
+                          <th data-column="nameService">Service Name</th>
+                          <th data-column="Charge">Charge</th>
+                        </tr>
+                      </thead>
+                      <tbody id="detailsTable"></tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="row justify-content-end"
+                    style="width: 100%; padding-bottom: 1rem"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      id="checkoutButton"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-cart"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"
+                        />
+                      </svg>
+                      Checkout
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.2/dist/sweetalert2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-<script type="text/javascript" th:src="@{/js/home.js}"></script>
-<!--<script type="text/javascript" th:src="@{/js/form2.js}"></script>-->
-<script type="text/javascript" th:src="@{/js/all.js}"></script>
-</body>
-
+    <script type="text/javascript" th:src="@{/js/home.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/js/form2.js}"></script>-->
+    <script type="text/javascript" th:src="@{/js/all.js}"></script>
+  </body>
 </html>
